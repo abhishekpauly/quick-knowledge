@@ -16,7 +16,7 @@ Enabling the in-house in-app training SDK (`@uptiq/training-sdk`). This PR adds 
 
 ### What changes
 
-Adds a `data-tour` attribute to each of the following elements. See `[link to sprint-01-selectors.md in the training SDK repo]` for the canonical list and reasoning.
+Adds a `data-tour` attribute to each of the following elements. See [tracker/sprint-01-selectors.md](https://github.com/abhishekpauly/quick-knowledge/blob/main/tracker/sprint-01-selectors.md) for the canonical list and reasoning.
 
 | ID | File / Component | Element |
 | --- | --- | --- |
@@ -42,7 +42,7 @@ Once merged, these `data-tour` IDs are **effectively public API** of the AI Plat
 
 ### Naming convention
 
-`<area>-<component>-<intent>` — kebab-case, unique across the app. See `[link to docs/data-tour-conventions.md in the training SDK repo]`.
+`<area>-<component>-<intent>` — kebab-case, unique across the app. See [docs/data-tour-conventions.md](https://github.com/abhishekpauly/quick-knowledge/blob/main/docs/data-tour-conventions.md).
 
 ### Post-merge
 
@@ -58,14 +58,14 @@ If any attribute causes a regression (extremely unlikely — they're plain HTML 
 
 ### Links
 
-- Training SDK repo: `[TBD]`
+- Training SDK repo (public working copy): https://github.com/abhishekpauly/quick-knowledge `[replace with UPTIQ internal repo URL when it exists]`
 - Content the SDK will use: `[TBD — link to @uptiq/ai-platform-training-content once created]`
-- Naming convention docs: `[link to docs/data-tour-conventions.md]`
-- ADR-0002 (why this contract exists): `[link to ADR]`
+- Naming convention docs: [docs/data-tour-conventions.md](https://github.com/abhishekpauly/quick-knowledge/blob/main/docs/data-tour-conventions.md)
+- ADR-0002 (why this contract exists): [docs/adrs/ADR-0002-data-tour-contract.md](https://github.com/abhishekpauly/quick-knowledge/blob/main/docs/adrs/ADR-0002-data-tour-contract.md)
 
 ### Reviewer requested
 
 - One senior frontend engineer for fast-track approval.
 - Curriculum author (informational — so they know when it merges).
 
-/cc `[whoever owns the frontend]` `[curriculum author]`
+/cc `[whoever owns the frontend — fill before opening PR]` **@abhishekpauly** (curriculum author)
