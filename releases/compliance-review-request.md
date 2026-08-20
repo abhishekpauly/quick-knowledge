@@ -62,17 +62,17 @@ Tour content is authored as JSON files, validated by a Zod schema at build time 
 
 ## Timeline
 
-Target: ship to AI Platform staging within `[N business days]`, production within `[N + 7 business days]`. Please flag any process step that would push this timeline back so we can plan accordingly.
+Target: ship to AI Platform staging within **5 business days** of your sign-off, production within **12 business days**. Please flag any process step that would push this timeline back so we can plan accordingly.
 
 ## Owners
 
-- SDK / release owner: `[your name]`
-- First customer product owner (AI Platform): `[TBD]`
-- Curriculum author: `[your name]`
+- SDK / release owner: **Abhishek Paul** (abhishek.paul@uptiq.ai)
+- First customer product owner (AI Platform): `[TBD — AI Platform PM, please fill before sending]`
+- Curriculum author: **Abhishek Paul** (abhishek.paul@uptiq.ai)
 
 ## Attachments / links
 
-- Repo: `[link to internal repo]`
+- Repo: `[link to internal repo — fill with the UPTIQ internal-registry repo once it exists; the public working copy is at https://github.com/abhishekpauly/quick-knowledge]`
 - Architecture: `docs/architecture.md`
 - ADRs: `docs/adrs/`
 - Threat model detail (this doc): `releases/compliance-review-request.md`
