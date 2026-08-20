@@ -11,13 +11,7 @@
  * Consumers never see Shepherd types. See ADR-0001.
  * Threading model: one Trainer per app. One active tour at a time.
  */
-import type {
-  Tour as ShepherdTour,
-  StepOptions as ShepherdStepOptions,
-  StepOptionsButton as ShepherdStepOptionsButton,
-  StepOptionsAttachTo as ShepherdStepOptionsAttachTo,
-  Step as ShepherdStep,
-} from 'shepherd.js';
+import type { Tour as ShepherdTour, StepOptions as ShepherdStepOptions, StepOptionsButton as ShepherdStepOptionsButton, StepOptionsAttachTo as ShepherdStepOptionsAttachTo } from 'shepherd.js';
 import type { Tour, Step } from '../schema/v1.js';
 import type { TrainerConfig, TourProgress } from './types.js';
 import type { EventListener, TrainingEvent, TrainingEventName } from './events.js';
@@ -139,12 +133,10 @@ export class Trainer {
     triggerSource: 'manual' | 'first-run' | 'url' | 'event',
   ): Promise<void> {
     // Lazy-import Shepherd so consumers who never start a tour never pay for it.
-    // The runtime `Tour` constructor is only exposed via the default export (a
-    // ShepherdBase instance); it is not a named runtime export even though the
-    // .d.ts declares one. See node_modules/shepherd.js/dist/esm/shepherd.mjs.
-    const ShepherdInstance = (await import('shepherd.js')).default;
+    const ShepherdModule = await import('shepherd.js');
+    const ShepherdCtor = ShepherdModule.default;
 
-    const shepherdTour = new ShepherdInstance.Tour({
+    const shepherdTour = new ShepherdCtor.Tour({
       useModalOverlay: true,
       defaultStepOptions: {
         cancelIcon: { enabled: true },
@@ -593,7 +585,7 @@ export class Trainer {
   private getCurrentIndex(shepherdTour: ShepherdTour): number {
     const step = shepherdTour.getCurrentStep();
     if (!step) return 0;
-    return shepherdTour.steps.findIndex((s: ShepherdStep) => s.id === step.id);
+    return shepherdTour.steps.findIndex((s) => s.id === step.id);
   }
 
   private emit(event: TrainingEvent): void {

@@ -74,8 +74,8 @@ describe('parseTour', () => {
     const withAdvanceOn = {
       ...validTour,
       steps: [
-        { ...validTour.steps[0], id: 's1', advanceOn: { type: 'click', target: '[data-tour="x"]' } },
-        { ...validTour.steps[0], id: 's2', advanceOn: { type: 'input', target: '[data-tour="y"]' } },
+        { ...validTour.steps[0], id: 's1', advanceOn: { type: 'click', target: '[data-tour="xx"]' } },
+        { ...validTour.steps[0], id: 's2', advanceOn: { type: 'input', target: '[data-tour="yy"]' } },
         { ...validTour.steps[0], id: 's3', advanceOn: { type: 'url', pattern: '/foo' } },
         { ...validTour.steps[0], id: 's4', advanceOn: { type: 'event', name: 'signed_up' } },
       ],

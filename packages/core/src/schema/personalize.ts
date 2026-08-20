@@ -20,9 +20,7 @@ const TEMPLATE_RE = /\{\{\s*([a-zA-Z0-9_.]+)\s*\}\}/g;
 // for dotted paths like `user.firstName`.
 export type PersonalizationContext = Record<string, unknown>;
 
-const IS_DEV =
-  (globalThis as { process?: { env?: { NODE_ENV?: string } } }).process?.env?.NODE_ENV !==
-  'production';
+const IS_DEV = typeof process !== 'undefined' && process.env?.NODE_ENV !== 'production';
 
 export function personalize(text: string, ctx: PersonalizationContext | undefined): string {
   if (!ctx) return text;

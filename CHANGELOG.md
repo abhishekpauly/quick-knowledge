@@ -17,19 +17,17 @@ All notable changes to this project. Format follows [Keep a Changelog](https://k
 
 - **`scripts/validate-content.ts`** — import path was `../src/schema/loader.js`, correct path is `../packages/core/src/schema/loader.js`. Script now runs.
 - **`packages/*/tsconfig.build.json`** — added `rootDir: "src"` to each. Without it, TypeScript emitted `dist/src/index.js` while `package.json exports` pointed at `dist/index.js` — every cross-package import (`@uptiq/training-sdk` from react and vue) failed at test time. All three packages now emit at the paths their `exports` map declares.
-- **T-073 · Shepherd.js type coverage** (`packages/core/src/engine/Trainer.ts`). shepherd.js 14 does not export a `Shepherd` namespace — `Tour`, `StepOptions`, `StepOptionsButton`, `StepOptionsAttachTo`, `Step` are top-level named types. Swapped `import type Shepherd from 'shepherd.js'` for named type imports (aliased to `ShepherdTour`, etc. so they don't collide with our schema `Tour`/`Step` types). Runtime `Tour` constructor is only reachable via the default-export instance (`(await import('shepherd.js')).default.Tour`), even though the `.d.ts` also declares it as a named export — noted inline. Resolves 8 `TS2503` errors; `npm run build` on core now clean.
-- **Collateral strict-mode fixes surfaced by unblocking T-073.**
-  - `Trainer.on()` / `emit()` — cast narrow `EventListener<N>` to broad `EventListener` via `unknown` (TS-suggested pattern) so `noImplicitAny`-strict discriminated-union narrowing passes.
-  - `Trainer.emit()` — cast `event.payload` to `Record<string, unknown>` via `unknown` (some payloads don't structurally satisfy the index signature).
-  - `packages/core/src/schema/personalize.ts` — replaced `typeof process !== 'undefined'` with a `globalThis` cast so the dev-mode guard doesn't require `@types/node` in the file scope.
-  - `packages/{react,vue}/tests/useTour*.test.{ts,tsx}` — same `unknown`-bridged `EventListener` cast in test-harness trainer stubs.
-  - `packages/core/tests/{posthog-adapter,schema}.test.ts` — added `!` on two indexed array accesses (`noUncheckedIndexedAccess`).
 
-### Known hardening blockers (open — see backlog T-074, T-075, T-076)
+### Fixed hardening blockers (T-073, T-074 — closed during Sprint 07 pre-flight)
 
-- **T-074 · `packages/vue` implicit-any + strict-mode cleanup.** *No longer reproducible after a full `npm install --include-workspace-root --workspaces`.* The 8 TS7006 errors surface only when Vue's peer dep is missing from the resolved graph; once Vue resolves, `defineComponent` propagates prop types and the "implicit any" goes away. Marked VERIFY in the backlog — re-run from a clean clone and either close as won't-fix (dep hygiene) or apply explicit prop types if it truly reproduces.
-- **T-075 · Schema fixtures reject single-char selector ids.** `parseTour` rejects `[data-tour="x"]` because the shared kebab regex requires ≥ 2 chars. Test `parseTour > accepts advanceOn with all supported types` fails as a result. Fix either the fixture (`"xx"`) or the schema (allow single-char).
-- **T-076 · React tests: missing testing-library cleanup between cases.** `TrainingChecklist.test.tsx` (3) + `TrainingHint.test.tsx` (1) fail with "Found multiple elements". Vitest is configured with `globals: false`, so `@testing-library/react`'s auto-cleanup does not run. Add an `afterEach(cleanup)` or a shared setup file.
+- **T-073 · Shepherd.js types.** Root cause: `import type Shepherd from 'shepherd.js'` was treated as a namespace (`Shepherd.Tour`, `Shepherd.Step.StepOptions`, …), but shepherd.js@14 exports these as named types, not namespace members. Switched to named type imports with aliases (`ShepherdTour`, `ShepherdStepOptions`, `ShepherdStepOptionsButton`, `ShepherdStepOptionsAttachTo`). Dropped a redundant `as typeof Shepherd` cast on the lazy runtime import.
+- **T-074 · Vue package implicit-any.** Root cause: the 8 implicit-any errors were downstream of the `Cannot find module '@uptiq/training-sdk'` — TypeScript couldn't infer callback param types because the types-of-record for `trainer.on(...)` were missing. Fixed by the build config change (see `Fixed (hardening)` above): once `packages/core/dist/index.d.ts` exists at the path `package.json exports` declares, all inference lands correctly and the implicit-anys disappear.
+- **Trainer.ts `EventListener` generic narrowing.** `set.add(listener as EventListener)` failed strict conversion checks because `EventListener<N>` isn't assignable to erased `EventListener` without going through `unknown`. Added the `as unknown as` step in three places (Trainer emit + register + unregister).
+- **`noUncheckedIndexedAccess` test misses.** `ph.calls[0][0]` and `result.failures[0].index` in the tests type-check under strict now (`ph.calls[0]!` / `result.failures[0]!`).
+- **React tests missing RTL cleanup.** `packages/react/tests/setup.ts` calls `afterEach(cleanup)`, wired via `vitest.config.ts` `setupFiles`. Without it, checklist renders leaked across cases and `getByTestId` matched multiple pills.
+- **Test fixture: 1-char `data-tour` selectors.** The `dataTourSelector` regex requires ≥2 chars (matches the kebab-case ID rule). Two test cases used `[data-tour="x"]`; changed to `[data-tour="xx"]`.
+
+**Result:** `npm run ci` (`typecheck && lint && test && validate:content`) exits 0. 114 tests pass across three packages (89 core / 18 react / 7 vue).
 
 ## [v0.1.0] - YYYY-MM-DD
 
