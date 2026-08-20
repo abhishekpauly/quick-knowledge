@@ -71,6 +71,17 @@ Goal: **Make the SDK work for more than one flavor of user.** All items are smal
 - [x] Hotspot / Beacon step pattern (`stepType: "hotspot"` + auto click-advance)
 - [x] Redirect step type (`stepType: "redirect"` + `redirectUrl` + `redirectWaitMs`)
 
+
+### Sprint 07 — planned · launch + hardening
+- [ ] Send compliance review request; ship to AI Platform staging → production
+- [ ] Merge `data-tour` PR to AI Platform frontend production branch
+- [ ] Confirm PostHog sink (or one-line adapter swap)
+- [ ] Swap real AI Platform brand tokens into `aiPlatformTheme`
+- [ ] 5-user usability test; merge rewrite list
+- [ ] Production deploy + 30-min watch; 7-day metrics snapshot
+- [ ] Post-launch retro; v0.5 promotion decision (go / hold / drop per item)
+- [ ] Tag `v0.1.0`
+
 ### Also shipped (Part A · v0.1 launch prep)
 - [x] Vue adapter (un-deferred — AI Platform is 50/50 React/Vue)
 - [x] `placeholderAnalytics()` + wiring guide (docs/wiring-analytics-sink.md)
