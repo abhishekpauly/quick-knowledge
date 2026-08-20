@@ -30,12 +30,9 @@ jobs:
       - name: Typecheck + lint + format:check + test + validate content
         run: npm run ci
 
-      # Informational only. Package vitest configs declare thresholds
-      # (core/react/vue at 80/80/80/75) that are not yet met. See T-078,
-      # T-079, T-080 in tracker/backlog.md. Once those close, drop the
-      # continue-on-error line to make coverage a required gate.
-      - name: Coverage (non-blocking)
-        continue-on-error: true
+      # Blocking. All three packages (core / react / vue) meet their
+      # 80/80/80/75 thresholds; a regression here fails the build.
+      - name: Coverage
         run: npm run test:coverage
 
       - name: Upload coverage artifacts

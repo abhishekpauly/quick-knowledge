@@ -109,8 +109,8 @@ Priority: `P0` (blocker) · `P1` (must for MVP) · `P2` (nice-to-have) · `P3` (
 | T-077 | Wire Dependabot (`.github/dependabot.yml`) — weekly npm + github-actions bumps | P2 | DONE | v0.1 launch | Fulfils compliance-review-request.md promise of automatic CVE alerting |
 | T-078 | Core coverage gap: raise functions from 73.73% → 80% | P2 | DONE | v0.1 launch | Added analytics-adapters.test.ts (all 4 factories × their track methods), theme.test.ts (applyTheme merge + skip-undefined + default root), 6 more trainer smoke tests (getTours, getActiveTourId, dismiss no-op, dismiss active, next/prev idle). Core coverage now lines 86.92 / statements 86.92 / functions 81.55 / branches 77.25. |
 | T-079 | React coverage gap: `FirstRunTour.tsx` untested (0%) | P2 | DONE | v0.1 launch | Added 7 FirstRunTour tests + 2 TrainingHint tests + 1 TrainingChecklist test. React coverage now lines 97.62 / statements 97.62 / functions 80.76 / branches 85.18 — all above thresholds. |
-| T-080 | Vue coverage gap: 3 files fully untested (`FirstRunTour.ts`, `TrainingChecklist.ts`, `useAllTourProgress.ts` + `useTourProgress.ts`) | P1 | TODO | v0.1 launch | Package lines/statements 34.51%, funcs 52.63%, branches 72.09%. Vue port shipped without test parity to React. Bigger lift; ship before promoting CI coverage step to blocking. |
-| T-081 | Promote CI coverage step from informational to blocking | P2 | TODO | v0.1 launch | Drop `continue-on-error: true` from `.github/workflows/ci.yml` once T-078/T-079/T-080 close. |
+| T-080 | Vue coverage gap: 3 files fully untested (`FirstRunTour.ts`, `TrainingChecklist.ts`, `useAllTourProgress.ts` + `useTourProgress.ts`) | P1 | DONE | v0.1 launch | Added FirstRunTour.test.ts (7 tests), TrainingChecklist.test.ts (7 tests), useTourProgress.test.ts (7 tests covering both hooks). Vue coverage now lines 95.1 / statements 95.1 / functions 80.64 / branches 85.83 — all above thresholds. |
+| T-081 | Promote CI coverage step from informational to blocking | P2 | DONE | v0.1 launch | Dropped `continue-on-error: true` from `.github/workflows/ci.yml`. Coverage regressions now fail the build. |
 
 ---
 
