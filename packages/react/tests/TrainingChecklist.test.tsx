@@ -89,4 +89,23 @@ describe('TrainingChecklist', () => {
     const item = getByTestId('training-checklist-item-gated') as HTMLButtonElement;
     expect(item.disabled).toBe(true);
   });
+
+  it('starts the tour when an unlocked row is clicked and renders description + estimatedMinutes', () => {
+    const rich: Tour = {
+      ...tour('rich', 'basic'),
+      description: 'A short description that should render under the title',
+      estimatedMinutes: 5,
+    };
+    const trainer = stubTrainer([rich]);
+    const { getByTestId, getByText } = render(
+      <TourProvider trainer={trainer}>
+        <TrainingChecklist />
+      </TourProvider>,
+    );
+    fireEvent.click(getByTestId('training-checklist-pill'));
+    expect(getByText(/A short description/)).toBeDefined();
+    expect(getByText('5m')).toBeDefined();
+    fireEvent.click(getByTestId('training-checklist-item-rich'));
+    expect(trainer.start).toHaveBeenCalledWith('rich', 'manual');
+  });
 });

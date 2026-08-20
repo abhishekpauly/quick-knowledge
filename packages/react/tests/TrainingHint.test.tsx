@@ -12,6 +12,7 @@ const hints = {
   hints: [
     { id: 'foo', title: 'Foo title', body: 'Foo body' },
     { id: 'bar', body: 'Bar body' },
+    { id: 'baz', title: 'Baz', body: 'Baz body', learnMoreUrl: 'https://example.com/docs' },
   ],
 };
 
@@ -44,6 +45,31 @@ describe('TrainingHint', () => {
     );
     // Visible dev-only warning.
     expect(getByText(/does-not-exist/)).toBeDefined();
+  });
+
+  it('renders a title-less hint body (no leading heading)', () => {
+    const { getByTestId } = render(
+      <HintsProvider hints={hints}>
+        <TrainingHint id="bar" />
+      </HintsProvider>,
+    );
+    fireEvent.click(getByTestId('training-hint-trigger-bar'));
+    const body = getByTestId('training-hint-body-bar');
+    expect(body.textContent).toBe('Bar body');
+  });
+
+  it('renders a Learn more link when learnMoreUrl is set', () => {
+    const { getByTestId, getByText } = render(
+      <HintsProvider hints={hints}>
+        <TrainingHint id="baz" />
+      </HintsProvider>,
+    );
+    fireEvent.click(getByTestId('training-hint-trigger-baz'));
+    const link = getByText(/Learn more/) as HTMLAnchorElement;
+    expect(link.tagName).toBe('A');
+    expect(link.href).toBe('https://example.com/docs');
+    expect(link.target).toBe('_blank');
+    expect(link.rel).toContain('noopener');
   });
 
   it('throws outside a HintsProvider', () => {
