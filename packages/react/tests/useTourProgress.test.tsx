@@ -28,8 +28,8 @@ function stubTrainer(initial: TourProgress) {
         set = new Set();
         listeners.set(name, set);
       }
-      set.add(listener as EventListener);
-      return () => set!.delete(listener as EventListener);
+      set.add(listener as unknown as EventListener);
+      return () => set!.delete(listener as unknown as EventListener);
     }),
   } as unknown as Trainer;
   return { trainer, emit, state };

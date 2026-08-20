@@ -18,10 +18,16 @@ All notable changes to this project. Format follows [Keep a Changelog](https://k
 - **`scripts/validate-content.ts`** — import path was `../src/schema/loader.js`, correct path is `../packages/core/src/schema/loader.js`. Script now runs.
 - **`packages/*/tsconfig.build.json`** — added `rootDir: "src"` to each. Without it, TypeScript emitted `dist/src/index.js` while `package.json exports` pointed at `dist/index.js` — every cross-package import (`@uptiq/training-sdk` from react and vue) failed at test time. All three packages now emit at the paths their `exports` map declares.
 
-### Known hardening blockers (open — see backlog T-073, T-074)
+### Fixed hardening blockers (T-073, T-074 — closed during Sprint 07 pre-flight)
 
-- **T-073 · Shepherd.js type coverage.** `shepherd.js` ships without type declarations. `Trainer.ts` references `Shepherd.Tour` as a namespace type in ~5 places, giving `TS2503: Cannot find namespace 'Shepherd'`. Options: install `@types/shepherd.js` if it exists at the pinned version, pin to a version that ships types, or write local ambient `.d.ts`. Blocks `npm run build` on `@uptiq/training-sdk` (tests still run — vitest transpiles).
-- **T-074 · `packages/vue` implicit-any + strict-mode cleanup.** `TrainingChecklist.ts`, `useTour.ts`, `useTourProgress.ts` have 8 `implicit any` errors under `strict: true`. Add explicit types and the `@uptiq/training-sdk` package.json `exports` are already correct once T-073 is resolved and `dist` builds.
+- **T-073 · Shepherd.js types.** Root cause: `import type Shepherd from 'shepherd.js'` was treated as a namespace (`Shepherd.Tour`, `Shepherd.Step.StepOptions`, …), but shepherd.js@14 exports these as named types, not namespace members. Switched to named type imports with aliases (`ShepherdTour`, `ShepherdStepOptions`, `ShepherdStepOptionsButton`, `ShepherdStepOptionsAttachTo`). Dropped a redundant `as typeof Shepherd` cast on the lazy runtime import.
+- **T-074 · Vue package implicit-any.** Root cause: the 8 implicit-any errors were downstream of the `Cannot find module '@uptiq/training-sdk'` — TypeScript couldn't infer callback param types because the types-of-record for `trainer.on(...)` were missing. Fixed by the build config change (see `Fixed (hardening)` above): once `packages/core/dist/index.d.ts` exists at the path `package.json exports` declares, all inference lands correctly and the implicit-anys disappear.
+- **Trainer.ts `EventListener` generic narrowing.** `set.add(listener as EventListener)` failed strict conversion checks because `EventListener<N>` isn't assignable to erased `EventListener` without going through `unknown`. Added the `as unknown as` step in three places (Trainer emit + register + unregister).
+- **`noUncheckedIndexedAccess` test misses.** `ph.calls[0][0]` and `result.failures[0].index` in the tests type-check under strict now (`ph.calls[0]!` / `result.failures[0]!`).
+- **React tests missing RTL cleanup.** `packages/react/tests/setup.ts` calls `afterEach(cleanup)`, wired via `vitest.config.ts` `setupFiles`. Without it, checklist renders leaked across cases and `getByTestId` matched multiple pills.
+- **Test fixture: 1-char `data-tour` selectors.** The `dataTourSelector` regex requires ≥2 chars (matches the kebab-case ID rule). Two test cases used `[data-tour="x"]`; changed to `[data-tour="xx"]`.
+
+**Result:** `npm run ci` (`typecheck && lint && test && validate:content`) exits 0. 114 tests pass across three packages (89 core / 18 react / 7 vue).
 
 ## [v0.1.0] - YYYY-MM-DD
 

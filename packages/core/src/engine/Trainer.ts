@@ -11,7 +11,7 @@
  * Consumers never see Shepherd types. See ADR-0001.
  * Threading model: one Trainer per app. One active tour at a time.
  */
-import type Shepherd from 'shepherd.js';
+import type { Tour as ShepherdTour, StepOptions as ShepherdStepOptions, StepOptionsButton as ShepherdStepOptionsButton, StepOptionsAttachTo as ShepherdStepOptionsAttachTo } from 'shepherd.js';
 import type { Tour, Step } from '../schema/v1.js';
 import type { TrainerConfig, TourProgress } from './types.js';
 import type { EventListener, TrainingEvent, TrainingEventName } from './events.js';
@@ -36,7 +36,7 @@ export class Trainer {
 
   private activeTour: {
     tour: Tour;
-    shepherdTour: Shepherd.Tour;
+    shepherdTour: ShepherdTour;
     startedAt: number;
     stepStartedAt: number;
     triggerSource: 'manual' | 'first-run' | 'url' | 'event';
@@ -134,7 +134,7 @@ export class Trainer {
   ): Promise<void> {
     // Lazy-import Shepherd so consumers who never start a tour never pay for it.
     const ShepherdModule = await import('shepherd.js');
-    const ShepherdCtor = ShepherdModule.default as typeof Shepherd;
+    const ShepherdCtor = ShepherdModule.default;
 
     const shepherdTour = new ShepherdCtor.Tour({
       useModalOverlay: true,
@@ -200,8 +200,8 @@ export class Trainer {
       set = new Set();
       this.listeners.set(name, set);
     }
-    set.add(listener as EventListener);
-    return () => set!.delete(listener as EventListener);
+    set.add(listener as unknown as EventListener);
+    return () => set!.delete(listener as unknown as EventListener);
   }
 
   getProgress(tourId: string): TourProgress {
@@ -239,13 +239,13 @@ export class Trainer {
     step: Step,
     index: number,
     total: number,
-    shepherdTour: Shepherd.Tour,
+    shepherdTour: ShepherdTour,
     abortSignal: AbortSignal,
-  ): Shepherd.Step.StepOptions {
+  ): ShepherdStepOptions {
     const isLast = index === total - 1;
     const isFirst = index === 0;
 
-    const buttons: Shepherd.Step.StepOptionsButton[] = [];
+    const buttons: ShepherdStepOptionsButton[] = [];
     if (!isFirst) {
       buttons.push({
         text: 'Back',
@@ -278,7 +278,7 @@ export class Trainer {
     // Shepherd doesn't have a native "slideout" mode; we render it as a tooltip
     // but with a `training-slideout` class so consumers can style it (e.g. slide
     // animation from the placement edge). Placement is used as the edge.
-    const attachTo: Shepherd.Step.StepOptionsAttachTo | undefined =
+    const attachTo: ShepherdStepOptionsAttachTo | undefined =
       step.placement === 'center' ? undefined : { element: step.target, on: step.placement };
 
     // Body: media prepended as an <img> if present, then the localized+personalized body text.
@@ -331,9 +331,9 @@ export class Trainer {
   private buildRedirectStep(
     step: Step,
     index: number,
-    shepherdTour: Shepherd.Tour,
+    shepherdTour: ShepherdTour,
     isLast: boolean,
-  ): Shepherd.Step.StepOptions {
+  ): ShepherdStepOptions {
     const url = step.redirectUrl;
     const waitMs = step.redirectWaitMs ?? 500;
     return {
@@ -402,7 +402,7 @@ export class Trainer {
   private async awaitTarget(
     step: Step,
     index: number,
-    shepherdTour: Shepherd.Tour,
+    shepherdTour: ShepherdTour,
     abortSignal: AbortSignal,
   ): Promise<void> {
     // center-placement steps don't anchor to a specific element — skip the wait.
@@ -582,7 +582,7 @@ export class Trainer {
     });
   }
 
-  private getCurrentIndex(shepherdTour: Shepherd.Tour): number {
+  private getCurrentIndex(shepherdTour: ShepherdTour): number {
     const step = shepherdTour.getCurrentStep();
     if (!step) return 0;
     return shepherdTour.steps.findIndex((s) => s.id === step.id);
@@ -590,7 +590,7 @@ export class Trainer {
 
   private emit(event: TrainingEvent): void {
     try {
-      this.config.analytics.track(event.name, event.payload as Record<string, unknown>);
+      this.config.analytics.track(event.name, event.payload as unknown as Record<string, unknown>);
     } catch (err) {
       // eslint-disable-next-line no-console
       console.warn('[training-sdk] analytics adapter threw:', err);
