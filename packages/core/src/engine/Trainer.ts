@@ -11,8 +11,13 @@
  * Consumers never see Shepherd types. See ADR-0001.
  * Threading model: one Trainer per app. One active tour at a time.
  */
-import type { Tour as ShepherdTour, StepOptions as ShepherdStepOptions, StepOptionsButton as ShepherdStepOptionsButton, StepOptionsAttachTo as ShepherdStepOptionsAttachTo } from 'shepherd.js';
-import type { Tour, Step , LocalizedString, Media} from '../schema/v1.js';
+import type {
+  Tour as ShepherdTour,
+  StepOptions as ShepherdStepOptions,
+  StepOptionsButton as ShepherdStepOptionsButton,
+  StepOptionsAttachTo as ShepherdStepOptionsAttachTo,
+} from 'shepherd.js';
+import type { Tour, Step, LocalizedString, Media } from '../schema/v1.js';
 import type { TrainerConfig, TourProgress } from './types.js';
 import type { EventListener, TrainingEvent, TrainingEventName } from './events.js';
 import { waitForElement, TargetTimeoutError } from './targeting.js';
@@ -116,7 +121,10 @@ export class Trainer {
     if (!this.arePrerequisitesMet(tour)) return;
     if (!matchesAudience(tour.audience, this.config.userAttributes)) return;
     // Sprint 6: frequency gate. Manual starts skip the check (user asked for it).
-    if (triggerSource !== 'manual' && !isAllowedByFrequency(tour.frequency, this.getProgress(tourId), tourId)) {
+    if (
+      triggerSource !== 'manual' &&
+      !isAllowedByFrequency(tour.frequency, this.getProgress(tourId), tourId)
+    ) {
       return;
     }
     if (this.activeTour) this.dismiss('superseded');
@@ -288,7 +296,12 @@ export class Trainer {
     const title = step.title ? this.renderText(step.title) : undefined;
 
     // Sprint 6: additional classes by stepType for CSS-driven variants.
-    const typeClasses = stepType === 'slideout' ? ' training-slideout' : stepType === 'hotspot' ? ' training-hotspot' : '';
+    const typeClasses =
+      stepType === 'slideout'
+        ? ' training-slideout'
+        : stepType === 'hotspot'
+          ? ' training-hotspot'
+          : '';
 
     return {
       id: step.id,
@@ -306,7 +319,7 @@ export class Trainer {
           // Sprint 6: hotspot auto-advances on click of the target element.
           const advanceOn =
             stepType === 'hotspot' && !step.advanceOn
-              ? ({ type: 'click' as const, target: step.target })
+              ? { type: 'click' as const, target: step.target }
               : (step.advanceOn ?? null);
           this.currentAdvance.attach(advanceOn, {
             onAdvance: () => {
@@ -378,7 +391,10 @@ export class Trainer {
    */
   private renderText(value: LocalizedString): string {
     const localized = resolveLocale(value, this.config.locale);
-    return personalize(localized, this.config.userAttributes as Record<string, unknown> | undefined);
+    return personalize(
+      localized,
+      this.config.userAttributes as Record<string, unknown> | undefined,
+    );
   }
 
   /**
@@ -447,7 +463,8 @@ export class Trainer {
     }
   }
 
-  private pendingTriggerFires: Array<{ tourId: string; source: 'first-run' | 'url' | 'event' }> = [];
+  private pendingTriggerFires: Array<{ tourId: string; source: 'first-run' | 'url' | 'event' }> =
+    [];
   private pendingTriggerScheduled = false;
 
   private resolvePendingTriggers(): void {
@@ -464,10 +481,12 @@ export class Trainer {
         if (!tour) return false;
         if (this.activeTour?.tour.id === f.tourId) return false;
         // first-run guard: already-run tours don't re-trigger via first-run.
-        if (f.source === 'first-run' && this.getProgress(f.tourId).status !== 'not-started') return false;
+        if (f.source === 'first-run' && this.getProgress(f.tourId).status !== 'not-started')
+          return false;
         if (!this.arePrerequisitesMet(tour)) return false;
         if (!matchesAudience(tour.audience, this.config.userAttributes)) return false;
-        if (!isAllowedByFrequency(tour.frequency, this.getProgress(f.tourId), f.tourId)) return false;
+        if (!isAllowedByFrequency(tour.frequency, this.getProgress(f.tourId), f.tourId))
+          return false;
         return true;
       })
       .sort((a, b) => {

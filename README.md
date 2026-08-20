@@ -1,9 +1,11 @@
 # In-App Training SDK
 
+[![CI](https://github.com/abhishekpauly/quick-knowledge/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/abhishekpauly/quick-knowledge/actions/workflows/ci.yml)
+
 An in-house in-app product training system. First customer: **UPTIQ AI Platform**. Designed as a reusable SDK so other UPTIQ products can adopt it without a rewrite.
 
 **Owner:** Technical Curriculum Developer + Claude AI Engineer
-**Status:** Sprint 03 complete — reusability layer shipped. On track for `v0.1.0-mvp` at end of Sprint 04.
+**Status:** Sprint 07 in progress — launch + hardening. Engineering complete for v0.1 and most of v0.2; production deploy pending compliance sign-off, frontend `data-tour` PR merge, and analytics sink confirmation. See [`product/launch-status.md`](product/launch-status.md).
 **Repository layout:** monorepo with npm workspaces.
 
 ---
@@ -14,7 +16,7 @@ An in-house in-app product training system. First customer: **UPTIQ AI Platform*
 | --- | --- | --- |
 | `@uptiq/training-sdk` | `packages/core/` | Framework-agnostic engine, content schema, adapters, theme. |
 | `@uptiq/training-sdk-react` | `packages/react/` | React adapter — `<TourProvider>`, `useTour`, `useTourProgress`, `<FirstRunTour>`. |
-| `@uptiq/training-sdk-vue` | (deferred) | Vue adapter, added when a Vue product commits. |
+| `@uptiq/training-sdk-vue` | `packages/vue/` | Vue 3 adapter — API-parity with React. Un-deferred once AI Platform's 50/50 React/Vue mix was confirmed. |
 
 ## Repo layout
 
@@ -97,7 +99,7 @@ npm run build --workspace @uptiq/training-sdk-react
 
 - **Engine** — framework-agnostic TypeScript core, built on top of Shepherd.js.
 - **Content** — tours authored as JSON, validated by a Zod schema.
-- **Adapter** — thin per-framework binding (React first, Vue deferred).
+- **Adapter** — thin per-framework binding. React and Vue both shipped.
 - **`data-tour` contract** — every element a tour can target has a stable `data-tour="..."` attribute. Selectors are validated in CI.
 - **Product** — a UPTIQ product that installs this SDK. First is AI Platform.
 

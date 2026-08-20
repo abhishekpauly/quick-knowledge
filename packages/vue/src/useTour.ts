@@ -9,7 +9,10 @@ import { inject, ref, onBeforeUnmount, computed, type Ref, type ComputedRef } fr
 import { TrainerKey } from './inject-keys.js';
 
 export interface UseTourResult {
-  start: (tourId: string, triggerSource?: 'manual' | 'first-run' | 'url' | 'event') => Promise<void>;
+  start: (
+    tourId: string,
+    triggerSource?: 'manual' | 'first-run' | 'url' | 'event',
+  ) => Promise<void>;
   stop: () => void;
   next: () => void;
   prev: () => void;

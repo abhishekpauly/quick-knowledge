@@ -98,7 +98,9 @@ export const TrainingHint = defineComponent({
               'data-testid': `training-hint-body-${props.id}`,
             },
             [
-              hint.title ? h('div', { style: { fontWeight: '600', marginBottom: '4px' } }, hint.title) : null,
+              hint.title
+                ? h('div', { style: { fontWeight: '600', marginBottom: '4px' } }, hint.title)
+                : null,
               h('div', hint.body),
               hint.learnMoreUrl
                 ? h(

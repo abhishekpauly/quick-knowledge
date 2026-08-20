@@ -76,7 +76,8 @@ export function TrainingChecklist({
   const grouped = useMemo(() => groupByDifficulty(tours), [tours]);
 
   const completedCount = useMemo(
-    () => tours.reduce((sum, t) => sum + (allProgress.get(t.id)?.status === 'completed' ? 1 : 0), 0),
+    () =>
+      tours.reduce((sum, t) => sum + (allProgress.get(t.id)?.status === 'completed' ? 1 : 0), 0),
     [tours, allProgress],
   );
 
@@ -257,13 +258,14 @@ function ChecklistItem({
   // Resolve LocalizedString for display. Note: this is a display-side fallback —
   // the trainer resolves for tour steps. We don't have locale here (would need
   // to plumb through TrainerConfig); use the first string it resolves to.
-  const titleText = typeof tour.title === 'string' ? tour.title : Object.values(tour.title)[0] ?? tour.id;
+  const titleText =
+    typeof tour.title === 'string' ? tour.title : (Object.values(tour.title)[0] ?? tour.id);
   const descText =
     tour.description === undefined
       ? undefined
       : typeof tour.description === 'string'
-      ? tour.description
-      : Object.values(tour.description)[0];
+        ? tour.description
+        : Object.values(tour.description)[0];
 
   return (
     <button
@@ -308,9 +310,7 @@ function ChecklistItem({
       </span>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ fontWeight: 500 }}>{titleText}</div>
-        {descText && (
-          <div style={{ color: '#64748b', fontSize: 12, marginTop: 2 }}>{descText}</div>
-        )}
+        {descText && <div style={{ color: '#64748b', fontSize: 12, marginTop: 2 }}>{descText}</div>}
       </div>
       {tour.estimatedMinutes && (
         <span style={{ fontSize: 12, color: '#64748b', flexShrink: 0 }}>

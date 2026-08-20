@@ -33,7 +33,10 @@ const dataTourSelector = z
  */
 export const LocalizedStringSchema = z.union([
   z.string().min(1),
-  z.record(z.string().regex(/^[a-z]{2}(-[A-Z]{2})?$/, 'Locale must be BCP-47-like'), z.string().min(1)),
+  z.record(
+    z.string().regex(/^[a-z]{2}(-[A-Z]{2})?$/, 'Locale must be BCP-47-like'),
+    z.string().min(1),
+  ),
 ]);
 
 export type LocalizedString = z.infer<typeof LocalizedStringSchema>;

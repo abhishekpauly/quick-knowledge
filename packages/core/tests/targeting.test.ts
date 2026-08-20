@@ -29,9 +29,9 @@ describe('waitForElement', () => {
   });
 
   it('rejects with TargetTimeoutError when the element never appears', async () => {
-    await expect(
-      waitForElement('[data-tour="never"]', { timeoutMs: 100 }),
-    ).rejects.toBeInstanceOf(TargetTimeoutError);
+    await expect(waitForElement('[data-tour="never"]', { timeoutMs: 100 })).rejects.toBeInstanceOf(
+      TargetTimeoutError,
+    );
   });
 
   it('honors AbortSignal', async () => {

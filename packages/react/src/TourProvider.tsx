@@ -28,7 +28,12 @@ export interface TourProviderProps {
   children: ReactNode;
 }
 
-export function TourProvider({ trainer, theme, themeRoot, children }: TourProviderProps): JSX.Element {
+export function TourProvider({
+  trainer,
+  theme,
+  themeRoot,
+  children,
+}: TourProviderProps): JSX.Element {
   // Apply theme on mount and whenever it changes. Safe to run in effect (SSR-friendly).
   useEffect(() => {
     if (!theme) return;

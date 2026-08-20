@@ -20,10 +20,7 @@ function tour(id: string, difficulty: Tour['difficulty']): Tour {
   };
 }
 
-function stubTrainer(
-  tours: Tour[],
-  progressMap: Record<string, TourProgress> = {},
-): Trainer {
+function stubTrainer(tours: Tour[], progressMap: Record<string, TourProgress> = {}): Trainer {
   return {
     getTours: () => tours,
     getProgress: (id: string) =>
@@ -49,10 +46,7 @@ describe('TrainingChecklist', () => {
   });
 
   it('expands to a panel on click', () => {
-    const trainer = stubTrainer([
-      tour('a', 'onboarding'),
-      tour('b', 'basic'),
-    ]);
+    const trainer = stubTrainer([tour('a', 'onboarding'), tour('b', 'basic')]);
     const { getByTestId, queryByTestId } = render(
       <TourProvider trainer={trainer}>
         <TrainingChecklist />

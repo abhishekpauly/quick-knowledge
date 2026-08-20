@@ -20,10 +20,7 @@ export interface HintsProviderProps {
 }
 
 export function HintsProvider({ hints, children }: HintsProviderProps): JSX.Element {
-  const value = useMemo(
-    () => ({ hintsById: new Map(hints.hints.map((h) => [h.id, h])) }),
-    [hints],
-  );
+  const value = useMemo(() => ({ hintsById: new Map(hints.hints.map((h) => [h.id, h])) }), [hints]);
   return <HintsContext.Provider value={value}>{children}</HintsContext.Provider>;
 }
 

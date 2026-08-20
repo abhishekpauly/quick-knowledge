@@ -10,7 +10,13 @@ import { TrainerKey } from './inject-keys.js';
 import { useTour } from './useTour.js';
 import { useAllTourProgress } from './useAllTourProgress.js';
 
-const DIFFICULTY_ORDER: Difficulty[] = ['onboarding', 'basic', 'intermediate', 'advanced', 'common-task'];
+const DIFFICULTY_ORDER: Difficulty[] = [
+  'onboarding',
+  'basic',
+  'intermediate',
+  'advanced',
+  'common-task',
+];
 const DIFFICULTY_LABEL: Record<Difficulty, string> = {
   onboarding: 'Onboarding',
   basic: 'Basics',
@@ -70,8 +76,21 @@ export const TrainingChecklist = defineComponent({
         'div',
         { style, 'data-testid': 'training-checklist' },
         expanded.value
-          ? renderPanel(grouped.value, props.label, allProgress.value, start, () => (expanded.value = false), () => (dismissed.value = true), (id) => arePrerequisitesMet(tours.value, id, (i) => trainer.getProgress(i)))
-          : renderPill(props.label, tours.value.length, completedCount.value, () => (expanded.value = true)),
+          ? renderPanel(
+              grouped.value,
+              props.label,
+              allProgress.value,
+              start,
+              () => (expanded.value = false),
+              () => (dismissed.value = true),
+              (id) => arePrerequisitesMet(tours.value, id, (i) => trainer.getProgress(i)),
+            )
+          : renderPill(
+              props.label,
+              tours.value.length,
+              completedCount.value,
+              () => (expanded.value = true),
+            ),
       );
     };
   },
@@ -187,11 +206,26 @@ function renderPanel(
   );
 }
 
-function renderItem(tour: Tour, allProgress: Map<string, TourProgress>, start: (id: string) => Promise<void>, locked: boolean) {
-  const progress = allProgress.get(tour.id) ?? { tourId: tour.id, status: 'not-started' as const, currentStepIndex: 0 };
+function renderItem(
+  tour: Tour,
+  allProgress: Map<string, TourProgress>,
+  start: (id: string) => Promise<void>,
+  locked: boolean,
+) {
+  const progress = allProgress.get(tour.id) ?? {
+    tourId: tour.id,
+    status: 'not-started' as const,
+    currentStepIndex: 0,
+  };
   const isDone = progress.status === 'completed';
-  const titleText = typeof tour.title === 'string' ? tour.title : Object.values(tour.title)[0] ?? tour.id;
-  const descText = tour.description === undefined ? undefined : typeof tour.description === 'string' ? tour.description : Object.values(tour.description)[0];
+  const titleText =
+    typeof tour.title === 'string' ? tour.title : (Object.values(tour.title)[0] ?? tour.id);
+  const descText =
+    tour.description === undefined
+      ? undefined
+      : typeof tour.description === 'string'
+        ? tour.description
+        : Object.values(tour.description)[0];
   return h(
     'button',
     {
@@ -238,9 +272,17 @@ function renderItem(tour: Tour, allProgress: Map<string, TourProgress>, start: (
       ),
       h('div', { style: { flex: '1', minWidth: '0' } }, [
         h('div', { style: { fontWeight: '500' } }, titleText),
-        descText ? h('div', { style: { color: '#64748b', fontSize: '12px', marginTop: '2px' } }, descText) : null,
+        descText
+          ? h('div', { style: { color: '#64748b', fontSize: '12px', marginTop: '2px' } }, descText)
+          : null,
       ]),
-      tour.estimatedMinutes ? h('span', { style: { fontSize: '12px', color: '#64748b', flexShrink: '0' } }, `${tour.estimatedMinutes}m`) : null,
+      tour.estimatedMinutes
+        ? h(
+            'span',
+            { style: { fontSize: '12px', color: '#64748b', flexShrink: '0' } },
+            `${tour.estimatedMinutes}m`,
+          )
+        : null,
     ],
   );
 }
@@ -267,7 +309,9 @@ function iconBtn(label: string, glyph: string, onClick: () => void) {
   );
 }
 
-function positionStyles(pos: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left'): Record<string, string> {
+function positionStyles(
+  pos: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left',
+): Record<string, string> {
   const map = {
     'bottom-right': { bottom: '24px', right: '24px' },
     'bottom-left': { bottom: '24px', left: '24px' },
@@ -287,7 +331,11 @@ function groupByDifficulty(tours: readonly Tour[]): Array<[Difficulty, Tour[]]> 
   return DIFFICULTY_ORDER.filter((d) => buckets.has(d)).map((d) => [d, buckets.get(d)!]);
 }
 
-function arePrerequisitesMet(allTours: readonly Tour[], tourId: string, getProgress: (id: string) => { status: string }): boolean {
+function arePrerequisitesMet(
+  allTours: readonly Tour[],
+  tourId: string,
+  getProgress: (id: string) => { status: string },
+): boolean {
   const tour = allTours.find((t) => t.id === tourId);
   if (!tour?.prerequisites || tour.prerequisites.length === 0) return false; // returns "isLocked", so met = !locked
   return !tour.prerequisites.every((id) => getProgress(id).status === 'completed');

@@ -6,9 +6,7 @@
   "description": "One-line description shown in checklists.",
   "difficulty": "basic",
   "estimatedMinutes": 3,
-  "triggers": [
-    { "type": "manual" }
-  ],
+  "triggers": [{ "type": "manual" }],
   "prerequisites": [],
   "steps": [
     {

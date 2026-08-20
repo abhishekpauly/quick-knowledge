@@ -11,11 +11,12 @@
     "test": "npm run test --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "lint": "eslint \"packages/*/src/**/*.{ts,tsx}\" \"packages/*/tests/**/*.{ts,tsx}\" \"scripts/**/*.ts\"",
-    "format": "prettier --write 'packages/*/src/**/*.{ts,tsx,json}' 'packages/*/tests/**/*.{ts,tsx}' 'content/**/*.json' 'scripts/**/*.ts'",
+    "format": "prettier --write \"packages/*/src/**/*.{ts,tsx,json}\" \"packages/*/tests/**/*.{ts,tsx}\" \"content/**/*.json\" \"scripts/**/*.ts\"",
     "dev": "vite",
     "validate:content": "tsx scripts/validate-content.ts content",
     "validate:selectors": "tsx scripts/validate-selectors.ts",
-    "ci": "npm run typecheck && npm run lint && npm run test && npm run validate:content"
+    "ci": "npm run typecheck && npm run lint && npm run format:check && npm run test && npm run validate:content",
+    "format:check": "prettier --check \"packages/*/src/**/*.{ts,tsx,json}\" \"packages/*/tests/**/*.{ts,tsx}\" \"content/**/*.json\" \"scripts/**/*.ts\""
   },
   "devDependencies": {
     "@types/node": "^20.11.0",

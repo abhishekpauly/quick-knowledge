@@ -6,9 +6,7 @@
   "description": "[TODO — one sentence. Assumes basics.]",
   "difficulty": "intermediate",
   "estimatedMinutes": 6,
-  "triggers": [
-    { "type": "manual" }
-  ],
+  "triggers": [{ "type": "manual" }],
   "prerequisites": ["ai-platform-onboarding", "ai-platform-workflows-create-project"],
   "steps": [
     {

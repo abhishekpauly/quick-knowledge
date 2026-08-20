@@ -6,9 +6,7 @@
   "description": "A four-minute tour of the essentials. Skippable anytime.",
   "difficulty": "onboarding",
   "estimatedMinutes": 4,
-  "triggers": [
-    { "type": "first-run" }
-  ],
+  "triggers": [{ "type": "first-run" }],
   "prerequisites": [],
   "steps": [
     {

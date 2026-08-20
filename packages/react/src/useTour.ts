@@ -11,7 +11,10 @@ import { TrainerContext } from './context.js';
 
 export interface UseTourResult {
   /** Start a tour by id. Optional trigger source is passed through to analytics. */
-  start: (tourId: string, triggerSource?: 'manual' | 'first-run' | 'url' | 'event') => Promise<void>;
+  start: (
+    tourId: string,
+    triggerSource?: 'manual' | 'first-run' | 'url' | 'event',
+  ) => Promise<void>;
   /** Stop the active tour (emits tour_dismissed). No-op if nothing is active. */
   stop: () => void;
   /** Advance to the next step manually. Rarely needed — the tour's own Next button does this. */

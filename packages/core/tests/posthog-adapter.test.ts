@@ -4,7 +4,9 @@
 import { describe, it, expect, vi } from 'vitest';
 import { posthogAnalytics, type PostHogLike } from '../src/adapters/posthog.js';
 
-function stubPosthog(): PostHogLike & { calls: Array<[string, Record<string, unknown> | undefined]> } {
+function stubPosthog(): PostHogLike & {
+  calls: Array<[string, Record<string, unknown> | undefined]>;
+} {
   const calls: Array<[string, Record<string, unknown> | undefined]> = [];
   return {
     calls,

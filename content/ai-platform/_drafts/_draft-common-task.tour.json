@@ -6,9 +6,7 @@
   "description": "[TODO — one sentence. Should read as 'How do I X?' answered.]",
   "difficulty": "basic",
   "estimatedMinutes": 2,
-  "triggers": [
-    { "type": "manual" }
-  ],
+  "triggers": [{ "type": "manual" }],
   "prerequisites": [],
   "steps": [
     {

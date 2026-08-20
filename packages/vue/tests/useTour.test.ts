@@ -6,12 +6,7 @@ import { mount, flushPromises } from '@vue/test-utils';
 import { defineComponent, h } from 'vue';
 import { TourProvider } from '../src/TourProvider.js';
 import { useTour } from '../src/useTour.js';
-import type {
-  Trainer,
-  TrainingEventName,
-  EventListener,
-  TrainingEvent,
-} from '@uptiq/training-sdk';
+import type { Trainer, TrainingEventName, EventListener, TrainingEvent } from '@uptiq/training-sdk';
 
 function stubTrainer() {
   const listeners = new Map<TrainingEventName, Set<EventListener>>();

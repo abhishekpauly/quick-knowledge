@@ -6,9 +6,7 @@
   "description": "Walk through creating a workflow from scratch — connect a data source, pick a model, and run it.",
   "difficulty": "basic",
   "estimatedMinutes": 3,
-  "triggers": [
-    { "type": "manual" }
-  ],
+  "triggers": [{ "type": "manual" }],
   "prerequisites": ["ai-platform-onboarding"],
   "steps": [
     {

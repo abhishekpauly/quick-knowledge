@@ -8,11 +8,7 @@
 
 // Core engine
 export { Trainer } from './engine/Trainer.js';
-export type {
-  TrainerConfig,
-  TourProgress,
-  TrainerState,
-} from './engine/types.js';
+export type { TrainerConfig, TourProgress, TrainerState } from './engine/types.js';
 
 // Event types
 export type {
@@ -49,12 +45,7 @@ export {
 } from './adapters/persistence.js';
 
 // Theme
-export {
-  defaultTheme,
-  aiPlatformTheme,
-  applyTheme,
-  type Theme,
-} from './theme/default.js';
+export { defaultTheme, aiPlatformTheme, applyTheme, type Theme } from './theme/default.js';
 
 // Content schema (re-exported here for convenience; also available at @uptiq/training-sdk/schema/v1)
 export {
@@ -77,7 +68,11 @@ export { resolveLocale } from './schema/localize.js';
 export { personalize, type PersonalizationContext } from './schema/personalize.js';
 
 // Sprint 6 helpers.
-export { isAllowedByFrequency, markSeenThisSession, _resetSessionState } from './schema/frequency.js';
+export {
+  isAllowedByFrequency,
+  markSeenThisSession,
+  _resetSessionState,
+} from './schema/frequency.js';
 export { readPermalinkTourId } from './schema/permalink.js';
 export { StepTypeSchema, FrequencySchema, type StepType, type Frequency } from './schema/v1.js';
 

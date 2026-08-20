@@ -44,6 +44,8 @@ describe('TourProvider (Vue)', () => {
       props: { trainer, theme: { primary: '#ff00ff' } },
       slots: { default: () => h('div', 'child') },
     });
-    expect(document.documentElement.style.getPropertyValue('--uptiq-training-primary')).toBe('#ff00ff');
+    expect(document.documentElement.style.getPropertyValue('--uptiq-training-primary')).toBe(
+      '#ff00ff',
+    );
   });
 });

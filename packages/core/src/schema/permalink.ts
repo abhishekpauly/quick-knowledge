@@ -18,7 +18,9 @@
 
 const PERMALINK_PARAM = 'training';
 
-export function readPermalinkTourId(url: string | URL = typeof window !== 'undefined' ? window.location.href : ''): string | null {
+export function readPermalinkTourId(
+  url: string | URL = typeof window !== 'undefined' ? window.location.href : '',
+): string | null {
   if (!url) return null;
   try {
     const parsed = typeof url === 'string' ? new URL(url) : url;

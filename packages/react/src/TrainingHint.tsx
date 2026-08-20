@@ -101,9 +101,7 @@ export function TrainingHint({ id, children }: TrainingHintProps): JSX.Element |
           }}
           data-testid={`training-hint-body-${id}`}
         >
-          {hint.title && (
-            <div style={{ fontWeight: 600, marginBottom: 4 }}>{hint.title}</div>
-          )}
+          {hint.title && <div style={{ fontWeight: 600, marginBottom: 4 }}>{hint.title}</div>}
           <div>{hint.body}</div>
           {hint.learnMoreUrl && (
             <div style={{ marginTop: 8 }}>
