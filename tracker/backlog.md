@@ -114,6 +114,21 @@ Priority: `P0` (blocker) · `P1` (must for MVP) · `P2` (nice-to-have) · `P3` (
 
 ---
 
+
+
+## Sprint 08 (planned) — bridge into v0.5
+
+| ID | Task | Priority | Status | Feature | Notes |
+| --- | --- | --- | --- | --- | --- |
+| T-090 | Event dictionary exporter (`docs/event-dictionary.md` + JSON) | P1 | TODO | v0.2 tail | From v0.1 retro. Wire CI check so drift fails the build. |
+| T-091 | Investigate `create-project → user-menu` drop-off (12 pts) | P1 | TODO | v0.2 tail | 20 non-completer sessions from PostHog replay. |
+| T-092 | `TrainingChecklist` `preferredCorners` prop (React + Vue) | P1 | TODO | v0.2 | Retro finding — checklist collided with host help launcher for 1/5 users. |
+| T-093 | v1.0 compliance follow-ups — ADR-0005 (GDPR delete API) + ADR-0006 (consent gating hook) | P2 | TODO | v1.0 prep | Design docs only. Implementation later. |
+| T-094 | Adopter-#2 outreach calls (Workbench PM, Insights PM) | P1 | TODO | v0.5 prep | Priya arranges intros. 30 min each. |
+| T-095 | `product/adopter-scouting.md` capture | P1 | TODO | v0.5 prep | Fit signals, integration blockers, tentative sprint. |
+| T-096 | `product/v0.5-kickoff.md` — Pins + Goals scope | P1 | TODO | v0.5 | The deliverable Sprint 09 picks up cold. |
+| T-097 | CHANGELOG + roadmap tick-off | P2 | TODO | — | Sprint 08 additions under `[Unreleased]`. |
+
 ## Deferred (post-MVP)
 
 | ID | Task | Priority | Status | Feature | Trigger |
