@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "v1",
+  "id": "ai-platform-TODO-intermediate",
+  "product": "ai-platform",
+  "title": "[TODO — e.g. 'Configure a scheduled workflow run']",
+  "description": "[TODO — one sentence. Assumes basics.]",
+  "difficulty": "intermediate",
+  "estimatedMinutes": 6,
+  "triggers": [
+    { "type": "manual" }
+  ],
+  "prerequisites": ["ai-platform-onboarding", "ai-platform-workflows-create-project"],
+  "steps": [
+    {
+      "id": "context",
+      "target": "[data-tour=\"TODO-intermediate-context\"]",
+      "placement": "center",
+      "title": "[TODO — why this matters]",
+      "body": "[TODO — 2 sentences. Set the stakes: what you can do now that you couldn't before.]",
+      "advanceOn": null
+    },
+    {
+      "id": "step-1",
+      "target": "[data-tour=\"TODO-intermediate-step-1\"]",
+      "placement": "right",
+      "title": "[TODO]",
+      "body": "[TODO]",
+      "advanceOn": { "type": "click", "target": "[data-tour=\"TODO-intermediate-step-1\"]" }
+    },
+    {
+      "id": "step-2",
+      "target": "[data-tour=\"TODO-intermediate-step-2\"]",
+      "placement": "right",
+      "title": "[TODO]",
+      "body": "[TODO — where users usually get stuck; call out the gotcha inline]",
+      "advanceOn": { "type": "click", "target": "[data-tour=\"TODO-intermediate-step-2\"]" }
+    },
+    {
+      "id": "step-3",
+      "target": "[data-tour=\"TODO-intermediate-step-3\"]",
+      "placement": "top",
+      "title": "[TODO]",
+      "body": "[TODO]",
+      "advanceOn": { "type": "click", "target": "[data-tour=\"TODO-intermediate-step-3\"]" }
+    },
+    {
+      "id": "step-4-input",
+      "target": "[data-tour=\"TODO-intermediate-input\"]",
+      "placement": "bottom",
+      "title": "[TODO — form / input step]",
+      "body": "[TODO — what to type. Give an example value in code font.]",
+      "advanceOn": { "type": "input", "target": "[data-tour=\"TODO-intermediate-input\"]" }
+    },
+    {
+      "id": "confirm",
+      "target": "[data-tour=\"TODO-intermediate-confirm\"]",
+      "placement": "left",
+      "title": "[TODO — the moment of success]",
+      "body": "[TODO — anchor the win. Suggest the natural next tour.]",
+      "advanceOn": null,
+      "actions": {
+        "primary": { "label": "Done", "action": "complete" }
+      }
+    }
+  ]
+}

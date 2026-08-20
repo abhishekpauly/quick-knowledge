@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "v1",
+  "id": "ai-platform-TODO-common-task",
+  "product": "ai-platform",
+  "title": "[TODO — e.g. 'Share a workflow with your team' or 'Export run results']",
+  "description": "[TODO — one sentence. Should read as 'How do I X?' answered.]",
+  "difficulty": "basic",
+  "estimatedMinutes": 2,
+  "triggers": [
+    { "type": "manual" }
+  ],
+  "prerequisites": [],
+  "steps": [
+    {
+      "id": "open-menu",
+      "target": "[data-tour=\"TODO-common-menu\"]",
+      "placement": "bottom",
+      "title": "[TODO — the entry point most users miss]",
+      "body": "[TODO — most common-task tours exist because the affordance is not obvious. Name it.]",
+      "advanceOn": { "type": "click", "target": "[data-tour=\"TODO-common-menu\"]" }
+    },
+    {
+      "id": "the-action",
+      "target": "[data-tour=\"TODO-common-action\"]",
+      "placement": "right",
+      "title": "[TODO — the action name]",
+      "body": "[TODO — one sentence. What clicking this does.]",
+      "advanceOn": { "type": "click", "target": "[data-tour=\"TODO-common-action\"]" }
+    },
+    {
+      "id": "done",
+      "target": "[data-tour=\"TODO-common-confirm\"]",
+      "placement": "center",
+      "title": "Done",
+      "body": "[TODO — 'That's it. From now on you can just do X.']",
+      "advanceOn": null,
+      "actions": {
+        "primary": { "label": "Got it", "action": "complete" }
+      }
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "v1",
+  "id": "ai-platform-TODO-basic-2",
+  "product": "ai-platform",
+  "title": "[TODO — short, action-oriented, e.g. 'Import your first dataset']",
+  "description": "[TODO — one sentence, what the user learns to do]",
+  "difficulty": "basic",
+  "estimatedMinutes": 3,
+  "triggers": [
+    { "type": "manual" }
+  ],
+  "prerequisites": ["ai-platform-onboarding"],
+  "steps": [
+    {
+      "id": "entry-point",
+      "target": "[data-tour=\"TODO-basic-2-entry\"]",
+      "placement": "bottom",
+      "title": "[TODO — where we're going]",
+      "body": "[TODO — 1–2 sentences on why we're here. Mirror onboarding voice.]",
+      "advanceOn": { "type": "click", "target": "[data-tour=\"TODO-basic-2-entry\"]" }
+    },
+    {
+      "id": "primary-action",
+      "target": "[data-tour=\"TODO-basic-2-primary\"]",
+      "placement": "right",
+      "title": "[TODO — the one thing they came for]",
+      "body": "[TODO — what to do. Bold the verb.]",
+      "advanceOn": { "type": "click", "target": "[data-tour=\"TODO-basic-2-primary\"]" }
+    },
+    {
+      "id": "confirm-result",
+      "target": "[data-tour=\"TODO-basic-2-result\"]",
+      "placement": "top",
+      "title": "[TODO — what should now be visible]",
+      "body": "[TODO — anchor the win. 'That's your first X. You can now Y.']",
+      "advanceOn": null,
+      "actions": {
+        "primary": { "label": "Got it", "action": "complete" }
+      }
+    }
+  ]
+}

@@ -13,7 +13,7 @@
  */
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
-import { parseTour } from '../src/schema/loader.js';
+import { parseTour } from '../packages/core/src/schema/loader.js';
 
 function walk(dir: string): string[] {
   const out: string[] = [];

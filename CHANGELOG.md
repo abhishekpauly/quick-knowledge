@@ -4,6 +4,30 @@ All notable changes to this project. Format follows [Keep a Changelog](https://k
 
 ## [Unreleased]
 
+### Sprint 07 launch-prep additions
+
+- **`releases/ai-platform-theme-handoff.md`** — design hand-off doc: the exact tokens `aiPlatformTheme` needs, a11y contrast checklist, paste-ready response format for design.
+- **`releases/v0.1.0-retro.md`** — pre-written retro skeleton (T-072). Fill on day 35. Includes the v0.5 go/hold/drop table the sprint plan contractually requires.
+- **`content/ai-platform/_drafts/`** — three shape-complete tour skeletons (second-basic, intermediate, common-task) with placeholder selectors and `[TODO]`-tagged copy. Underscore prefix keeps them out of `validate:content` until the author renames.
+- **`tracker/sprint-07.md`** — Sprint 07 plan (launch + hardening, days 27–35). T-060 through T-072.
+- **`releases/compliance-review-request.md`** — pre-filled owner and timeline brackets (T-060 partial).
+- **`releases/ai-platform-data-tour-pr.md`** — pre-filled repo/docs/ADR links (T-061 partial).
+
+### Fixed (hardening)
+
+- **`scripts/validate-content.ts`** — import path was `../src/schema/loader.js`, correct path is `../packages/core/src/schema/loader.js`. Script now runs.
+- **`packages/*/tsconfig.build.json`** — added `rootDir: "src"` to each. Without it, TypeScript emitted `dist/src/index.js` while `package.json exports` pointed at `dist/index.js` — every cross-package import (`@uptiq/training-sdk` from react and vue) failed at test time. All three packages now emit at the paths their `exports` map declares.
+
+### Known hardening blockers (open — see backlog T-073, T-074)
+
+- **T-073 · Shepherd.js type coverage.** `shepherd.js` ships without type declarations. `Trainer.ts` references `Shepherd.Tour` as a namespace type in ~5 places, giving `TS2503: Cannot find namespace 'Shepherd'`. Options: install `@types/shepherd.js` if it exists at the pinned version, pin to a version that ships types, or write local ambient `.d.ts`. Blocks `npm run build` on `@uptiq/training-sdk` (tests still run — vitest transpiles).
+- **T-074 · `packages/vue` implicit-any + strict-mode cleanup.** `TrainingChecklist.ts`, `useTour.ts`, `useTourProgress.ts` have 8 `implicit any` errors under `strict: true`. Add explicit types and the `@uptiq/training-sdk` package.json `exports` are already correct once T-073 is resolved and `dist` builds.
+
+## [v0.1.0] - YYYY-MM-DD
+
+Placeholder — swap in the tag date once T-070 (production deploy) is done.
+Move every entry above this line, verbatim, from `[Unreleased]` into this section.
+
 ### Added
 
 **Launch-ready wrap · PostHog wired + status doc**
