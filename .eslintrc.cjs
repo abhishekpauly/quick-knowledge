@@ -17,5 +17,12 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'warn',
     '@typescript-eslint/consistent-type-imports': 'error',
   },
+  overrides: [
+    {
+      files: ['packages/react/**/*.{ts,tsx}'],
+      plugins: ['react-hooks'],
+      extends: ['plugin:react-hooks/recommended'],
+    },
+  ],
   ignorePatterns: ['dist', 'node_modules', 'coverage'],
 };

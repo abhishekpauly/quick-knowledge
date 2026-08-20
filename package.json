@@ -10,7 +10,7 @@
     "build": "npm run build --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present",
-    "lint": "eslint 'packages/*/src/**/*.{ts,tsx}' 'packages/*/tests/**/*.{ts,tsx}' 'scripts/**/*.ts'",
+    "lint": "eslint \"packages/*/src/**/*.{ts,tsx}\" \"packages/*/tests/**/*.{ts,tsx}\" \"scripts/**/*.ts\"",
     "format": "prettier --write 'packages/*/src/**/*.{ts,tsx,json}' 'packages/*/tests/**/*.{ts,tsx}' 'content/**/*.json' 'scripts/**/*.ts'",
     "dev": "vite",
     "validate:content": "tsx scripts/validate-content.ts content",

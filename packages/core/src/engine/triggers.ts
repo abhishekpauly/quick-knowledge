@@ -11,7 +11,7 @@
  * The manager does NOT decide whether a tour is "eligible" (already completed,
  * prerequisites unmet) — the Trainer applies those rules before actually starting.
  */
-import type { Tour, Trigger } from '../schema/v1.js';
+import type { Tour } from '../schema/v1.js';
 
 export interface TriggerContext {
   /** Called with (tourId, source) when a trigger fires. */

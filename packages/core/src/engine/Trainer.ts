@@ -12,7 +12,7 @@
  * Threading model: one Trainer per app. One active tour at a time.
  */
 import type { Tour as ShepherdTour, StepOptions as ShepherdStepOptions, StepOptionsButton as ShepherdStepOptionsButton, StepOptionsAttachTo as ShepherdStepOptionsAttachTo } from 'shepherd.js';
-import type { Tour, Step } from '../schema/v1.js';
+import type { Tour, Step , LocalizedString, Media} from '../schema/v1.js';
 import type { TrainerConfig, TourProgress } from './types.js';
 import type { EventListener, TrainingEvent, TrainingEventName } from './events.js';
 import { waitForElement, TargetTimeoutError } from './targeting.js';
@@ -376,7 +376,7 @@ export class Trainer {
    * Resolve a LocalizedString to the active locale, then interpolate personalization
    * templates from userAttributes. Used for title, body, and button labels.
    */
-  private renderText(value: import('../schema/v1.js').LocalizedString): string {
+  private renderText(value: LocalizedString): string {
     const localized = resolveLocale(value, this.config.locale);
     return personalize(localized, this.config.userAttributes as Record<string, unknown> | undefined);
   }
@@ -386,7 +386,7 @@ export class Trainer {
    * mount above the body. Image only for MVP; video is deferred (needs iframe
    * lifecycle handling and autoplay policy consideration).
    */
-  private renderMedia(media: import('../schema/v1.js').Media): string {
+  private renderMedia(media: Media): string {
     // Attributes are escaped via encodeURI / attribute-safe replacements.
     if (media.type === 'image') {
       const src = escapeAttribute(media.src);

@@ -16,7 +16,6 @@ import { useMemo, useState, useContext } from 'react';
 import type { Tour, Difficulty, TourProgress } from '@uptiq/training-sdk';
 import { TrainerContext } from './context.js';
 import { useTour } from './useTour.js';
-import { useTourProgress } from './useTourProgress.js';
 import { useAllTourProgress } from './useAllTourProgress.js';
 
 export interface TrainingChecklistProps {
