@@ -198,6 +198,6 @@ describe('loadContent', () => {
     const result = loadContent([validTour, { garbage: true }, { ...validTour, id: 'another' }]);
     expect(result.tours).toHaveLength(2);
     expect(result.failures).toHaveLength(1);
-    expect(result.failures[0].index).toBe(1);
+    expect(result.failures[0]!.index).toBe(1);
   });
 });

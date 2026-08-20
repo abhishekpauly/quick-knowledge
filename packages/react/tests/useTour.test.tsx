@@ -53,8 +53,8 @@ function stubTrainer() {
         set = new Set();
         listeners.set(name, set);
       }
-      set.add(listener as EventListener);
-      return () => set!.delete(listener as EventListener);
+      set.add(listener as unknown as EventListener);
+      return () => set!.delete(listener as unknown as EventListener);
     }),
     getProgress: vi.fn(() => ({ tourId: '', status: 'not-started', currentStepIndex: 0 })),
     getActiveTourId: vi.fn(() => active),

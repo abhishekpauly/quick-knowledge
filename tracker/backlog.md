@@ -102,8 +102,10 @@ Priority: `P0` (blocker) · `P1` (must for MVP) · `P2` (nice-to-have) · `P3` (
 | T-070 | Production deploy + 30-min watch | P0 | TODO | v0.1 launch | Requires compliance approval |
 | T-071 | 7-day metrics snapshot vs. success criteria | P1 | TODO | v0.1 launch | Onboarding completion, drop-off, `tour_error` |
 | T-072 | Post-launch retro + v0.5 promotion decision | P1 | TODO | v0.1 launch | `releases/v0.1.0-retro.md` + ROADMAP update |
-| T-073 | Shepherd.js type coverage — resolve `Cannot find namespace 'Shepherd'` in `Trainer.ts` | P0 | TODO | v0.1 launch | Blocks `npm run build` on core. Fix: install types, pin version with types, or write ambient .d.ts |
-| T-074 | Vue package: implicit-any + strict cleanup | P0 | TODO | v0.1 launch | 8 TS7006 errors in `TrainingChecklist.ts`, `useTour.ts`, `useTourProgress.ts` under strict mode |
+| T-073 | Shepherd.js type coverage — resolve `Cannot find namespace 'Shepherd'` in `Trainer.ts` | P0 | DONE | v0.1 launch | Swapped `import type Shepherd from 'shepherd.js'` for named type imports (`Tour`, `StepOptions`, ...); runtime constructor pulled from the default-export instance. Also swept 3 collateral strict-mode errors surfaced once Shepherd resolved (EventListener + payload casts, `process` guard). `npm run typecheck` / `npm run build` now clean across all 3 workspaces. |
+| T-074 | Vue package: implicit-any + strict cleanup | P0 | VERIFY | v0.1 launch | Cannot reproduce after full `npm install --include-workspace-root --workspaces`. The 8 TS7006 errors surface only when Vue's peer dep is missing; once resolved, `defineComponent` types propagate. Re-verify from a clean clone; if reproducible, the fix is dep-hygiene (or add explicit prop types). |
+| T-075 | Schema tests: `[data-tour="x"]` fixtures fail kebab min-length | P2 | TODO | hardening | `parseTour` rejects single-char selector ids because the shared regex requires ≥ 2 chars. Either the test data should use 2+ chars (`[data-tour="xx"]`) or the schema should allow single-char ids. Test: `schema.test.ts > parseTour > accepts advanceOn with all supported types`. |
+| T-076 | React tests: missing testing-library cleanup between cases | P2 | TODO | hardening | `TrainingChecklist.test.tsx` (3) + `TrainingHint.test.tsx` (1) fail with "Found multiple elements". Vitest is configured with `globals: false`, so `@testing-library/react`'s auto-cleanup is off. Add an `afterEach(cleanup)` to each file, or a shared `tests/setup.ts` wired via `setupFiles`. |
 
 ---
 

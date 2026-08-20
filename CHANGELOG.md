@@ -17,11 +17,19 @@ All notable changes to this project. Format follows [Keep a Changelog](https://k
 
 - **`scripts/validate-content.ts`** — import path was `../src/schema/loader.js`, correct path is `../packages/core/src/schema/loader.js`. Script now runs.
 - **`packages/*/tsconfig.build.json`** — added `rootDir: "src"` to each. Without it, TypeScript emitted `dist/src/index.js` while `package.json exports` pointed at `dist/index.js` — every cross-package import (`@uptiq/training-sdk` from react and vue) failed at test time. All three packages now emit at the paths their `exports` map declares.
+- **T-073 · Shepherd.js type coverage** (`packages/core/src/engine/Trainer.ts`). shepherd.js 14 does not export a `Shepherd` namespace — `Tour`, `StepOptions`, `StepOptionsButton`, `StepOptionsAttachTo`, `Step` are top-level named types. Swapped `import type Shepherd from 'shepherd.js'` for named type imports (aliased to `ShepherdTour`, etc. so they don't collide with our schema `Tour`/`Step` types). Runtime `Tour` constructor is only reachable via the default-export instance (`(await import('shepherd.js')).default.Tour`), even though the `.d.ts` also declares it as a named export — noted inline. Resolves 8 `TS2503` errors; `npm run build` on core now clean.
+- **Collateral strict-mode fixes surfaced by unblocking T-073.**
+  - `Trainer.on()` / `emit()` — cast narrow `EventListener<N>` to broad `EventListener` via `unknown` (TS-suggested pattern) so `noImplicitAny`-strict discriminated-union narrowing passes.
+  - `Trainer.emit()` — cast `event.payload` to `Record<string, unknown>` via `unknown` (some payloads don't structurally satisfy the index signature).
+  - `packages/core/src/schema/personalize.ts` — replaced `typeof process !== 'undefined'` with a `globalThis` cast so the dev-mode guard doesn't require `@types/node` in the file scope.
+  - `packages/{react,vue}/tests/useTour*.test.{ts,tsx}` — same `unknown`-bridged `EventListener` cast in test-harness trainer stubs.
+  - `packages/core/tests/{posthog-adapter,schema}.test.ts` — added `!` on two indexed array accesses (`noUncheckedIndexedAccess`).
 
-### Known hardening blockers (open — see backlog T-073, T-074)
+### Known hardening blockers (open — see backlog T-074, T-075, T-076)
 
-- **T-073 · Shepherd.js type coverage.** `shepherd.js` ships without type declarations. `Trainer.ts` references `Shepherd.Tour` as a namespace type in ~5 places, giving `TS2503: Cannot find namespace 'Shepherd'`. Options: install `@types/shepherd.js` if it exists at the pinned version, pin to a version that ships types, or write local ambient `.d.ts`. Blocks `npm run build` on `@uptiq/training-sdk` (tests still run — vitest transpiles).
-- **T-074 · `packages/vue` implicit-any + strict-mode cleanup.** `TrainingChecklist.ts`, `useTour.ts`, `useTourProgress.ts` have 8 `implicit any` errors under `strict: true`. Add explicit types and the `@uptiq/training-sdk` package.json `exports` are already correct once T-073 is resolved and `dist` builds.
+- **T-074 · `packages/vue` implicit-any + strict-mode cleanup.** *No longer reproducible after a full `npm install --include-workspace-root --workspaces`.* The 8 TS7006 errors surface only when Vue's peer dep is missing from the resolved graph; once Vue resolves, `defineComponent` propagates prop types and the "implicit any" goes away. Marked VERIFY in the backlog — re-run from a clean clone and either close as won't-fix (dep hygiene) or apply explicit prop types if it truly reproduces.
+- **T-075 · Schema fixtures reject single-char selector ids.** `parseTour` rejects `[data-tour="x"]` because the shared kebab regex requires ≥ 2 chars. Test `parseTour > accepts advanceOn with all supported types` fails as a result. Fix either the fixture (`"xx"`) or the schema (allow single-char).
+- **T-076 · React tests: missing testing-library cleanup between cases.** `TrainingChecklist.test.tsx` (3) + `TrainingHint.test.tsx` (1) fail with "Found multiple elements". Vitest is configured with `globals: false`, so `@testing-library/react`'s auto-cleanup does not run. Add an `afterEach(cleanup)` or a shared setup file.
 
 ## [v0.1.0] - YYYY-MM-DD
 
