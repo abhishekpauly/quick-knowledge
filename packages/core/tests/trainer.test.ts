@@ -108,4 +108,62 @@ describe('Trainer', () => {
     await trainer.start('unit-tour');
     expect(calls).toBe(1); // Not incremented after unsubscribe.
   });
+
+  it('getTours returns every registered tour', () => {
+    const trainer = new Trainer({
+      product: 'test-product',
+      tours: [tour(), { ...tour(), id: 'second' }],
+      analytics: memoryAnalytics(),
+      persistence: memoryPersistence(),
+    });
+    const ids = trainer.getTours().map((t) => t.id);
+    expect(ids).toEqual(['unit-tour', 'second']);
+  });
+
+  it('getActiveTourId is null before any start', () => {
+    const trainer = new Trainer({
+      product: 'test-product',
+      tours: [tour()],
+      analytics: memoryAnalytics(),
+      persistence: memoryPersistence(),
+    });
+    expect(trainer.getActiveTourId()).toBeNull();
+  });
+
+  it('dismiss with no active tour is a safe no-op', () => {
+    const trainer = new Trainer({
+      product: 'test-product',
+      tours: [tour()],
+      analytics: memoryAnalytics(),
+      persistence: memoryPersistence(),
+    });
+    expect(() => trainer.dismiss('user-skip')).not.toThrow();
+    expect(trainer.getActiveTourId()).toBeNull();
+  });
+
+  it('dismiss ends the active tour and clears activeTourId', async () => {
+    const analytics = memoryAnalytics();
+    const trainer = new Trainer({
+      product: 'test-product',
+      tours: [tour()],
+      analytics,
+      persistence: memoryPersistence(),
+    });
+    await trainer.start('unit-tour');
+    expect(trainer.getActiveTourId()).toBe('unit-tour');
+    trainer.dismiss('user-skip');
+    expect(trainer.getActiveTourId()).toBeNull();
+    expect(analytics.events.some((e) => e.name === 'tour_dismissed')).toBe(true);
+  });
+
+  it('next / prev on an idle trainer do not throw', () => {
+    const trainer = new Trainer({
+      product: 'test-product',
+      tours: [tour()],
+      analytics: memoryAnalytics(),
+      persistence: memoryPersistence(),
+    });
+    expect(() => trainer.next()).not.toThrow();
+    expect(() => trainer.prev()).not.toThrow();
+  });
 });
