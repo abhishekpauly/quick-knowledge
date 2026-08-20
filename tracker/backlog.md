@@ -104,6 +104,7 @@ Priority: `P0` (blocker) · `P1` (must for MVP) · `P2` (nice-to-have) · `P3` (
 | T-072 | Post-launch retro + v0.5 promotion decision | P1 | TODO | v0.1 launch | `releases/v0.1.0-retro.md` + ROADMAP update |
 | T-073 | Shepherd.js type coverage — resolve `Cannot find namespace 'Shepherd'` in `Trainer.ts` | P0 | DONE | v0.1 launch | Blocks `npm run build` on core. Fix: install types, pin version with types, or write ambient .d.ts |
 | T-074 | Vue package: implicit-any + strict cleanup | P0 | DONE | v0.1 launch | 8 TS7006 errors in `TrainingChecklist.ts`, `useTour.ts`, `useTourProgress.ts` under strict mode |
+| T-075 | Wire GitHub Actions CI (`.github/workflows/ci.yml`) — runs `npm ci && npm run build && npm run ci` on push/PR to main | P0 | DONE | v0.1 launch | Deploy checklist requires "all CI jobs green on main"; previously there were no jobs |
 
 ---
 
