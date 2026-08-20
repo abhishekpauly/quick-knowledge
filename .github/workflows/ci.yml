@@ -27,5 +27,23 @@ jobs:
       - name: Build (workspaces)
         run: npm run build
 
-      - name: Typecheck + lint + test + validate content
+      - name: Typecheck + lint + format:check + test + validate content
         run: npm run ci
+
+      # Informational only. Package vitest configs declare thresholds
+      # (core/react/vue at 80/80/80/75) that are not yet met. See T-078,
+      # T-079, T-080 in tracker/backlog.md. Once those close, drop the
+      # continue-on-error line to make coverage a required gate.
+      - name: Coverage (non-blocking)
+        continue-on-error: true
+        run: npm run test:coverage
+
+      - name: Upload coverage artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-lcov
+          path: |
+            packages/*/coverage/lcov.info
+          if-no-files-found: ignore
+          retention-days: 14

@@ -16,7 +16,8 @@
     "validate:content": "tsx scripts/validate-content.ts content",
     "validate:selectors": "tsx scripts/validate-selectors.ts",
     "ci": "npm run typecheck && npm run lint && npm run format:check && npm run test && npm run validate:content",
-    "format:check": "prettier --check \"packages/*/src/**/*.{ts,tsx,json}\" \"packages/*/tests/**/*.{ts,tsx}\" \"content/**/*.json\" \"scripts/**/*.ts\""
+    "format:check": "prettier --check \"packages/*/src/**/*.{ts,tsx,json}\" \"packages/*/tests/**/*.{ts,tsx}\" \"content/**/*.json\" \"scripts/**/*.ts\"",
+    "test:coverage": "npm run test:coverage --workspaces --if-present"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",

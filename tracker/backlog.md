@@ -107,6 +107,10 @@ Priority: `P0` (blocker) · `P1` (must for MVP) · `P2` (nice-to-have) · `P3` (
 | T-075 | Wire GitHub Actions CI (`.github/workflows/ci.yml`) — runs `npm ci && npm run build && npm run ci` on push/PR to main | P0 | DONE | v0.1 launch | Deploy checklist requires "all CI jobs green on main"; previously there were no jobs |
 | T-076 | Make CI a required status check for `main` in repo Settings → Rules | P1 | TODO | v0.1 launch | User action in GitHub UI; needed for the deploy-checklist "all CI jobs green" gate to actually block merges |
 | T-077 | Wire Dependabot (`.github/dependabot.yml`) — weekly npm + github-actions bumps | P2 | DONE | v0.1 launch | Fulfils compliance-review-request.md promise of automatic CVE alerting |
+| T-078 | Core coverage gap: raise functions from 73.73% → 80% | P2 | TODO | v0.1 launch | Weakest files: `adapters/analytics.ts` (40% funcs), `theme/default.ts` (0%), `engine/Trainer.ts` (55% funcs). CI coverage step is informational until this closes. |
+| T-079 | React coverage gap: `FirstRunTour.tsx` untested (0%) | P2 | TODO | v0.1 launch | Package overall functions 73.07% < 80% threshold. One file drives the miss. |
+| T-080 | Vue coverage gap: 3 files fully untested (`FirstRunTour.ts`, `TrainingChecklist.ts`, `useAllTourProgress.ts` + `useTourProgress.ts`) | P1 | TODO | v0.1 launch | Package lines/statements 34.51%, funcs 52.63%, branches 72.09%. Vue port shipped without test parity to React. Bigger lift; ship before promoting CI coverage step to blocking. |
+| T-081 | Promote CI coverage step from informational to blocking | P2 | TODO | v0.1 launch | Drop `continue-on-error: true` from `.github/workflows/ci.yml` once T-078/T-079/T-080 close. |
 
 ---
 
