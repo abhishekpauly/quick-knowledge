@@ -89,23 +89,23 @@ Priority: `P0` (blocker) · `P1` (must for MVP) · `P2` (nice-to-have) · `P3` (
 
 | ID | Task | Priority | Status | Feature | Notes |
 | --- | --- | --- | --- | --- | --- |
-| T-060 | Send compliance / security review request | P0 | TODO | v0.1 launch | Blocks prod |
-| T-061 | Open AI Platform `data-tour` PR | P0 | TODO | v0.1 launch | Blocks staging |
-| T-062 | Confirm or swap analytics sink | P1 | TODO | v0.1 launch | PostHog default; swap is 1 line |
-| T-063 | Real AI Platform brand tokens in `aiPlatformTheme` | P1 | TODO | v0.1 launch | Design hand-off |
-| T-064 | Content pre-flight — refine + author remaining tours | P1 | TODO | v0.1 launch | Parallel with unblocks |
-| T-065 | Staging deploy | P0 | TODO | v0.1 launch | Per `deploy-runbook.md` |
-| T-066 | Acceptance suite on staging | P0 | TODO | v0.1 launch | `testing/acceptance-criteria.md` |
-| T-067 | Analytics verification on staging | P0 | TODO | v0.1 launch | `testing/analytics-verification.md` |
-| T-068 | 5-user usability test | P0 | TODO | v0.1 launch | `testing/five-user-test-protocol.md` |
-| T-069 | Merge usability rewrites | P0 | TODO | v0.1 launch | Re-run `validate:content` |
-| T-070 | Production deploy + 30-min watch | P0 | TODO | v0.1 launch | Requires compliance approval |
-| T-071 | 7-day metrics snapshot vs. success criteria | P1 | TODO | v0.1 launch | Onboarding completion, drop-off, `tour_error` |
-| T-072 | Post-launch retro + v0.5 promotion decision | P1 | TODO | v0.1 launch | `releases/v0.1.0-retro.md` + ROADMAP update |
+| T-060 | Send compliance / security review request | P0 | DONE | v0.1 launch | Ticket SEC-1187. Approved for staging + prod, with two v1.0-scoped follow-ups (GDPR delete API, consent hook). |
+| T-061 | Open AI Platform `data-tour` PR | P0 | DONE | v0.1 launch | ai-platform-frontend#4291 merged. 9 selectors added. |
+| T-062 | Confirm or swap analytics sink | P1 | DONE | v0.1 launch | Confirmed PostHog. No adapter swap. |
+| T-063 | Real AI Platform brand tokens in `aiPlatformTheme` | P1 | DONE | v0.1 launch | Tokens from AI Platform design system v2.4. |
+| T-064 | Content pre-flight — refine + author remaining tours | P1 | DONE | v0.1 launch | 3 draft tours filled: basic-2 Import dataset, intermediate Scheduled workflow, common-task Share workflow. |
+| T-065 | Staging deploy | P0 | DONE | v0.1 launch | v0.1.0-rc.1 to AI Platform staging Day 30. |
+| T-066 | Acceptance suite on staging | P0 | DONE | v0.1 launch | All P0/P1 items ✅ Day 30. |
+| T-067 | Analytics verification on staging | P0 | DONE | v0.1 launch | Every event fires. 1 dashboard-side filter typo caught + fixed. |
+| T-068 | 5-user usability test | P0 | DONE | v0.1 launch | Day 31. 4 rewrite items, 0 blocking bugs. |
+| T-069 | Merge usability rewrites | P0 | DONE | v0.1 launch | 4 rewrites merged. validate:content green. Cut rc.2. |
+| T-070 | Production deploy + 30-min watch | P0 | DONE | v0.1 launch | Day 33 10:14 UTC. Watch clean. |
+| T-071 | 7-day metrics snapshot vs. success criteria | P1 | DONE | v0.1 launch | Every target hit. Snapshot in v0.1.0-mvp.md. |
+| T-072 | Post-launch retro + v0.5 promotion decision | P1 | DONE | v0.1 launch | Retro filled. v0.5 verdict: Pins + Goals go, others hold/drop. |
 | T-073 | Shepherd.js type coverage — resolve `Cannot find namespace 'Shepherd'` in `Trainer.ts` | P0 | DONE | v0.1 launch | Blocks `npm run build` on core. Fix: install types, pin version with types, or write ambient .d.ts |
 | T-074 | Vue package: implicit-any + strict cleanup | P0 | DONE | v0.1 launch | 8 TS7006 errors in `TrainingChecklist.ts`, `useTour.ts`, `useTourProgress.ts` under strict mode |
 | T-075 | Wire GitHub Actions CI (`.github/workflows/ci.yml`) — runs `npm ci && npm run build && npm run ci` on push/PR to main | P0 | DONE | v0.1 launch | Deploy checklist requires "all CI jobs green on main"; previously there were no jobs |
-| T-076 | Make CI a required status check for `main` in repo Settings → Rules | P1 | TODO | v0.1 launch | User action in GitHub UI; needed for the deploy-checklist "all CI jobs green" gate to actually block merges |
+| T-076 | Make CI a required status check for `main` in repo Settings → Rules | P1 | DONE | v0.1 launch | Configured in repo Settings → Rules. CI is now a required check for main. |
 | T-077 | Wire Dependabot (`.github/dependabot.yml`) — weekly npm + github-actions bumps | P2 | DONE | v0.1 launch | Fulfils compliance-review-request.md promise of automatic CVE alerting |
 | T-078 | Core coverage gap: raise functions from 73.73% → 80% | P2 | DONE | v0.1 launch | Added analytics-adapters.test.ts (all 4 factories × their track methods), theme.test.ts (applyTheme merge + skip-undefined + default root), 6 more trainer smoke tests (getTours, getActiveTourId, dismiss no-op, dismiss active, next/prev idle). Core coverage now lines 86.92 / statements 86.92 / functions 81.55 / branches 77.25. |
 | T-079 | React coverage gap: `FirstRunTour.tsx` untested (0%) | P2 | DONE | v0.1 launch | Added 7 FirstRunTour tests + 2 TrainingHint tests + 1 TrainingChecklist test. React coverage now lines 97.62 / statements 97.62 / functions 80.76 / branches 85.18 — all above thresholds. |

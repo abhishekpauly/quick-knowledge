@@ -40,17 +40,17 @@ export const defaultTheme: Theme = {
 };
 
 /**
- * Placeholder theme for AI Platform. Curriculum + design will refine in Sprint 02.
- * These values are stubs; swap for real brand tokens before shipping.
+ * AI Platform theme — brand tokens from design (received Sprint 07, T-063).
+ * Source: AI Platform design system v2.4, tokens/brand.json.
  */
 export const aiPlatformTheme: Theme = {
-  primary: '#4f46e5', // stub
-  background: '#ffffff',
-  foreground: '#0f172a',
-  border: '#e2e8f0',
-  radius: '10px',
-  shadow: '0 10px 25px rgba(15,23,42,0.12)',
-  fontFamily: '"Inter", system-ui, sans-serif',
+  primary: '#5B4BE1', // uptiq/violet-600
+  background: '#FFFFFF', // uptiq/neutral-0
+  foreground: '#0B1220', // uptiq/neutral-900
+  border: '#E4E7EF', // uptiq/neutral-200
+  radius: '12px', // radius/md
+  shadow: '0 12px 32px rgba(11, 18, 32, 0.14)', // shadow/md
+  fontFamily: '"Inter Variable", "Inter", system-ui, -apple-system, sans-serif',
   fontSize: '14px',
 };
 

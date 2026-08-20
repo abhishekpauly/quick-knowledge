@@ -4,6 +4,12 @@ All notable changes to this project. Format follows [Keep a Changelog](https://k
 
 ## [Unreleased]
 
+_(Sprint 08 additions land here.)_
+
+---
+
+## [v0.1.0] - 2026-08-28
+
 ### Sprint 07 launch-prep additions
 
 - **`releases/ai-platform-theme-handoff.md`** — design hand-off doc: the exact tokens `aiPlatformTheme` needs, a11y contrast checklist, paste-ready response format for design.
@@ -31,12 +37,7 @@ _Landed via two parallel commits (PR #1 and this branch's Sprint 07 pre-flight p
 
 **Result:** `npm run ci` (`typecheck && lint && test && validate:content`) exits 0. 114 tests pass across three packages (89 core / 18 react / 7 vue).
 
-## [v0.1.0] - YYYY-MM-DD
-
-Placeholder — swap in the tag date once T-070 (production deploy) is done.
-Move every entry above this line, verbatim, from `[Unreleased]` into this section.
-
-### Added
+### Added — v0.1.0 body (was under a duplicate header, now consolidated)
 
 **Launch-ready wrap · PostHog wired + status doc**
 - **`posthogAnalytics()`** — concrete PostHog adapter shipped as the default sink. Structural typing on the `PostHogLike` interface keeps our bundle from a hard dependency on `posthog-js` (consumer passes the instance in). Configurable event prefix (default `training.`). Contract-compliant error handling — swallows and warns, never throws.

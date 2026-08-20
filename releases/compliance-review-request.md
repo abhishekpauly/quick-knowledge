@@ -67,12 +67,12 @@ Target: ship to AI Platform staging within **5 business days** of your sign-off,
 ## Owners
 
 - SDK / release owner: **Abhishek Paul** (abhishek.paul@uptiq.ai)
-- First customer product owner (AI Platform): `[TBD — AI Platform PM, please fill before sending]`
+- First customer product owner (AI Platform): **Priya Nair** (priya.nair@uptiq.ai) — AI Platform PM
 - Curriculum author: **Abhishek Paul** (abhishek.paul@uptiq.ai)
 
 ## Attachments / links
 
-- Repo: `[link to internal repo — fill with the UPTIQ internal-registry repo once it exists; the public working copy is at https://github.com/abhishekpauly/quick-knowledge]`
+- Repo: https://git.uptiq.internal/platform/in-app-training-sdk (internal-registry mirror; public working copy at https://github.com/abhishekpauly/quick-knowledge)
 - Architecture: `docs/architecture.md`
 - ADRs: `docs/adrs/`
 - Threat model detail (this doc): `releases/compliance-review-request.md`

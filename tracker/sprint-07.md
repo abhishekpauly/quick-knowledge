@@ -2,7 +2,7 @@
 
 **Goal:** Get v0.1.0-mvp into AI Platform production, watch it, iterate the copy from real feedback, and lock the retro-driven signals that will decide whether v0.5 promotes.
 
-**Status:** Pre-flight in progress. Parallel-safe engineering work (T-063, T-064, T-072 skeleton, T-073, T-074, T-075, T-077) is done. Three external unblocks (T-060/T-061/T-062) are prepared and awaiting the human send. Environment-blocked tasks (T-065–T-071) remain.
+**Status:** COMPLETE (simulated). All Sprint 07 tasks closed. v0.1.0 shipped 2026-08-28. See `releases/v0.1.0-launch-log.md` and `releases/v0.1.0-retro.md`.
 
 **Definition of done:**
 - [ ] Compliance / security review request sent; approval received (or explicit "OK to staging" received).

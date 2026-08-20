@@ -20,15 +20,15 @@ Adds a `data-tour` attribute to each of the following elements. See [tracker/spr
 
 | ID | File / Component | Element |
 | --- | --- | --- |
-| `app-root` | `[TBD]` | Top-level app container. Used for center-placement steps. |
-| `sidebar-projects-link` | `[TBD]` | The "Projects" nav item in the sidebar. |
-| `sidebar-workflows-link` | `[TBD]` | The "Workflows" nav item in the sidebar. |
-| `main-workspace` | `[TBD]` | The main content area. |
-| `create-project-button` | `[TBD]` | The primary CTA to create a new project. |
-| `header-user-menu-trigger` | `[TBD]` | The avatar in the top-right header. |
-| `workflows-new-button` | `[TBD]` | The "+ New workflow" primary CTA. |
-| `workflows-canvas-add-node-button` | `[TBD]` | The "+" button on the workflow canvas. |
-| `workflows-canvas-run-button` | `[TBD]` | The "Run" button on the workflow canvas. |
+| `app-root` | `src/App.tsx` (root `<div>`) | Top-level app container. Used for center-placement steps. |
+| `sidebar-projects-link` | `src/layout/SidebarNav.tsx` (Projects `<NavLink>`) | The "Projects" nav item in the sidebar. |
+| `sidebar-workflows-link` | `src/layout/SidebarNav.tsx` (Workflows `<NavLink>`) | The "Workflows" nav item in the sidebar. |
+| `main-workspace` | `src/layout/MainLayout.tsx` (`<main>` element) | The main content area. |
+| `create-project-button` | `src/pages/ProjectsPage.tsx` (primary CTA button) | The primary CTA to create a new project. |
+| `header-user-menu-trigger` | `src/layout/AppHeader.tsx` (avatar `<button>`) | The avatar in the top-right header. |
+| `workflows-new-button` | `src/pages/WorkflowsPage.tsx` (primary CTA button) | The "+ New workflow" primary CTA. |
+| `workflows-canvas-add-node-button` | `src/pages/WorkflowCanvas.tsx` (canvas `+` FAB) | The "+" button on the workflow canvas. |
+| `workflows-canvas-run-button` | `src/pages/WorkflowCanvas.tsx` (header Run button) | The "Run" button on the workflow canvas. |
 
 ### How to review
 
@@ -68,4 +68,4 @@ If any attribute causes a regression (extremely unlikely — they're plain HTML 
 - One senior frontend engineer for fast-track approval.
 - Curriculum author (informational — so they know when it merges).
 
-/cc `[whoever owns the frontend — fill before opening PR]` **@abhishekpauly** (curriculum author)
+/cc **@ravi-mehta** (AI Platform frontend lead) **@abhishekpauly** (curriculum author)

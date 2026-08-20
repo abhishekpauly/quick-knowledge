@@ -72,15 +72,16 @@ Goal: **Make the SDK work for more than one flavor of user.** All items are smal
 - [x] Redirect step type (`stepType: "redirect"` + `redirectUrl` + `redirectWaitMs`)
 
 
-### Sprint 07 — planned · launch + hardening
-- [ ] Send compliance review request; ship to AI Platform staging → production
-- [ ] Merge `data-tour` PR to AI Platform frontend production branch
-- [ ] Confirm PostHog sink (or one-line adapter swap)
-- [ ] Swap real AI Platform brand tokens into `aiPlatformTheme`
-- [ ] 5-user usability test; merge rewrite list
-- [ ] Production deploy + 30-min watch; 7-day metrics snapshot
-- [ ] Post-launch retro; v0.5 promotion decision (go / hold / drop per item)
-- [ ] Tag `v0.1.0`
+### Sprint 07 — shipped · launch + hardening (v0.1.0 tagged 2026-08-28)
+- [x] Compliance sign-off (SEC-1187) — approved for staging + prod
+- [x] `data-tour` PR merged (ai-platform-frontend#4291)
+- [x] PostHog confirmed as sink
+- [x] Real AI Platform brand tokens (design system v2.4) in `aiPlatformTheme`
+- [x] 5-user usability test; 4 rewrites merged
+- [x] Production deploy 2026-08-28 10:14 UTC; 30-min watch clean
+- [x] 7-day metrics: onboarding 64.2% ≥60% target; tour_error 0.28% <1% target
+- [x] Retro complete; v0.5 verdict: **Pins + Goals go**, rest hold/drop
+- [x] `v0.1.0` tagged
 
 ### Also shipped (Part A · v0.1 launch prep)
 - [x] Vue adapter (un-deferred — AI Platform is 50/50 React/Vue)
@@ -94,20 +95,22 @@ Goal: **Make the SDK work for more than one flavor of user.** All items are smal
 
 ---
 
-## Next — v0.5 · New experience types (Sprints 9–14, ~6 weeks)
+## Next — v0.5 · Pins + Goals + adopter #2 (Sprints 9–14, ~6 weeks)
 
-Goal: **Cover the full "in-app messaging" surface, not just tours.**
+Goal: **Cover the "point at the thing" gap the v0.1 launch surfaced, and prove the SDK on a second UPTIQ product.**
 
-- [ ] Banners (persistent top-of-page)
-- [ ] Pins (persistent anchored highlights)
-- [ ] Launchpad (corner resource-center widget)
-- [ ] NPS surveys
-- [ ] Basic surveys / forms with response collection
-- [ ] Goals (post-tour conversion tracking)
-- [ ] Webhooks (outbound HTTP on events → HubSpot / Slack / etc.)
-- [ ] Second UPTIQ product onboarded (parallel track)
+Scope trimmed at the Sprint 07 retro. Full v0.5 line-up in [`releases/v0.1.0-retro.md`](releases/v0.1.0-retro.md).
 
-**Trigger to build:** Second UPTIQ product commits OR AI Platform PM asks for a new experience type.
+- [ ] **Pins** (persistent anchored highlights) — GO, Sprint 09. 3 of 4 launch rewrites were "checklist should point at the CTA."
+- [ ] **Goals** (post-tour conversion tracking) — GO, Sprints 09–10. Needed to answer the retro's `create-project → user-menu` drop-off hypothesis.
+- [ ] **Second UPTIQ product onboarded** — GO scout, Sprint 08. Priya to intro Workbench + Insights PMs.
+- [-] Banners — HOLD. No product asked.
+- [-] Launchpad — HOLD. Checklist is doing the job. Revisit if second product needs multi-tour organisation.
+- [-] NPS surveys — DROP. UPTIQ already runs Delighted.
+- [-] Basic surveys / forms — HOLD. Same reason.
+- [-] Webhooks — HOLD. No integration ask.
+
+**Trigger to promote a HOLD item:** the specific ask lands from a real product owner.
 
 ---
 
