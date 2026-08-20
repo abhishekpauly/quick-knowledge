@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "v1",
+  "id": "ai-platform-onboarding",
+  "product": "ai-platform",
+  "title": "Welcome to the AI Platform",
+  "description": "A four-minute tour of the essentials. Skippable anytime.",
+  "difficulty": "onboarding",
+  "estimatedMinutes": 4,
+  "triggers": [
+    { "type": "first-run" }
+  ],
+  "prerequisites": [],
+  "steps": [
+    {
+      "id": "welcome",
+      "target": "[data-tour=\"app-root\"]",
+      "placement": "center",
+      "title": "Welcome",
+      "body": "This is a four-minute walkthrough of the essentials. You can skip anytime with the X button. Ready?",
+      "advanceOn": null,
+      "notes": "Author-only: keep this warm and short. First impression."
+    },
+    {
+      "id": "sidebar-projects",
+      "target": "[data-tour=\"sidebar-projects-link\"]",
+      "placement": "right",
+      "title": "Projects live here",
+      "body": "Every AI workload starts as a **project**. Think of it as a container for your models, data, and workflows.",
+      "advanceOn": null
+    },
+    {
+      "id": "workspace-main",
+      "target": "[data-tour=\"main-workspace\"]",
+      "placement": "top",
+      "title": "Your workspace",
+      "body": "This is where the work happens — build, run, and iterate. Everything you do lands here.",
+      "advanceOn": null
+    },
+    {
+      "id": "create-project",
+      "target": "[data-tour=\"create-project-button\"]",
+      "placement": "bottom",
+      "title": "Create your first project",
+      "body": "Click here to spin up a new project. You'll see the flow for adding models and data.",
+      "advanceOn": { "type": "click", "target": "[data-tour=\"create-project-button\"]" },
+      "notes": "Advance-on click so the tour follows the user's own action."
+    },
+    {
+      "id": "user-menu",
+      "target": "[data-tour=\"header-user-menu-trigger\"]",
+      "placement": "left",
+      "title": "Settings and account",
+      "body": "Your account, workspace settings, and billing all live under your avatar in the corner.",
+      "advanceOn": null
+    },
+    {
+      "id": "ready",
+      "target": "[data-tour=\"app-root\"]",
+      "placement": "center",
+      "title": "You're ready",
+      "body": "That's the tour. Explore anything from the checklist in the bottom-right whenever you want a walkthrough.",
+      "advanceOn": null,
+      "actions": {
+        "primary": { "label": "Start using it", "action": "complete" }
+      }
+    }
+  ]
+}

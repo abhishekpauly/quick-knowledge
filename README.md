@@ -1,0 +1,111 @@
+# In-App Training SDK
+
+An in-house in-app product training system. First customer: **UPTIQ AI Platform**. Designed as a reusable SDK so other UPTIQ products can adopt it without a rewrite.
+
+**Owner:** Technical Curriculum Developer + Claude AI Engineer
+**Status:** Sprint 03 complete — reusability layer shipped. On track for `v0.1.0-mvp` at end of Sprint 04.
+**Repository layout:** monorepo with npm workspaces.
+
+---
+
+## Packages
+
+| Package | Location | Purpose |
+| --- | --- | --- |
+| `@uptiq/training-sdk` | `packages/core/` | Framework-agnostic engine, content schema, adapters, theme. |
+| `@uptiq/training-sdk-react` | `packages/react/` | React adapter — `<TourProvider>`, `useTour`, `useTourProgress`, `<FirstRunTour>`. |
+| `@uptiq/training-sdk-vue` | (deferred) | Vue adapter, added when a Vue product commits. |
+
+## Repo layout
+
+```
+in-app-training-sdk/
+├── README.md, ROADMAP.md, CHANGELOG.md, CONTRIBUTING.md
+├── package.json                 npm workspaces root
+├── tsconfig.base.json           shared compiler options
+├── tsconfig.json                references to workspace packages
+├── vite.config.ts               demo dev server (packages/*/src via aliases)
+├── packages/
+│   ├── core/                    @uptiq/training-sdk
+│   │   ├── package.json, tsconfig.json, tsconfig.build.json, vitest.config.ts
+│   │   ├── src/
+│   │   │   ├── index.ts         Public API
+│   │   │   ├── engine/          Trainer, event types, public types
+│   │   │   ├── schema/          Zod v1 schema, loader
+│   │   │   ├── adapters/        Analytics + persistence interfaces + impls
+│   │   │   └── theme/           CSS variables, default + AI Platform themes
+│   │   └── tests/               Vitest suites (schema, persistence, trainer)
+│   └── react/                   @uptiq/training-sdk-react
+│       ├── package.json, tsconfig.json, tsconfig.build.json, vitest.config.ts
+│       ├── src/                 TrainerContext, TourProvider, hooks, FirstRunTour
+│       └── tests/               React Testing Library
+├── content/                     Tour JSON authored by curriculum team
+│   ├── _template.tour.json
+│   └── ai-platform/             Product-scoped folder
+├── docs/
+│   ├── architecture.md
+│   ├── content-schema.md
+│   ├── data-tour-conventions.md
+│   ├── how-to-author-a-tour.md  For curriculum authors
+│   ├── how-to-integrate.md      For host product teams
+│   ├── analytics-adapters.md    Concrete recipes for PostHog / Amplitude / etc.
+│   └── adrs/                    4 ADRs + template
+├── features/                    15 feature specs + template
+├── tracker/                     Backlog + sprint plans + selector proposal
+├── testing/                     Test strategy + acceptance criteria
+├── releases/                    Deploy checklist, rollback runbook, v0.1.0 plan
+├── product/                     Stakeholder-facing docs (overview, use cases, ROI)
+├── demo/                        Runnable demo (npm run dev)
+└── scripts/                     validate-content.ts, validate-selectors.ts
+```
+
+## Start here
+
+Pick your entry point based on why you're here:
+
+- **Non-technical / stakeholder / evaluating adoption** → `product/README.md` (overview, use cases, ROI).
+- **Adopting the SDK in a product (engineer)** → `docs/how-to-integrate.md`.
+- **Writing tour content (curriculum author)** → `docs/how-to-author-a-tour.md`.
+- **Building on the SDK / contributing** → `docs/architecture.md`, then `tracker/backlog.md` for current work.
+- **Planning the roadmap** → `ROADMAP.md`.
+
+## Common commands
+
+From the repo root:
+
+```bash
+npm install                      # install all workspaces
+npm run dev                      # live demo at localhost:5173
+npm test                         # test all packages
+npm run build                    # build all packages
+npm run typecheck                # typecheck all packages
+npm run lint
+npm run format
+npm run validate:content         # Zod-validate all tour JSON
+npm run validate:selectors -- --content ./content --host ../ai-platform-frontend/src
+npm run ci                       # typecheck + lint + test + validate:content
+```
+
+Per-package:
+
+```bash
+npm test --workspace @uptiq/training-sdk
+npm run build --workspace @uptiq/training-sdk-react
+```
+
+## Definitions
+
+- **Engine** — framework-agnostic TypeScript core, built on top of Shepherd.js.
+- **Content** — tours authored as JSON, validated by a Zod schema.
+- **Adapter** — thin per-framework binding (React first, Vue deferred).
+- **`data-tour` contract** — every element a tour can target has a stable `data-tour="..."` attribute. Selectors are validated in CI.
+- **Product** — a UPTIQ product that installs this SDK. First is AI Platform.
+
+## Versioning
+
+Semantic versioning per package. Content schema versioned independently (`schemaVersion: "v1"` in every tour) so we can support v1 and v2 in parallel during migrations.
+
+## Related
+
+- Plan of record (living doc): see the "In-App Training" Claude project.
+- Governance for cross-product feature requests: see `CONTRIBUTING.md`.

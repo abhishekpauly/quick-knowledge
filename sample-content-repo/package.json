@@ -1,0 +1,21 @@
+{
+  "name": "@uptiq/ai-platform-training-content",
+  "version": "0.1.0",
+  "description": "Tour and hint content for the UPTIQ AI Platform. Consumed by @uptiq/training-sdk at runtime.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "validate": "tsx ../scripts/validate-content.ts tours",
+    "validate:selectors": "tsx ../scripts/validate-selectors.ts --content tours",
+    "ci": "npm run validate && npm run validate:selectors"
+  },
+  "peerDependencies": {
+    "@uptiq/training-sdk": "*"
+  },
+  "devDependencies": {
+    "@uptiq/training-sdk": "*",
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0"
+  }
+}

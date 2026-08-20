@@ -1,0 +1,35 @@
+{
+  "name": "@uptiq/training-sdk-vue",
+  "version": "0.0.1",
+  "description": "Vue 3 adapter for @uptiq/training-sdk. Provider + composables + components.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "README.md", "CHANGELOG.md"],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "peerDependencies": {
+    "@uptiq/training-sdk": "*",
+    "vue": ">=3.3.0"
+  },
+  "devDependencies": {
+    "@uptiq/training-sdk": "*",
+    "@vitest/coverage-v8": "^1.4.0",
+    "@vue/test-utils": "^2.4.0",
+    "jsdom": "^24.0.0",
+    "vitest": "^1.4.0",
+    "vue": "^3.4.0"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "v1",
+  "id": "ai-platform-workflows-create-project",
+  "product": "ai-platform",
+  "title": "Create your first workflow",
+  "description": "Walk through creating a workflow from scratch — connect a data source, pick a model, and run it.",
+  "difficulty": "basic",
+  "estimatedMinutes": 3,
+  "triggers": [
+    { "type": "manual" }
+  ],
+  "prerequisites": ["ai-platform-onboarding"],
+  "steps": [
+    {
+      "id": "open-workflows",
+      "target": "[data-tour=\"sidebar-workflows-link\"]",
+      "placement": "right",
+      "title": "Workflows tab",
+      "body": "Workflows are the automated pipelines you build here. Click into it.",
+      "advanceOn": { "type": "click", "target": "[data-tour=\"sidebar-workflows-link\"]" }
+    },
+    {
+      "id": "new-workflow",
+      "target": "[data-tour=\"workflows-new-button\"]",
+      "placement": "bottom",
+      "title": "New workflow",
+      "body": "Click here to start a blank workflow. You'll get an empty canvas to build on.",
+      "advanceOn": { "type": "click", "target": "[data-tour=\"workflows-new-button\"]" }
+    },
+    {
+      "id": "add-first-node",
+      "target": "[data-tour=\"workflows-canvas-add-node-button\"]",
+      "placement": "right",
+      "title": "Add your first node",
+      "body": "Every workflow is a chain of nodes. The first node is usually a data source or an input.",
+      "advanceOn": { "type": "click", "target": "[data-tour=\"workflows-canvas-add-node-button\"]" }
+    },
+    {
+      "id": "run-workflow",
+      "target": "[data-tour=\"workflows-canvas-run-button\"]",
+      "placement": "left",
+      "title": "Run it",
+      "body": "When you're ready, hit Run. You can inspect outputs at each step in the results panel.",
+      "advanceOn": null,
+      "actions": {
+        "primary": { "label": "Got it", "action": "complete" }
+      }
+    }
+  ]
+}

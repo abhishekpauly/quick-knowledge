@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "v1",
+  "id": "product-tour-id",
+  "product": "ai-platform",
+  "title": "Human-readable tour title",
+  "description": "One-line description shown in checklists.",
+  "difficulty": "basic",
+  "estimatedMinutes": 3,
+  "triggers": [
+    { "type": "manual" }
+  ],
+  "prerequisites": [],
+  "steps": [
+    {
+      "id": "step-1",
+      "target": "[data-tour=\"TODO_MISSING_SELECTOR\"]",
+      "placement": "bottom",
+      "title": "Step title",
+      "body": "One or two sentences. Markdown supported.",
+      "media": null,
+      "advanceOn": null
+    }
+  ]
+}

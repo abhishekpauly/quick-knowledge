@@ -1,0 +1,6 @@
+CI + tooling scripts land here.
+
+Planned:
+  scripts/
+    validate-content.ts      Zod check on all tour JSON (Sprint 02)
+    validate-selectors.ts    Grep host codebase for data-tour IDs (Sprint 03)

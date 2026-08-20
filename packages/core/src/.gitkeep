@@ -1,0 +1,13 @@
+SDK source lands here in Sprint 01.
+
+Planned structure:
+  src/
+    engine/          Trainer class, event bus, lifecycle
+    schema/v1.ts     Zod content schema (Sprint 02)
+    adapters/
+      analytics/     Interface + console impl
+      persistence/   Interface + localStorage impl
+    theme/           CSS variables, default theme
+    index.ts         Public exports
+
+See docs/architecture.md for the public API sketch.
