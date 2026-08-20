@@ -1,0 +1,176 @@
+{
+  "generatedFrom": "packages/core/src/engine/events.ts",
+  "events": [
+    {
+      "name": "tour_started",
+      "payload": "TourStartedPayload",
+      "fields": [
+        {
+          "name": "tourId",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "product",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "triggerSource",
+          "type": "'manual' | 'first-run' | 'url' | 'event'",
+          "optional": false
+        },
+        {
+          "name": "timestamp",
+          "type": "string",
+          "optional": false
+        }
+      ]
+    },
+    {
+      "name": "step_viewed",
+      "payload": "StepViewedPayload",
+      "fields": [
+        {
+          "name": "tourId",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "stepId",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "stepIndex",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "totalSteps",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "timestamp",
+          "type": "string",
+          "optional": false
+        }
+      ]
+    },
+    {
+      "name": "step_completed",
+      "payload": "StepCompletedPayload",
+      "fields": [
+        {
+          "name": "tourId",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "stepId",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "stepIndex",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "durationMs",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "timestamp",
+          "type": "string",
+          "optional": false
+        }
+      ]
+    },
+    {
+      "name": "tour_completed",
+      "payload": "TourCompletedPayload",
+      "fields": [
+        {
+          "name": "tourId",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "totalSteps",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "durationMs",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "timestamp",
+          "type": "string",
+          "optional": false
+        }
+      ]
+    },
+    {
+      "name": "tour_dismissed",
+      "payload": "TourDismissedPayload",
+      "fields": [
+        {
+          "name": "tourId",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "stepId",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "stepIndex",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "timestamp",
+          "type": "string",
+          "optional": false
+        }
+      ]
+    },
+    {
+      "name": "tour_error",
+      "payload": "TourErrorPayload",
+      "fields": [
+        {
+          "name": "tourId",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "stepId",
+          "type": "string",
+          "optional": true
+        },
+        {
+          "name": "reason",
+          "type": "'target-not-found' | 'timeout' | 'unknown'",
+          "optional": false
+        },
+        {
+          "name": "message",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "timestamp",
+          "type": "string",
+          "optional": false
+        }
+      ]
+    }
+  ]
+}
