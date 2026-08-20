@@ -105,6 +105,8 @@ Priority: `P0` (blocker) · `P1` (must for MVP) · `P2` (nice-to-have) · `P3` (
 | T-073 | Shepherd.js type coverage — resolve `Cannot find namespace 'Shepherd'` in `Trainer.ts` | P0 | DONE | v0.1 launch | Blocks `npm run build` on core. Fix: install types, pin version with types, or write ambient .d.ts |
 | T-074 | Vue package: implicit-any + strict cleanup | P0 | DONE | v0.1 launch | 8 TS7006 errors in `TrainingChecklist.ts`, `useTour.ts`, `useTourProgress.ts` under strict mode |
 | T-075 | Wire GitHub Actions CI (`.github/workflows/ci.yml`) — runs `npm ci && npm run build && npm run ci` on push/PR to main | P0 | DONE | v0.1 launch | Deploy checklist requires "all CI jobs green on main"; previously there were no jobs |
+| T-076 | Make CI a required status check for `main` in repo Settings → Rules | P1 | TODO | v0.1 launch | User action in GitHub UI; needed for the deploy-checklist "all CI jobs green" gate to actually block merges |
+| T-077 | Wire Dependabot (`.github/dependabot.yml`) — weekly npm + github-actions bumps | P2 | DONE | v0.1 launch | Fulfils compliance-review-request.md promise of automatic CVE alerting |
 
 ---
 
