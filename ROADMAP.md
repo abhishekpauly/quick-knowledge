@@ -166,14 +166,22 @@ Kickoff pinned in [`product/v1.0-kickoff.md`](product/v1.0-kickoff.md). Sprint 1
 - [x] Adopter Product C `data-tour` PR merged (reports-frontend#812) (T-240)
 - [x] Tag: `v1.0.0-api-preview` (T-241)
 
-### Sprint 17 — planned · SDK-side `RemoteContentSource` + Adopter C onboarding
-- [ ] `zod-to-openapi` refactor + regenerated spec (T-250)
-- [ ] `RemoteContentSource` in `@in-app-training/sdk` per ADR-0008 (T-251)
-- [ ] 2 new events → dictionary 11 → 13 (T-252)
-- [ ] Persistence contract addition for ETag + last-known-good bundle (T-253)
-- [ ] `wiring-content-api.md` SDK section (T-254)
-- [ ] Adopter Product C onboarded on the new API path — first hot-update user (T-255)
-- [ ] Tag: `v1.0.0-api` (drop `-preview`) (T-256)
+### Sprint 17 — shipped · SDK-side `RemoteContentSource` + Adopter C onboarding (`v1.0.0-api`)
+- [-] `zod-to-openapi` refactor — DEFERRED, re-filed as T-261 for Sprint 18 (T-250)
+- [x] `RemoteContentSource` in `@in-app-training/sdk` per ADR-0008 (T-251)
+- [x] 2 new events → dictionary 11 → 13 (T-252)
+- [x] Persistence contract addition for ETag + last-known-good bundle — no interface change (T-253)
+- [x] `wiring-content-api.md` SDK section (T-254)
+- [x] Adopter Product C onboarded on the new API path — first hot-update user (T-255)
+- [x] Tag: `v1.0.0-api` (drop `-preview`) (T-256)
+
+### Sprint 18 — planned · reactive Trainer swap + persistent store + cross-product prep
+- [ ] Reactive `Trainer.replaceTours()` on `content_bundle_updated` (T-260)
+- [ ] `zod-to-openapi` refactor (T-261, re-filed from T-250)
+- [ ] Pins-only bundle path for Reports (T-262)
+- [ ] Persistent `ContentStore` selection (T-263)
+- [ ] Adopter Product C production cutover (T-264)
+- [ ] Cross-product analytics — Retool/Metabase choice + first page skeleton (T-265)
 
 ### v1.0 line-up (Sprints 15–20)
 
@@ -221,6 +229,7 @@ The four explicit non-goals from `product/vs-appcues.md`. Do NOT reopen without 
 
 ## Revision log
 
+- 2026-08-21 · Sprint 17 shipped `v1.0.0-api`. `RemoteContentSource` in the SDK per ADR-0008, event dictionary 11 → 13, Adopter Product C onboarded on the API path (first hot-update user). `zod-to-openapi` deferred to Sprint 18.
 - 2026-08-21 · Sprint 16 shipped `v1.0.0-api-preview`. Two new packages (`api-server`, `api-client`) + ADR-0008 (Content-served-from-API) accepted. Adopter Product C `data-tour` PR merged.
 - 2026-08-21 · Sprint 15 opens v1.0. ADR-0007 (Public REST API) accepted. Third adopter (Reports, React) targeted for Sprint 17. v0.2 tier heading corrected from "Now" to "Shipped"; v0.5 tier scope bullets flipped to `[x]`.
 - 2026-08-20 · Roadmap restructured after Appcues comparison. Explicit non-goals codified per direction. Sprints 1–4 marked done; v0.2 / v0.5 / v1.0 tiers added per `product/roadmap-to-parity.md`.

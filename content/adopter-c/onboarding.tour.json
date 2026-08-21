@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "v1",
+  "id": "adopter-c-report-builder",
+  "product": "adopter-c",
+  "title": "Build your first report",
+  "description": "A four-minute tour of the Reports canvas. Skippable anytime.",
+  "difficulty": "onboarding",
+  "estimatedMinutes": 4,
+  "triggers": [{ "type": "first-run" }],
+  "prerequisites": [],
+  "goal": {
+    "event": "adopterc.report_published",
+    "windowMinutes": 10
+  },
+  "steps": [
+    {
+      "id": "welcome",
+      "target": "[data-tour=\"reports-canvas\"]",
+      "placement": "center",
+      "title": "Welcome to Reports",
+      "body": "Reports lets you compose data-driven views without a BI license. Four minutes to see the essentials."
+    },
+    {
+      "id": "add-source",
+      "target": "[data-tour=\"reports-add-source\"]",
+      "placement": "bottom",
+      "title": "Point the report at a data source",
+      "body": "Pick any source you have access to. Most first reports start with a saved query.",
+      "advanceOn": { "type": "click", "target": "[data-tour=\"reports-add-source\"]" }
+    },
+    {
+      "id": "add-block",
+      "target": "[data-tour=\"reports-add-block\"]",
+      "placement": "right",
+      "title": "Drop in a block",
+      "body": "Table, chart, or metric — every block is bound to the source you picked above."
+    },
+    {
+      "id": "preview",
+      "target": "[data-tour=\"reports-preview\"]",
+      "placement": "left",
+      "title": "Preview before you publish",
+      "body": "Preview renders exactly what your viewers will see. Iterate freely — nothing is public yet."
+    },
+    {
+      "id": "publish",
+      "target": "[data-tour=\"reports-publish\"]",
+      "placement": "bottom",
+      "title": "Ship it",
+      "body": "Publish makes the report visible to the audience you pick. You can unpublish anytime.",
+      "actions": {
+        "primary": { "label": "Publish my first report", "action": "complete" }
+      }
+    }
+  ]
+}

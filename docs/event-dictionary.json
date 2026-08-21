@@ -286,6 +286,63 @@
           "optional": false
         }
       ]
+    },
+    {
+      "name": "content_bundle_updated",
+      "payload": "ContentBundleUpdatedPayload",
+      "fields": [
+        {
+          "name": "product",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "version",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "etag",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "prevEtag",
+          "type": "string",
+          "optional": true
+        },
+        {
+          "name": "timestamp",
+          "type": "string",
+          "optional": false
+        }
+      ]
+    },
+    {
+      "name": "content_bundle_update_failed",
+      "payload": "ContentBundleUpdateFailedPayload",
+      "fields": [
+        {
+          "name": "product",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "reason",
+          "type": "'network' | 'validation' | 'schema-version-mismatch' | 'timeout'",
+          "optional": false
+        },
+        {
+          "name": "message",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "timestamp",
+          "type": "string",
+          "optional": false
+        }
+      ]
     }
   ]
 }
