@@ -175,6 +175,32 @@ Priority: `P0` (blocker) · `P1` (must for MVP) · `P2` (nice-to-have) · `P3` (
 
 
 
+## Sprint 15 — Days 85–91 · v1.0 kickoff — REST API design + third-adopter scouting
+
+| ID | Task | Priority | Status | Feature | Notes |
+| --- | --- | --- | --- | --- | --- |
+| T-220 | ADR-0007 · Public REST API surface | P0 | DONE | v1.0 | `docs/adrs/ADR-0007-public-rest-api.md` |
+| T-221 | ADR-0007 InfoSec review pass | P0 | DONE | v1.0 | Split admin token → `content:write` + `users:forget`; audit-log on forget. |
+| T-222 | v1.0 kickoff doc | P0 | DONE | v1.0 | `product/v1.0-kickoff.md` mirrors v0.5-kickoff shape. |
+| T-223 | Third-adopter scouting | P1 | DONE | v1.0 | Adopter Product C (Reports, React) → GO for Sprint 17. |
+| T-224 | Content-served-from-API problem statement | P1 | DONE | v1.0 | Feeds ADR-0008 in Sprint 16. |
+| T-225 | Backlog refresh — S15/S16 rows + trim closed open-questions | P1 | DONE | — | This block + Sprint 16 block below. |
+| T-226 | ROADMAP tidy — stale "Now — v0.2" heading + v0.5 scope bullets | P2 | DONE | — | See ROADMAP revision log 2026-08-21. |
+
+## Sprint 16 (planned) — Days 92–98 · REST API first endpoints + ADR-0008
+
+| ID | Task | Priority | Status | Feature | Notes |
+| --- | --- | --- | --- | --- | --- |
+| T-230 | ADR-0008 · Content-served-from-API — SDK integration + cache policy | P0 | TODO | v1.0 | Answers the 4 open questions from Sprint 15 T-224. |
+| T-231 | `@in-app-training/api-server` Fastify reference impl skeleton | P0 | TODO | v1.0 | Package scaffold + `GET /content/:product` only. |
+| T-232 | `GET /content/:product` with ETag + `If-None-Match` handling | P0 | TODO | v1.0 | Serves from an in-memory store for the preview. |
+| T-233 | `@in-app-training/api-client` typed fetch client | P0 | TODO | v1.0 | Generated types from Zod via `zod-to-openapi`. |
+| T-234 | OpenAPI spec generation + `/openapi.json` route | P1 | TODO | v1.0 | Same Zod schemas as the SDK; no duplication. |
+| T-235 | Docs — `docs/wiring-content-api.md` first cut | P1 | TODO | v1.0 | Adopter onboarding steps. |
+| T-236 | Test suite — server route tests + client contract tests | P0 | TODO | v1.0 | Both packages, matching existing coverage thresholds. |
+| T-240 | Adopter Product C `data-tour` PR intake + review | P0 | TODO | v1.0 | Committed in Sprint 15 T-223; targets Sprint 17 onboarding. |
+| T-241 | `v1.0.0-api-preview` tag + launch log | P1 | TODO | v1.0 | First code tag of the v1.0 tier. |
+
 ## Sprint 11 carry-overs from Sprint 10 retro
 
 | ID | Task | Priority | Status | Feature | Notes |

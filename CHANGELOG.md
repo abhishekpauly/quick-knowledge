@@ -4,6 +4,15 @@ All notable changes to this project. Format follows [Keep a Changelog](https://k
 
 ## [Unreleased]
 
+### Sprint 15 — v1.0 kickoff (design only, no tag)
+
+- **T-220** · ADR-0007 (Public REST API surface) accepted. Bearer-token auth with three scopes (`content:read`, `content:write`, `users:forget`), RFC 7807 error shape, path-versioned at `/training/v1`. Schema stays single-source-of-truth via `@in-app-training/sdk/schema`.
+- **T-221** · InfoSec review split the original admin token into `content:write` + `users:forget` and added an audit-log requirement on the delete endpoint.
+- **T-222** · `product/v1.0-kickoff.md` pins the tier scope. Non-goals from Sprint 14 T-211 restated so the debate doesn't recur inside sprints.
+- **T-223** · Third-adopter GO signal: Adopter Product C (Reports, React). Targets Sprint 17 onboarding; `data-tour` PR committed for Sprint 16 close.
+- **T-224** · Content-served-from-API problem statement captured — 4 open questions feed ADR-0008 in Sprint 16.
+- **T-225 / T-226** · Backlog refreshed with Sprint 15/16 rows. ROADMAP `## Now — v0.2` heading corrected to `## Shipped — v0.2` (stale since Sprint 14 T-212 flipped v0.5); v0.5 tier scope bullets flipped `[ ] → [x]`; new `## Now — v1.0` block added above the v1.0 tier so current focus is unambiguous.
+
 ### v0.5.0 (stable) — tier close-out (Sprints 9–14)
 
 - **Sprints 9–14 shipped together as `v0.5.0`.** See per-sprint blocks below.

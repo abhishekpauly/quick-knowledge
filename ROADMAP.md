@@ -51,7 +51,7 @@ Goal: **Live in the example app production. Five real tours. Measurable completi
 
 ---
 
-## Now — v0.2 · Targeting + polish (Sprints 5–8, ~4 weeks)
+## Shipped — v0.2 · Targeting + polish (Sprints 5–8)
 
 Goal: **Make the SDK work for more than one flavor of user.** All items are small (~1 sprint or less).
 
@@ -109,9 +109,9 @@ Goal: **Cover the "point at the thing" gap the v0.1 launch surfaced, and prove t
 
 Scope trimmed at the Sprint 07 retro. Full v0.5 line-up in [`releases/v0.1.0-retro.md`](releases/v0.1.0-retro.md).
 
-- [ ] **Pins** (persistent anchored highlights) — GO, Sprint 09. 3 of 4 launch rewrites were "checklist should point at the CTA."
-- [ ] **Goals** (post-tour conversion tracking) — GO, Sprints 09–10. Needed to answer the retro's `create-project → user-menu` drop-off hypothesis.
-- [ ] **Second host product onboarded** — GO scout, Sprint 08. [Product PM] to intro Adopter Product A + Adopter B PMs.
+- [x] **Pins** (persistent anchored highlights) — SHIPPED Sprint 09. 3 of 4 launch rewrites were "checklist should point at the CTA."
+- [x] **Goals** (post-tour conversion tracking) — SHIPPED Sprint 10. Answered the retro's `create-project → user-menu` drop-off (63.1% goal-reach → measurement artefact, not a real drop-off).
+- [x] **Second host product onboarded** — SHIPPED. Adopter Product A (Sprint 11, React) + Adopter Product B (Sprint 13, Vue). Exceeded target of one.
 - [-] Banners — HOLD. No product asked.
 - [-] Launchpad — HOLD. Checklist is doing the job. Revisit if second product needs multi-tour organisation.
 - [-] NPS surveys — DROP. already runs Delighted.
@@ -142,9 +142,29 @@ Scope trimmed at the Sprint 07 retro. Full v0.5 line-up in [`releases/v0.1.0-ret
 
 ---
 
-## Later — v1.0 · Enterprise readiness (Sprints 15–20, ~6 weeks)
+## Now — v1.0 · Enterprise readiness (Sprints 15–20, ~6 weeks)
 
 Goal: **Mature, boring, safe. Ready for any host product to adopt.**
+
+Kickoff pinned in [`product/v1.0-kickoff.md`](product/v1.0-kickoff.md). Sprint 15 opened the tier with ADR-0007 (Public REST API) accepted and Adopter Product C (Reports, React) targeted for Sprint 17.
+
+### Sprint 15 — shipped · v1.0 kickoff (design only, no code tag)
+- [x] ADR-0007 · Public REST API surface (T-220) — accepted after InfoSec review
+- [x] ADR-0007 InfoSec review — split admin token into `content:write` + `users:forget` (T-221)
+- [x] `product/v1.0-kickoff.md` — tier scope pinned (T-222)
+- [x] Third-adopter scouting — Adopter Product C GO for Sprint 17 (T-223)
+- [x] Content-served-from-API problem statement — feeds ADR-0008 (T-224)
+- [x] Backlog + ROADMAP tidy (T-225, T-226)
+
+### Sprint 16 — planned · REST API first endpoints + ADR-0008
+- [ ] ADR-0008 · Content-served-from-API (T-230)
+- [ ] `@in-app-training/api-server` skeleton + `GET /content/:product` with ETag (T-231, T-232)
+- [ ] `@in-app-training/api-client` typed fetch client (T-233)
+- [ ] OpenAPI spec generation (T-234)
+- [ ] Adopter Product C `data-tour` PR intake (T-240)
+- [ ] Tag: `v1.0.0-api-preview` (T-241)
+
+### v1.0 line-up (Sprints 15–20)
 
 - [ ] Embeds (inline in-product content blocks)
 - [ ] A/B testing / control experiments
@@ -190,5 +210,6 @@ The four explicit non-goals from `product/vs-appcues.md`. Do NOT reopen without 
 
 ## Revision log
 
+- 2026-08-21 · Sprint 15 opens v1.0. ADR-0007 (Public REST API) accepted. Third adopter (Reports, React) targeted for Sprint 17. v0.2 tier heading corrected from "Now" to "Shipped"; v0.5 tier scope bullets flipped to `[x]`.
 - 2026-08-20 · Roadmap restructured after Appcues comparison. Explicit non-goals codified per direction. Sprints 1–4 marked done; v0.2 / v0.5 / v1.0 tiers added per `product/roadmap-to-parity.md`.
 - 2026-08-20 · Initial roadmap created.
