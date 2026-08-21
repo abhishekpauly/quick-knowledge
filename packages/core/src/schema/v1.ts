@@ -157,6 +157,50 @@ export const TourSchema = z.object({
   steps: z.array(StepSchema).min(1, 'A tour must have at least one step'),
 });
 
+/**
+ * Sprint 09 (T-110) · Pin schema.
+ *
+ * A Pin is a persistent anchored highlight on a `data-tour` target. Same
+ * targeting contract as a tour step; own visibility rules (audience,
+ * showUntil, dismissible).
+ *
+ * A pins file (`*.pins.json`) is a `{ schemaVersion, product, pins: [...] }`
+ * envelope so a single product can ship one file with many pins the same way
+ * it ships tours.
+ *
+ * Additive: existing tour content continues to validate; nothing here
+ * changes tour behaviour.
+ */
+export const PinSchema = z.object({
+  id: z
+    .string()
+    .regex(/^[a-z0-9][a-z0-9-]*[a-z0-9]$/, 'Pin id must be kebab-case')
+    .min(1),
+  target: dataTourSelector,
+  title: LocalizedStringSchema,
+  body: LocalizedStringSchema.optional(),
+  /** External link opened in a new tab. Absolute URL required. */
+  learnMoreUrl: z.string().url().nullable().optional(),
+  /** Audience atoms — same shape as tour audience. AND semantics, `!` negation. */
+  audience: z.array(AudienceAtomSchema).optional(),
+  /** Default true. Set false for compliance/safety pins the host wants to keep visible. */
+  dismissible: z.boolean().optional(),
+  /** Optional ISO date (YYYY-MM-DD). After this date the pin does not render. */
+  showUntil: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, 'showUntil must be an ISO date (YYYY-MM-DD)')
+    .optional(),
+});
+
+export const PinsFileSchema = z.object({
+  schemaVersion: z.literal('v1'),
+  product: z
+    .string()
+    .regex(/^[a-z0-9][a-z0-9-]*[a-z0-9]$/, 'Product must be kebab-case')
+    .min(1),
+  pins: z.array(PinSchema).min(1, 'A pins file must contain at least one pin'),
+});
+
 export type Placement = z.infer<typeof PlacementSchema>;
 export type Difficulty = z.infer<typeof DifficultySchema>;
 export type Media = z.infer<typeof MediaSchema>;
@@ -166,5 +210,7 @@ export type AdvanceOn = z.infer<typeof AdvanceOnSchema>;
 export type Trigger = z.infer<typeof TriggerSchema>;
 export type Step = z.infer<typeof StepSchema>;
 export type Tour = z.infer<typeof TourSchema>;
+export type Pin = z.infer<typeof PinSchema>;
+export type PinsFile = z.infer<typeof PinsFileSchema>;
 
 export const SCHEMA_VERSION = 'v1' as const;

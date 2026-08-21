@@ -77,7 +77,10 @@ export { readPermalinkTourId } from './schema/permalink.js';
 export { StepTypeSchema, FrequencySchema, type StepType, type Frequency } from './schema/v1.js';
 
 // Content loader
-export { loadContent, parseTour } from './schema/loader.js';
+export { loadContent, parseTour, loadPins, parsePinsFile } from './schema/loader.js';
+
+// Sprint 09 (T-110) — Pin content schema.
+export { PinSchema, PinsFileSchema, type Pin, type PinsFile } from './schema/v1.js';
 
 // Hints schema (companion to tours — see docs/how-to-author-a-tour.md)
 export {

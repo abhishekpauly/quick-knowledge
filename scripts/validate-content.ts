@@ -13,38 +13,53 @@
  */
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
-import { parseTour } from '../packages/core/src/schema/loader.js';
+import { parseTour, parsePinsFile } from '../packages/core/src/schema/loader.js';
 
-function walk(dir: string): string[] {
-  const out: string[] = [];
+function walk(dir: string): { tourFiles: string[]; pinsFiles: string[] } {
+  const tourFiles: string[] = [];
+  const pinsFiles: string[] = [];
   for (const entry of readdirSync(dir)) {
     const full = join(dir, entry);
     const stat = statSync(full);
-    if (stat.isDirectory()) out.push(...walk(full));
-    else if (entry.endsWith('.tour.json') && !entry.startsWith('_')) out.push(full);
+    if (stat.isDirectory()) {
+      const nested = walk(full);
+      tourFiles.push(...nested.tourFiles);
+      pinsFiles.push(...nested.pinsFiles);
+    } else if (entry.startsWith('_')) {
+      continue;
+    } else if (entry.endsWith('.tour.json')) {
+      tourFiles.push(full);
+    } else if (entry.endsWith('.pins.json')) {
+      pinsFiles.push(full);
+    }
   }
-  return out;
+  return { tourFiles, pinsFiles };
 }
 
 function main(): void {
   const [, , contentDir = 'content'] = process.argv;
-  let files: string[];
+  let tourFiles: string[];
+  let pinsFiles: string[];
   try {
-    files = walk(contentDir);
+    ({ tourFiles, pinsFiles } = walk(contentDir));
   } catch (err) {
     console.error(`Cannot read content dir "${contentDir}":`, (err as Error).message);
     process.exit(2);
   }
 
-  if (files.length === 0) {
-    console.warn(`No *.tour.json files found under ${contentDir}. Nothing to validate.`);
+  const totalFiles = tourFiles.length + pinsFiles.length;
+  if (totalFiles === 0) {
+    console.warn(
+      `No *.tour.json or *.pins.json files found under ${contentDir}. Nothing to validate.`,
+    );
     process.exit(0);
   }
 
   let failed = 0;
-  const seenIds = new Set<string>();
+  const seenTourIds = new Set<string>();
+  const seenPinIds = new Set<string>();
 
-  for (const file of files) {
+  for (const file of tourFiles) {
     let raw: unknown;
     try {
       raw = JSON.parse(readFileSync(file, 'utf-8'));
@@ -62,21 +77,50 @@ function main(): void {
       failed++;
       continue;
     }
-    if (seenIds.has(result.tour.id)) {
+    if (seenTourIds.has(result.tour.id)) {
       console.error(`✗ ${file}\n    Duplicate tour id: ${result.tour.id}`);
       failed++;
       continue;
     }
-    seenIds.add(result.tour.id);
+    seenTourIds.add(result.tour.id);
     console.log(`✓ ${file}  (${result.tour.id}, ${result.tour.steps.length} steps)`);
+  }
+
+  for (const file of pinsFiles) {
+    let raw: unknown;
+    try {
+      raw = JSON.parse(readFileSync(file, 'utf-8'));
+    } catch (err) {
+      console.error(`✗ ${file}\n    Invalid JSON: ${(err as Error).message}`);
+      failed++;
+      continue;
+    }
+    const result = parsePinsFile(raw);
+    if (!result.ok || !result.file) {
+      console.error(`✗ ${file}`);
+      for (const issue of result.errors ?? []) {
+        console.error(`    ${issue.path}: ${issue.message}`);
+      }
+      failed++;
+      continue;
+    }
+    const dupes = result.file.pins.filter((p) => seenPinIds.has(p.id));
+    if (dupes.length > 0) {
+      console.error(`✗ ${file}`);
+      for (const d of dupes) console.error(`    Duplicate pin id: ${d.id}`);
+      failed++;
+      continue;
+    }
+    for (const p of result.file.pins) seenPinIds.add(p.id);
+    console.log(`✓ ${file}  (${result.file.product}, ${result.file.pins.length} pin(s))`);
   }
 
   console.log('');
   if (failed === 0) {
-    console.log(`OK — ${files.length} tour(s) validated.`);
+    console.log(`OK — ${tourFiles.length} tour(s) and ${pinsFiles.length} pins file(s) validated.`);
     process.exit(0);
   } else {
-    console.error(`FAIL — ${failed} of ${files.length} tour(s) invalid.`);
+    console.error(`FAIL — ${failed} of ${totalFiles} file(s) invalid.`);
     process.exit(1);
   }
 }
