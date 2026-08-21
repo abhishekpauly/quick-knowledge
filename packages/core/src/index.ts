@@ -87,6 +87,9 @@ export { PinSchema, PinsFileSchema, type Pin, type PinsFile } from './schema/v1.
 // Sprint 10 (T-130) — Goal schema.
 export { GoalSchema, type Goal } from './schema/v1.js';
 
+// Sprint 10 (T-131) — Goals sink adapter.
+export type { GoalsSink } from './adapters/goals.js';
+
 // Sprint 09 (T-111) — Pin anchoring primitive.
 export { PinAnchor, type PinAnchorOptions } from './engine/PinAnchor.js';
 

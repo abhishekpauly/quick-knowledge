@@ -162,7 +162,7 @@ Priority: `P0` (blocker) · `P1` (must for MVP) · `P2` (nice-to-have) · `P3` (
 | ID | Task | Priority | Status | Feature | Notes |
 | --- | --- | --- | --- | --- | --- |
 | T-130 | `GoalSchema` additive on `TourSchema` (Zod) | P1 | DONE | v0.5 | `{ event, windowMinutes?, match? }` with windowMinutes bounded to positive, ≤ 7 days. Existing 2 tour files still validate. 9 tests. |
-| T-131 | `GoalsSink` interface + `TrainerConfig.goals` field | P1 | TODO | v0.5 | Omit = v0.1 behaviour. |
+| T-131 | `GoalsSink` interface + `TrainerConfig.goals` field | P1 | DONE | v0.5 | `packages/core/src/adapters/goals.ts` — `hasEventOccurred(event, match, sinceIso)` + optional `pollMs` (default 60000). `TrainerConfig.goals?` optional; omit and goal-configured tours run normally with the check loop skipped. |
 | T-132 | Trainer goal-check loop (poll + expiry + dedupe + safe-track) | P1 | TODO | v0.5 | The meaty task. |
 | T-133 | `tour_goal_reached` + `tour_goal_missed` events; dictionary regen | P1 | TODO | v0.5 | Union grows 8 → 10. |
 | T-134 | Wire goal on `content/example-app/onboarding.tour.json` | P1 | TODO | v0.5 | `exampleapp.project_created`, 5-minute window. |

@@ -7,6 +7,7 @@
 import type { Tour } from '../schema/v1.js';
 import type { Analytics } from '../adapters/analytics.js';
 import type { Persistence } from '../adapters/persistence.js';
+import type { GoalsSink } from '../adapters/goals.js';
 import type { Theme } from '../theme/default.js';
 import type { UserAttributes } from '../schema/audience.js';
 
@@ -43,6 +44,17 @@ export interface TrainerConfig {
    * Sprint 5 addition. Optional for backward compatibility.
    */
   locale?: string;
+
+  /**
+   * Sprint 10 (T-131) · Goals sink.
+   *
+   * When a tour with a `goal` starts, the trainer polls this sink (default
+   * 60s cadence) until either the goal event fires — `tour_goal_reached`
+   * — or `goal.windowMinutes` elapses — `tour_goal_missed`. Omit this
+   * field and goal-configured tours run normally; the trainer just skips
+   * the check loop. Full contract in `adapters/goals.ts`.
+   */
+  goals?: GoalsSink;
 }
 
 export interface TourProgress {
