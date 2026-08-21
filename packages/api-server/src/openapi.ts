@@ -1,10 +1,14 @@
 /**
  * OpenAPI 3.1 spec for the reference API.
  *
- * Hand-written for now; when the Zod schema stabilises further we swap to
- * `zod-to-openapi` so the `#/components/schemas/ContentBundle` block is
- * generated from the SDK's own TourSchema and can never drift. Sprint 16
- * ships the hand-written shape so adopters can wire clients today.
+ * Sprint 20 (T-290): the `ContentBundle` block accepts an
+ * `contentBundleSchema` from the caller. Adopters typically pass
+ * `describeBundleFromTourSchema()` from `@in-app-training/sdk` — this
+ * package intentionally does NOT import the SDK so build order stays
+ * independent (api-server compiles before sdk in npm workspaces).
+ *
+ * Without the option, `ContentBundle` renders as the historic opaque
+ * `type: object` placeholder — same behaviour as pre-Sprint 20.
  */
 
 export interface OpenApiOptions {
@@ -12,6 +16,12 @@ export interface OpenApiOptions {
   baseUrl: string;
   /** Human title for the spec's info block. */
   title?: string;
+  /**
+   * Sprint 20 (T-290) · Optional schema block for `components.schemas.ContentBundle`.
+   * Typically `describeBundleFromTourSchema()` from `@in-app-training/sdk`.
+   * Omit for the opaque `type: object` placeholder.
+   */
+  contentBundleSchema?: Record<string, unknown>;
 }
 
 export function openapiSpec(opts: OpenApiOptions): Record<string, unknown> {
@@ -19,7 +29,7 @@ export function openapiSpec(opts: OpenApiOptions): Record<string, unknown> {
     openapi: '3.1.0',
     info: {
       title: opts.title ?? '@in-app-training/api-server',
-      version: '1.0.0-api-preview',
+      version: '1.0.0',
       description:
         'Reference implementation of the ADR-0007 REST API. Framework-agnostic handlers — adopters wire their own HTTP framework. All error responses are application/problem+json (RFC 7807).',
     },
@@ -60,9 +70,7 @@ export function openapiSpec(opts: OpenApiOptions): Record<string, unknown> {
           },
           required: ['version', 'publishedAt', 'publishedBy'],
         },
-        // ContentBundle is an opaque `object` here — the SDK's Zod TourSchema
-        // is the enforcement mechanism, not this placeholder.
-        ContentBundle: { type: 'object' },
+        ContentBundle: opts.contentBundleSchema ?? { type: 'object' },
       },
     },
     security: [{ bearerAuth: [] }],

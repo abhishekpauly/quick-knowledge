@@ -132,3 +132,6 @@ export {
   pinsBundleValidator,
   mixedBundleValidator,
 } from './engine/bundleValidators.js';
+
+// Sprint 20 (T-290) — descriptions-only OpenAPI schema from TourSchema.shape.
+export { describeBundleFromTourSchema } from './schema/describe-openapi.js';

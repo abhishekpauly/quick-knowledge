@@ -235,15 +235,16 @@ Priority: `P0` (blocker) · `P1` (must for MVP) · `P2` (nice-to-have) · `P3` (
 | T-283 | Adopter Product B on API path — Vue, Pins-only | P0 | DONE | v1.0 | Launch log at `releases/v1.0.0-api-adopter-b-production.md`. `bootBlocking: false` (contrast to Adopter C). |
 | T-284 | v1.0 stable prep — CHANGELOG audit, README refresh, migration doc | P1 | DONE | v1.0 | `docs/migration-v1.md` + README status block. |
 
-## Sprint 20 (planned) — Days 120–126 · v1.0.0 stable tag
+## Sprint 20 — Days 120–126 · v1.0.0 stable tag
 
 | ID | Task | Priority | Status | Feature | Notes |
 | --- | --- | --- | --- | --- | --- |
-| T-290 | OpenAPI `ContentBundle` descriptions-only shape from `TourSchema.shape` | P1 | TODO | v1.0 | Rescoped from T-280. ~30-line change, no `TourSchema` refactor. |
-| T-291 | Retool panel 6 (consent-gated tour skips) + Slack alert on `content_bundle_update_failed > 10/hour` | P1 | TODO | v1.0 | Depends on the synthetic side for panel 6. |
-| T-292 | PM-facing publishing-from-your-browser walkthrough | P2 | TODO | v1.0 | Filed by Sprint 19 retro after Adopter B PM shipped a pin change directly. |
-| T-293 | CHANGELOG collapse — four `-api*` preview headers → one `v1.0.0` header | P0 | TODO | v1.0 | |
-| T-294 | Tag `v1.0.0`; drop `-preview` suffix from every doc | P0 | TODO | v1.0 | |
+| T-290 | OpenAPI `ContentBundle` descriptions-only shape from `TourSchema.shape` | P1 | DONE | v1.0 | `describeBundleFromTourSchema()` — coarse types + honest required set. 3 new tests. |
+| T-291 | Retool panel 6 (consent-gated skips) + Slack alert | P1 | DONE | v1.0 | Panel + alert docs in `docs/dashboards/cross-product-training.md`. |
+| T-292 | PM-facing publishing walkthrough | P2 | DONE | v1.0 | `docs/publishing-from-your-browser.md`. |
+| T-293 | CHANGELOG collapse | P0 | DONE | v1.0 | New `[v1.0.0]` header at top; per-sprint blocks preserved for audit. |
+| T-294 | Tag `v1.0.0`; drop `-preview` suffix from status blocks | P0 | DONE | v1.0 | README + ROADMAP updated. Historic per-sprint tags preserved. |
+| T-300 | Post-v1.0 — Playwright test for `dismissActive` against a real Shepherd tour | P2 | TODO | post-v1.0 | Filed by Sprint 20 retro. No urgency — the unit path covers the state transitions. |
 
 ## Sprint 11 carry-overs from Sprint 10 retro
 

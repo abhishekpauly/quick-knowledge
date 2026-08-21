@@ -31,4 +31,24 @@ describe('openapiSpec', () => {
     };
     expect(spec.info.title).toBe('Custom');
   });
+
+  it('defaults ContentBundle to the opaque placeholder when no schema is passed', () => {
+    const spec = openapiSpec({ baseUrl: 'x' }) as {
+      components: { schemas: { ContentBundle: Record<string, unknown> } };
+    };
+    expect(spec.components.schemas.ContentBundle).toEqual({ type: 'object' });
+  });
+
+  it('substitutes the caller-supplied ContentBundle schema when provided (Sprint 20 T-290)', () => {
+    const caller = {
+      type: 'object',
+      description: 'from-caller',
+      properties: { id: { type: 'string' } },
+      required: ['id'],
+    };
+    const spec = openapiSpec({ baseUrl: 'x', contentBundleSchema: caller }) as {
+      components: { schemas: { ContentBundle: Record<string, unknown> } };
+    };
+    expect(spec.components.schemas.ContentBundle).toBe(caller);
+  });
 });

@@ -137,8 +137,41 @@ group by 1, 2
 order by 3 desc;
 ```
 
-## Sprint 20 hardening list (previewed here)
+## Sprint 20 hardening — shipped (T-291)
 
-- Alerts on `content_bundle_update_failed` count > 10 in an hour per product (Slack via Retool's built-in webhook).
-- A page-2 "adopter overview" — one row per adopter with the latest of every metric above, so the SDK team stands up a status ping in 5 seconds.
-- Documentation for adopters on how to expose the training event stream to their own dashboards (already covered in `docs/wiring-analytics-sink.md`; needs a cross-link).
+### Panel 6 — Consent-gated tour skips (per product, 7-day rolling)
+
+Requires the synthetic "would-have-fired" side: for every `first-run` / `url` / `event` trigger opportunity the Trainer evaluated, host code records a `training_qualified` event via the same analytics sink. The delta between `training_qualified` and `tour_started` for the same `(user, tourId)` pair — filtered to cases where the tour has a `consentCategory` — is a good proxy for consent-driven skips.
+
+```sql
+with qualified as (
+  select date_trunc('day', ts) as d, product, properties->>'tourId' as tour_id, count(distinct properties->>'userId') as n
+  from analytics.events
+  where name = 'training_qualified' and ts >= now() - interval '7 days'
+  group by 1, 2, 3
+),
+started as (
+  select date_trunc('day', ts) as d, product, properties->>'tourId' as tour_id, count(distinct properties->>'userId') as n
+  from analytics.events
+  where name = 'tour_started' and ts >= now() - interval '7 days'
+  group by 1, 2, 3
+)
+select q.d, q.product, q.tour_id,
+       q.n as qualified_users,
+       coalesce(s.n, 0) as started_users,
+       (q.n - coalesce(s.n, 0)) as skipped_users
+from qualified q left join started s using (d, product, tour_id)
+where q.n - coalesce(s.n, 0) > 0
+order by skipped_users desc;
+```
+
+The synthetic side is opt-in for adopters — a small helper is documented in `docs/wiring-analytics-sink.md`. Adopters who don't wire it get an empty panel with a link.
+
+### Slack alert — `content_bundle_update_failed > 10/hour`
+
+Retool "Notify" step on the panel-5 query, thresholded at `sum(errors) > 10` in the last hour. Payload posts to `#sdk-alerts` with the product, the top reason, and a link to the panel-5 view. No paging behaviour — this is a Slack ping, not PagerDuty.
+
+## Deferred
+
+- **Page-2 "adopter overview" — one row per adopter with the latest of every metric above.** Nice-to-have, not requested by anyone. Reopen if the SDK team needs a status ping in 5 seconds.
+- **Adopter-facing doc: "expose the training event stream to your own dashboards".** Already covered by `docs/wiring-analytics-sink.md`; adding a cross-link is a one-line follow-up, not a sprint task.
