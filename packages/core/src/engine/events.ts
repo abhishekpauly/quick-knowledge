@@ -14,7 +14,9 @@ export type TrainingEventName =
   | 'tour_dismissed'
   | 'tour_error'
   | 'pin_shown'
-  | 'pin_dismissed';
+  | 'pin_dismissed'
+  | 'tour_goal_reached'
+  | 'tour_goal_missed';
 
 export interface TourStartedPayload {
   tourId: string;
@@ -83,6 +85,29 @@ export interface PinDismissedPayload {
   timestamp: string;
 }
 
+/**
+ * Sprint 10 (T-133). Goal lifecycle events.
+ *
+ * `tour_goal_reached` fires the first time `GoalsSink.hasEventOccurred(...)`
+ * returns true within the tour's goal window. Deduped per tour instance
+ * (identified by `tourStartedAt`).
+ *
+ * `tour_goal_missed` fires once at window expiry if no reach ever fired.
+ */
+export interface TourGoalReachedPayload {
+  tourId: string;
+  event: string;
+  tourStartedAt: string;
+  matchedAt: string;
+}
+
+export interface TourGoalMissedPayload {
+  tourId: string;
+  event: string;
+  tourStartedAt: string;
+  windowEndedAt: string;
+}
+
 // Discriminated union keyed by name — one entry per event type.
 export type TrainingEvent =
   | { name: 'tour_started'; payload: TourStartedPayload }
@@ -92,7 +117,9 @@ export type TrainingEvent =
   | { name: 'tour_dismissed'; payload: TourDismissedPayload }
   | { name: 'tour_error'; payload: TourErrorPayload }
   | { name: 'pin_shown'; payload: PinShownPayload }
-  | { name: 'pin_dismissed'; payload: PinDismissedPayload };
+  | { name: 'pin_dismissed'; payload: PinDismissedPayload }
+  | { name: 'tour_goal_reached'; payload: TourGoalReachedPayload }
+  | { name: 'tour_goal_missed'; payload: TourGoalMissedPayload };
 
 export type EventListener<N extends TrainingEventName = TrainingEventName> = (
   event: Extract<TrainingEvent, { name: N }>,

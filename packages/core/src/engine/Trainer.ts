@@ -28,6 +28,7 @@ import { resolveLocale } from '../schema/localize.js';
 import { personalize } from '../schema/personalize.js';
 import { isAllowedByFrequency, markSeenThisSession } from '../schema/frequency.js';
 import { readPermalinkTourId } from '../schema/permalink.js';
+import { GoalRunner } from './GoalRunner.js';
 
 const PROGRESS_KEY = 'progress';
 const DEFAULT_TARGET_TIMEOUT_MS = 3000;
@@ -38,14 +39,25 @@ export class Trainer {
   private readonly listeners: Map<TrainingEventName, Set<EventListener>> = new Map();
   private readonly triggerManager: TriggerManager;
   private readonly currentAdvance = new AdvanceOnHandler();
+  /**
+   * Sprint 10 (T-132) — outstanding goal runners. Held in a set so they
+   * survive `activeTour` clearing on complete: a completed tour may still
+   * have its goal event fire within the window. On dismiss (user-skip /
+   * manual) the tour's runners are cancelled — a dismissed tour did not
+   * engage, so we don't wait for a goal that would misrepresent it.
+   * `superseded` dismissal (a new tour starts) leaves runners in place.
+   */
+  private readonly goalRunners = new Map<string, Set<GoalRunner>>();
 
   private activeTour: {
     tour: Tour;
     shepherdTour: ShepherdTour;
     startedAt: number;
+    startedAtIso: string;
     stepStartedAt: number;
     triggerSource: 'manual' | 'first-run' | 'url' | 'event';
     abortTargetWait: AbortController;
+    goalRunner: GoalRunner | null;
   } | null = null;
 
   private progressCache: Record<string, TourProgress> | undefined;
@@ -164,13 +176,16 @@ export class Trainer {
     shepherdTour.on('complete', () => this.handleComplete());
     shepherdTour.on('cancel', () => this.handleDismiss('user-skip'));
 
+    const startedAtIso = this.iso();
     this.activeTour = {
       tour,
       shepherdTour,
       startedAt: this.now(),
+      startedAtIso,
       stepStartedAt: this.now(),
       triggerSource,
       abortTargetWait,
+      goalRunner: null,
     };
 
     // Sprint 6: track for frequency + set lastRunAt for day/week windows.
@@ -179,12 +194,62 @@ export class Trainer {
       tourId: tour.id,
       status: 'in-progress',
       currentStepIndex: 0,
-      lastRunAt: this.iso(),
+      lastRunAt: startedAtIso,
     });
     this.emit({
       name: 'tour_started',
-      payload: { tourId: tour.id, product: tour.product, triggerSource, timestamp: this.iso() },
+      payload: { tourId: tour.id, product: tour.product, triggerSource, timestamp: startedAtIso },
     });
+
+    // Sprint 10 (T-132): if the tour declares a goal AND the host wired a
+    // GoalsSink, start the poll+expiry loop. Omitting `goals` on TrainerConfig
+    // silently skips this — see ADR-nnn (types.ts docstring).
+    if (tour.goal && this.config.goals) {
+      const goal = tour.goal;
+      // eslint-disable-next-line prefer-const -- self is captured by settle before construction completes
+      let self: GoalRunner;
+      const settle = (): void => {
+        this.goalRunners.get(tour.id)?.delete(self);
+      };
+      self = new GoalRunner({
+        tourId: tour.id,
+        goal,
+        sink: this.config.goals,
+        startedAtIso,
+        onReached: (matchedAtIso) => {
+          settle();
+          this.emit({
+            name: 'tour_goal_reached',
+            payload: {
+              tourId: tour.id,
+              event: goal.event,
+              tourStartedAt: startedAtIso,
+              matchedAt: matchedAtIso,
+            },
+          });
+        },
+        onMissed: (windowEndedAtIso) => {
+          settle();
+          this.emit({
+            name: 'tour_goal_missed',
+            payload: {
+              tourId: tour.id,
+              event: goal.event,
+              tourStartedAt: startedAtIso,
+              windowEndedAt: windowEndedAtIso,
+            },
+          });
+        },
+      });
+      self.start();
+      this.activeTour.goalRunner = self;
+      let set = this.goalRunners.get(tour.id);
+      if (!set) {
+        set = new Set();
+        this.goalRunners.set(tour.id, set);
+      }
+      set.add(self);
+    }
 
     shepherdTour.start();
     // step_viewed for the first step fires via Shepherd's `show` handler.
@@ -530,9 +595,16 @@ export class Trainer {
     this.activeTour = null;
   }
 
-  private handleDismiss(_reason: 'user-skip' | 'manual' | 'superseded'): void {
+  private handleDismiss(reason: 'user-skip' | 'manual' | 'superseded'): void {
     const active = this.activeTour;
     if (!active) return;
+    // Sprint 10: cancel the goal runner on user-initiated dismissal so a goal
+    // event that fires later doesn't misrepresent an abandoned tour as a
+    // conversion. Superseded (a new tour starts) leaves the old runner alive.
+    if (reason !== 'superseded' && active.goalRunner) {
+      active.goalRunner.cancel();
+      this.goalRunners.get(active.tour.id)?.delete(active.goalRunner);
+    }
     const currentIndex = this.getCurrentIndex(active.shepherdTour);
     const step = active.tour.steps[currentIndex];
     this.setProgress(active.tour.id, {

@@ -213,6 +213,58 @@
           "optional": false
         }
       ]
+    },
+    {
+      "name": "tour_goal_reached",
+      "payload": "TourGoalReachedPayload",
+      "fields": [
+        {
+          "name": "tourId",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "event",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "tourStartedAt",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "matchedAt",
+          "type": "string",
+          "optional": false
+        }
+      ]
+    },
+    {
+      "name": "tour_goal_missed",
+      "payload": "TourGoalMissedPayload",
+      "fields": [
+        {
+          "name": "tourId",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "event",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "tourStartedAt",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "windowEndedAt",
+          "type": "string",
+          "optional": false
+        }
+      ]
     }
   ]
 }

@@ -95,3 +95,25 @@ Payload interface: `PinDismissedPayload`
 | `pinId` | `string` | ✓ |
 | `target` | `string` | ✓ |
 | `timestamp` | `string` | ✓ |
+
+## `tour_goal_reached`
+
+Payload interface: `TourGoalReachedPayload`
+
+| Property | Type | Required |
+| --- | --- | --- |
+| `tourId` | `string` | ✓ |
+| `event` | `string` | ✓ |
+| `tourStartedAt` | `string` | ✓ |
+| `matchedAt` | `string` | ✓ |
+
+## `tour_goal_missed`
+
+Payload interface: `TourGoalMissedPayload`
+
+| Property | Type | Required |
+| --- | --- | --- |
+| `tourId` | `string` | ✓ |
+| `event` | `string` | ✓ |
+| `tourStartedAt` | `string` | ✓ |
+| `windowEndedAt` | `string` | ✓ |

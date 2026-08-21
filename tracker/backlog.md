@@ -163,8 +163,8 @@ Priority: `P0` (blocker) · `P1` (must for MVP) · `P2` (nice-to-have) · `P3` (
 | --- | --- | --- | --- | --- | --- |
 | T-130 | `GoalSchema` additive on `TourSchema` (Zod) | P1 | DONE | v0.5 | `{ event, windowMinutes?, match? }` with windowMinutes bounded to positive, ≤ 7 days. Existing 2 tour files still validate. 9 tests. |
 | T-131 | `GoalsSink` interface + `TrainerConfig.goals` field | P1 | DONE | v0.5 | `packages/core/src/adapters/goals.ts` — `hasEventOccurred(event, match, sinceIso)` + optional `pollMs` (default 60000). `TrainerConfig.goals?` optional; omit and goal-configured tours run normally with the check loop skipped. |
-| T-132 | Trainer goal-check loop (poll + expiry + dedupe + safe-track) | P1 | TODO | v0.5 | The meaty task. |
-| T-133 | `tour_goal_reached` + `tour_goal_missed` events; dictionary regen | P1 | TODO | v0.5 | Union grows 8 → 10. |
+| T-132 | Trainer goal-check loop (poll + expiry + dedupe + safe-track) | P1 | DONE | v0.5 | GoalRunner in packages/core/src/engine/GoalRunner.ts. Poll interval + expiry timer + in-flight lock (no overlapping polls) + one-shot settle + dedupe of console.warn on sink errors. Wired into Trainer.launch(); cancelled on user-initiated dismiss but left alive through tour_completed. 8 GoalRunner tests + 3 Trainer wiring tests. |
+| T-133 | `tour_goal_reached` + `tour_goal_missed` events; dictionary regen | P1 | DONE | v0.5 | Union grew 8 → 10. Payloads `{ tourId, event, tourStartedAt, matchedAt | windowEndedAt }`. Event dictionary regenerated (10 events); CI drift check green. |
 | T-134 | Wire goal on `content/example-app/onboarding.tour.json` | P1 | TODO | v0.5 | `exampleapp.project_created`, 5-minute window. |
 | T-135 | Tests: schema + trainer loop + emission + dedupe + sink-error safety | P1 | TODO | v0.5 | `vi.useFakeTimers` for the 60s cadence. |
 | T-136 | Verify `docs/wiring-goals.md` matches shipped interface; small edits if needed | P2 | TODO | v0.5 | Doc landed in Sprint 08 warm-up. |

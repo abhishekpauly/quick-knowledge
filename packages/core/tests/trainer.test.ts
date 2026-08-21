@@ -7,7 +7,7 @@
  * NOTE: Shepherd.js requires a real DOM. jsdom is enough. If a specific test
  * needs a Chromium behavior (scroll, focus timing), promote it to Playwright.
  */
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Trainer } from '../src/engine/Trainer.js';
 import { memoryAnalytics } from '../src/adapters/analytics.js';
 import { memoryPersistence } from '../src/adapters/persistence.js';
@@ -165,5 +165,81 @@ describe('Trainer', () => {
     });
     expect(() => trainer.next()).not.toThrow();
     expect(() => trainer.prev()).not.toThrow();
+  });
+
+  it('with a goal + wired GoalsSink, emits tour_goal_reached when the sink turns affirmative', async () => {
+    vi.useFakeTimers();
+    try {
+      const analytics = memoryAnalytics();
+      const goalTour = { ...tour(), goal: { event: 'exampleapp.done', windowMinutes: 5 } };
+      let calls = 0;
+      const trainer = new Trainer({
+        product: 'test-product',
+        tours: [goalTour],
+        analytics,
+        persistence: memoryPersistence(),
+        goals: {
+          pollMs: 1000,
+          async hasEventOccurred() {
+            calls++;
+            return calls >= 2;
+          },
+        },
+      });
+      await trainer.start('unit-tour');
+      await vi.advanceTimersByTimeAsync(2500);
+      const reached = analytics.events.find((e) => e.name === 'tour_goal_reached');
+      expect(reached).toBeDefined();
+      expect(reached?.properties).toMatchObject({
+        tourId: 'unit-tour',
+        event: 'exampleapp.done',
+      });
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it('with a goal + no GoalsSink wired, skips the check loop silently', async () => {
+    const analytics = memoryAnalytics();
+    const goalTour = { ...tour(), goal: { event: 'exampleapp.done' } };
+    const trainer = new Trainer({
+      product: 'test-product',
+      tours: [goalTour],
+      analytics,
+      persistence: memoryPersistence(),
+      // no goals: field
+    });
+    await trainer.start('unit-tour');
+    // No goal events should fire at all — trainer skipped the runner entirely.
+    expect(analytics.events.some((e) => e.name.startsWith('tour_goal_'))).toBe(false);
+  });
+
+  it('cancels the goal runner on user dismissal so a late goal event does not fire', async () => {
+    vi.useFakeTimers();
+    try {
+      const analytics = memoryAnalytics();
+      const goalTour = { ...tour(), goal: { event: 'exampleapp.done', windowMinutes: 5 } };
+      let calls = 0;
+      const trainer = new Trainer({
+        product: 'test-product',
+        tours: [goalTour],
+        analytics,
+        persistence: memoryPersistence(),
+        goals: {
+          pollMs: 1000,
+          async hasEventOccurred() {
+            calls++;
+            return calls >= 5; // would fire on the fifth tick
+          },
+        },
+      });
+      await trainer.start('unit-tour');
+      trainer.stop(); // user-initiated dismiss
+      await vi.advanceTimersByTimeAsync(10_000);
+      expect(analytics.events.some((e) => e.name === 'tour_goal_reached')).toBe(false);
+      expect(analytics.events.some((e) => e.name === 'tour_goal_missed')).toBe(false);
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });
