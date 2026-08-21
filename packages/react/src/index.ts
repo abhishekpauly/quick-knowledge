@@ -12,3 +12,6 @@ export { FirstRunTour, type FirstRunTourProps } from './FirstRunTour.js';
 export { TrainingChecklist, type TrainingChecklistProps } from './TrainingChecklist.js';
 export { HintsProvider, type HintsProviderProps } from './HintsProvider.js';
 export { TrainingHint, type TrainingHintProps } from './TrainingHint.js';
+
+// Sprint 09 (T-112) — Pins.
+export { PinsProvider, Pin, type PinsProviderProps } from './PinsProvider.js';
