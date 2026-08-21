@@ -6,8 +6,13 @@
  */
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { render, fireEvent, act } from '@testing-library/react';
-import type { PinsFile } from '@in-app-training/sdk';
-import { PinsProvider, Pin, _resetPinDismissals } from '../src/PinsProvider.js';
+import { memoryAnalytics, type PinsFile } from '@in-app-training/sdk';
+import {
+  PinsProvider,
+  Pin,
+  _resetPinDismissals,
+  _resetPinShownDedupe,
+} from '../src/PinsProvider.js';
 
 function makeTarget(id: string): void {
   const el = document.createElement('div');
@@ -35,9 +40,11 @@ describe('PinsProvider', () => {
   beforeEach(() => {
     document.body.innerHTML = '';
     _resetPinDismissals();
+    _resetPinShownDedupe();
   });
   afterEach(() => {
     _resetPinDismissals();
+    _resetPinShownDedupe();
   });
 
   it('renders a portal for pin dots', async () => {
@@ -174,5 +181,71 @@ describe('PinsProvider', () => {
 
   it('<Pin id> throws outside a provider', () => {
     expect(() => render(<Pin id="p1" />)).toThrow(/PinsProvider/);
+  });
+
+  it('emits pin_shown once per session when a pin first renders', async () => {
+    makeTarget('t1');
+    makeTarget('t2');
+    const analytics = memoryAnalytics();
+    const file = pinsFile([
+      { id: 'p1', target: '[data-tour="t1"]', title: 'One' },
+      { id: 'p2', target: '[data-tour="t2"]', title: 'Two' },
+    ]);
+    const view = render(
+      <PinsProvider pins={file} analytics={analytics}>
+        <div>app</div>
+      </PinsProvider>,
+    );
+    await flush();
+    const shown = analytics.events.filter((e) => e.name === 'pin_shown');
+    expect(shown.map((e) => (e.properties as { pinId: string }).pinId).sort()).toEqual([
+      'p1',
+      'p2',
+    ]);
+    // Re-render must not double-emit — dedupe is per-session.
+    view.rerender(
+      <PinsProvider pins={file} analytics={analytics}>
+        <div>app</div>
+      </PinsProvider>,
+    );
+    await flush();
+    expect(analytics.events.filter((e) => e.name === 'pin_shown')).toHaveLength(2);
+  });
+
+  it('emits pin_dismissed with pinId + target on Dismiss click', async () => {
+    makeTarget('t1');
+    const analytics = memoryAnalytics();
+    const file = pinsFile([{ id: 'p1', target: '[data-tour="t1"]', title: 'One' }]);
+    const { getByTestId } = render(
+      <PinsProvider pins={file} analytics={analytics}>
+        <div>app</div>
+      </PinsProvider>,
+    );
+    await flush();
+    fireEvent.click(getByTestId('pin-dot-p1'));
+    fireEvent.click(getByTestId('pin-dismiss-p1'));
+    const dismissed = analytics.events.find((e) => e.name === 'pin_dismissed');
+    expect(dismissed).toBeDefined();
+    expect(dismissed?.properties).toMatchObject({ pinId: 'p1', target: '[data-tour="t1"]' });
+  });
+
+  it('does not throw when analytics.track throws', async () => {
+    makeTarget('t1');
+    const throwingAnalytics = {
+      track: () => {
+        throw new Error('sink is down');
+      },
+    };
+    const file = pinsFile([{ id: 'p1', target: '[data-tour="t1"]', title: 'One' }]);
+    const { getByTestId } = render(
+      <PinsProvider pins={file} analytics={throwingAnalytics}>
+        <div>app</div>
+      </PinsProvider>,
+    );
+    await flush();
+    expect(() => {
+      fireEvent.click(getByTestId('pin-dot-p1'));
+      fireEvent.click(getByTestId('pin-dismiss-p1'));
+    }).not.toThrow();
   });
 });

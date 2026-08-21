@@ -75,3 +75,23 @@ Payload interface: `TourErrorPayload`
 | `reason` | `'target-not-found' | 'timeout' | 'unknown'` | ✓ |
 | `message` | `string` | ✓ |
 | `timestamp` | `string` | ✓ |
+
+## `pin_shown`
+
+Payload interface: `PinShownPayload`
+
+| Property | Type | Required |
+| --- | --- | --- |
+| `pinId` | `string` | ✓ |
+| `target` | `string` | ✓ |
+| `timestamp` | `string` | ✓ |
+
+## `pin_dismissed`
+
+Payload interface: `PinDismissedPayload`
+
+| Property | Type | Required |
+| --- | --- | --- |
+| `pinId` | `string` | ✓ |
+| `target` | `string` | ✓ |
+| `timestamp` | `string` | ✓ |

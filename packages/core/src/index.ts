@@ -21,6 +21,8 @@ export type {
   TourCompletedPayload,
   TourDismissedPayload,
   TourErrorPayload,
+  PinShownPayload,
+  PinDismissedPayload,
 } from './engine/events.js';
 
 // Adapters

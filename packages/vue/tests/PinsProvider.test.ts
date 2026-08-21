@@ -4,8 +4,13 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { mount, flushPromises } from '@vue/test-utils';
 import { h } from 'vue';
-import type { PinsFile } from '@in-app-training/sdk';
-import { PinsProvider, Pin, _resetPinDismissals } from '../src/PinsProvider.js';
+import { memoryAnalytics, type PinsFile } from '@in-app-training/sdk';
+import {
+  PinsProvider,
+  Pin,
+  _resetPinDismissals,
+  _resetPinShownDedupe,
+} from '../src/PinsProvider.js';
 
 function makeTarget(id: string): void {
   const el = document.createElement('div');
@@ -32,9 +37,11 @@ describe('PinsProvider (Vue)', () => {
   beforeEach(() => {
     document.body.innerHTML = '';
     _resetPinDismissals();
+    _resetPinShownDedupe();
   });
   afterEach(() => {
     _resetPinDismissals();
+    _resetPinShownDedupe();
   });
 
   it('renders a portal with a dot for a matching pin', async () => {
@@ -176,5 +183,70 @@ describe('PinsProvider (Vue)', () => {
 
   it('<Pin id> throws outside a provider', () => {
     expect(() => mount(Pin, { props: { id: 'p1' } })).toThrow(/PinsProvider/);
+  });
+
+  it('emits pin_shown once per session when a pin first renders', async () => {
+    makeTarget('t1');
+    makeTarget('t2');
+    const analytics = memoryAnalytics();
+    const file = pinsFile([
+      { id: 'p1', target: '[data-tour="t1"]', title: 'One' },
+      { id: 'p2', target: '[data-tour="t2"]', title: 'Two' },
+    ]);
+    mount(PinsProvider, {
+      props: { pins: file, analytics },
+      slots: { default: () => h('div') },
+      attachTo: document.body,
+    });
+    await flush();
+    const shown = analytics.events.filter((e) => e.name === 'pin_shown');
+    expect(shown.map((e) => (e.properties as { pinId: string }).pinId).sort()).toEqual([
+      'p1',
+      'p2',
+    ]);
+  });
+
+  it('emits pin_dismissed with pinId + target on Dismiss click', async () => {
+    makeTarget('t1');
+    const analytics = memoryAnalytics();
+    const file = pinsFile([{ id: 'p1', target: '[data-tour="t1"]', title: 'One' }]);
+    mount(PinsProvider, {
+      props: { pins: file, analytics },
+      slots: { default: () => h('div') },
+      attachTo: document.body,
+    });
+    await flush();
+    (document.querySelector('[data-testid="pin-dot-p1"]') as HTMLElement).click();
+    await flush();
+    (document.querySelector('[data-testid="pin-dismiss-p1"]') as HTMLElement).click();
+    await flush();
+    const dismissed = analytics.events.find((e) => e.name === 'pin_dismissed');
+    expect(dismissed).toBeDefined();
+    expect(dismissed?.properties).toMatchObject({ pinId: 'p1', target: '[data-tour="t1"]' });
+  });
+
+  it('does not throw when analytics.track throws', async () => {
+    makeTarget('t1');
+    const throwingAnalytics = {
+      track: () => {
+        throw new Error('sink is down');
+      },
+    };
+    const file = pinsFile([{ id: 'p1', target: '[data-tour="t1"]', title: 'One' }]);
+    // pin_shown fires on the very first onRect emit — mount alone should not throw.
+    expect(() => {
+      mount(PinsProvider, {
+        props: { pins: file, analytics: throwingAnalytics },
+        slots: { default: () => h('div') },
+        attachTo: document.body,
+      });
+    }).not.toThrow();
+    await flush();
+    // Then a Dismiss click, which fires pin_dismissed on the throwing sink.
+    (document.querySelector('[data-testid="pin-dot-p1"]') as HTMLElement).click();
+    await flush();
+    const dismiss = document.querySelector('[data-testid="pin-dismiss-p1"]') as HTMLElement | null;
+    expect(dismiss).not.toBeNull();
+    expect(() => dismiss!.click()).not.toThrow();
   });
 });

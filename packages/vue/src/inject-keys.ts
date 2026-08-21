@@ -6,7 +6,7 @@
  * runtime if the runtime lookup fails.
  */
 import type { InjectionKey } from 'vue';
-import type { Trainer, HintsFile, Pin } from '@in-app-training/sdk';
+import type { Trainer, HintsFile, Pin, Analytics } from '@in-app-training/sdk';
 
 export const TrainerKey: InjectionKey<Trainer> = Symbol('in-app-training-trainer');
 export const HintsKey: InjectionKey<{ hintsById: Map<string, HintsFile['hints'][number]> }> =
@@ -21,5 +21,6 @@ export interface PinsContextValue {
   isDismissed(id: string): boolean;
   dismiss(id: string): void;
   locale: string;
+  analytics?: Analytics;
 }
 export const PinsKey: InjectionKey<PinsContextValue> = Symbol('in-app-training-pins');

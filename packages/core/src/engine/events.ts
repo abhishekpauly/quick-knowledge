@@ -12,7 +12,9 @@ export type TrainingEventName =
   | 'step_completed'
   | 'tour_completed'
   | 'tour_dismissed'
-  | 'tour_error';
+  | 'tour_error'
+  | 'pin_shown'
+  | 'pin_dismissed';
 
 export interface TourStartedPayload {
   tourId: string;
@@ -59,6 +61,28 @@ export interface TourErrorPayload {
   timestamp: string;
 }
 
+/**
+ * Sprint 09 (T-114). Pin lifecycle events.
+ *
+ * `pin_shown` fires the first time a pin renders for a given browser session
+ * (dedupe is per-session, not per-lifetime — analytics gets one impression per
+ * session per pin, not one per rect update).
+ *
+ * `pin_dismissed` fires when the user clicks the Dismiss button on the
+ * popover. Not fired when a pin auto-hides (past showUntil, audience change).
+ */
+export interface PinShownPayload {
+  pinId: string;
+  target: string;
+  timestamp: string;
+}
+
+export interface PinDismissedPayload {
+  pinId: string;
+  target: string;
+  timestamp: string;
+}
+
 // Discriminated union keyed by name — one entry per event type.
 export type TrainingEvent =
   | { name: 'tour_started'; payload: TourStartedPayload }
@@ -66,7 +90,9 @@ export type TrainingEvent =
   | { name: 'step_completed'; payload: StepCompletedPayload }
   | { name: 'tour_completed'; payload: TourCompletedPayload }
   | { name: 'tour_dismissed'; payload: TourDismissedPayload }
-  | { name: 'tour_error'; payload: TourErrorPayload };
+  | { name: 'tour_error'; payload: TourErrorPayload }
+  | { name: 'pin_shown'; payload: PinShownPayload }
+  | { name: 'pin_dismissed'; payload: PinDismissedPayload };
 
 export type EventListener<N extends TrainingEventName = TrainingEventName> = (
   event: Extract<TrainingEvent, { name: N }>,

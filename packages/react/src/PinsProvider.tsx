@@ -21,6 +21,7 @@ import {
   matchesAudience,
   resolveLocale,
   PinAnchor,
+  type Analytics,
   type Pin as PinDef,
   type PinsFile,
   type UserAttributes,
@@ -28,10 +29,30 @@ import {
 
 const DISMISS_PREFIX = 'in-app-training:pins:dismissed:';
 
+/** Per-session dedupe for `pin_shown`. Reset in tests via `_resetPinShownDedupe`. */
+const shownThisSession = new Set<string>();
+export function _resetPinShownDedupe(): void {
+  shownThisSession.clear();
+}
+
+function safeTrack(
+  analytics: Analytics | undefined,
+  name: 'pin_shown' | 'pin_dismissed',
+  payload: Record<string, unknown>,
+): void {
+  if (!analytics) return;
+  try {
+    analytics.track(name, payload);
+  } catch {
+    // Contract: analytics must not crash the widget.
+  }
+}
+
 interface PinsContextValue {
   pinsById: Map<string, PinDef>;
   dismissed: Set<string>;
   dismiss: (id: string) => void;
+  analytics?: Analytics;
 }
 
 const PinsContext = createContext<PinsContextValue | null>(null);
@@ -43,6 +64,12 @@ export interface PinsProviderProps {
   userAttributes?: UserAttributes;
   /** BCP-47 locale for `title` / `body`. Default 'en'. */
   locale?: string;
+  /**
+   * Optional analytics adapter — reuse the one wired for the Trainer or pass a
+   * separate one. If omitted, no pin events fire. Same `Analytics` contract
+   * as `TrainerConfig.analytics`.
+   */
+  analytics?: Analytics;
   children: ReactNode;
 }
 
@@ -71,11 +98,20 @@ export function PinsProvider({
   pins,
   userAttributes,
   locale = 'en',
+  analytics,
   children,
 }: PinsProviderProps): JSX.Element {
   const [dismissed, setDismissed] = useState<Set<string>>(() => readDismissed());
 
   const dismiss = (id: string): void => {
+    const pin = pins.pins.find((p) => p.id === id);
+    if (pin) {
+      safeTrack(analytics, 'pin_dismissed', {
+        pinId: pin.id,
+        target: pin.target,
+        timestamp: new Date().toISOString(),
+      });
+    }
     try {
       window.localStorage.setItem(`${DISMISS_PREFIX}${id}`, '1');
     } catch {
@@ -101,7 +137,7 @@ export function PinsProvider({
 
   const pinsById = useMemo(() => new Map(pins.pins.map((p) => [p.id, p])), [pins]);
 
-  const value: PinsContextValue = { pinsById, dismissed, dismiss };
+  const value: PinsContextValue = { pinsById, dismissed, dismiss, analytics };
 
   return (
     <PinsContext.Provider value={value}>
@@ -110,7 +146,13 @@ export function PinsProvider({
         createPortal(
           <div data-in-app-training="1" data-testid="pins-portal">
             {visiblePins.map((pin) => (
-              <PinDot key={pin.id} pin={pin} locale={locale} onDismiss={() => dismiss(pin.id)} />
+              <PinDot
+                key={pin.id}
+                pin={pin}
+                locale={locale}
+                analytics={analytics}
+                onDismiss={() => dismiss(pin.id)}
+              />
             ))}
           </div>,
           document.body,
@@ -132,16 +174,19 @@ export function Pin({ id, locale = 'en' }: { id: string; locale?: string }): JSX
   if (!pin) return null;
   if (ctx.dismissed.has(id)) return null;
   if (isPastShowUntil(pin.showUntil)) return null;
-  return <PinDot pin={pin} locale={locale} onDismiss={() => ctx.dismiss(id)} />;
+  return (
+    <PinDot pin={pin} locale={locale} analytics={ctx.analytics} onDismiss={() => ctx.dismiss(id)} />
+  );
 }
 
 interface PinDotProps {
   pin: PinDef;
   locale: string;
+  analytics?: Analytics;
   onDismiss: () => void;
 }
 
-function PinDot({ pin, locale, onDismiss }: PinDotProps): JSX.Element | null {
+function PinDot({ pin, locale, analytics, onDismiss }: PinDotProps): JSX.Element | null {
   const [rect, setRect] = useState<DOMRect | null>(null);
   const [expanded, setExpanded] = useState(false);
   const [lost, setLost] = useState(false);
@@ -150,12 +195,24 @@ function PinDot({ pin, locale, onDismiss }: PinDotProps): JSX.Element | null {
     if (typeof document === 'undefined') return;
     const anchor = new PinAnchor({
       selector: pin.target,
-      onRect: (r) => setRect(r),
+      onRect: (r) => {
+        setRect((prev) => {
+          if (!prev && !shownThisSession.has(pin.id)) {
+            shownThisSession.add(pin.id);
+            safeTrack(analytics, 'pin_shown', {
+              pinId: pin.id,
+              target: pin.target,
+              timestamp: new Date().toISOString(),
+            });
+          }
+          return r;
+        });
+      },
       onLost: () => setLost(true),
     });
     void anchor.attach();
     return () => anchor.detach();
-  }, [pin.target]);
+  }, [pin.target, pin.id, analytics]);
 
   if (lost || !rect) return null;
 

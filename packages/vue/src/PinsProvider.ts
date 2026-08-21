@@ -23,6 +23,7 @@ import {
   matchesAudience,
   resolveLocale,
   PinAnchor,
+  type Analytics,
   type Pin as PinDef,
   type PinsFile,
   type UserAttributes,
@@ -30,6 +31,25 @@ import {
 import { PinsKey, type PinsContextValue } from './inject-keys.js';
 
 const DISMISS_PREFIX = 'in-app-training:pins:dismissed:';
+
+/** Per-session dedupe for `pin_shown`. Reset in tests via `_resetPinShownDedupe`. */
+const shownThisSession = new Set<string>();
+export function _resetPinShownDedupe(): void {
+  shownThisSession.clear();
+}
+
+function safeTrack(
+  analytics: Analytics | undefined,
+  name: 'pin_shown' | 'pin_dismissed',
+  payload: Record<string, unknown>,
+): void {
+  if (!analytics) return;
+  try {
+    analytics.track(name, payload);
+  } catch {
+    // Contract: analytics must not crash the widget.
+  }
+}
 
 function readDismissed(): Set<string> {
   if (typeof window === 'undefined') return new Set();
@@ -57,11 +77,20 @@ export const PinsProvider = defineComponent({
     pins: { type: Object as PropType<PinsFile>, required: true },
     userAttributes: { type: Object as PropType<UserAttributes>, required: false },
     locale: { type: String, default: 'en' },
+    analytics: { type: Object as PropType<Analytics>, required: false },
   },
   setup(props, { slots }) {
     const dismissed = reactive(new Set<string>(readDismissed()));
 
     const dismiss = (id: string): void => {
+      const pin = props.pins.pins.find((p) => p.id === id);
+      if (pin) {
+        safeTrack(props.analytics, 'pin_dismissed', {
+          pinId: pin.id,
+          target: pin.target,
+          timestamp: new Date().toISOString(),
+        });
+      }
       try {
         window.localStorage.setItem(`${DISMISS_PREFIX}${id}`, '1');
       } catch {
@@ -84,6 +113,9 @@ export const PinsProvider = defineComponent({
       dismiss,
       get locale() {
         return props.locale;
+      },
+      get analytics() {
+        return props.analytics;
       },
     };
     provide(PinsKey, value);
@@ -112,6 +144,7 @@ export const PinsProvider = defineComponent({
                     key: pin.id,
                     pin,
                     locale: props.locale,
+                    analytics: props.analytics,
                     onDismiss: () => dismiss(pin.id),
                   }),
                 ),
@@ -143,6 +176,7 @@ export const Pin = defineComponent({
       return h(PinDot, {
         pin,
         locale: ctx.locale,
+        analytics: ctx.analytics,
         onDismiss: () => ctx.dismiss(props.id),
       });
     };
@@ -154,6 +188,7 @@ const PinDot = defineComponent({
   props: {
     pin: { type: Object as PropType<PinDef>, required: true },
     locale: { type: String, required: true },
+    analytics: { type: Object as PropType<Analytics>, required: false },
     onDismiss: { type: Function as PropType<() => void>, required: true },
   },
   setup(props) {
@@ -167,6 +202,14 @@ const PinDot = defineComponent({
       anchor = new PinAnchor({
         selector: props.pin.target,
         onRect: (r) => {
+          if (!rect.value && !shownThisSession.has(props.pin.id)) {
+            shownThisSession.add(props.pin.id);
+            safeTrack(props.analytics, 'pin_shown', {
+              pinId: props.pin.id,
+              target: props.pin.target,
+              timestamp: new Date().toISOString(),
+            });
+          }
           rect.value = r;
         },
         onLost: () => {

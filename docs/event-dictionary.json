@@ -171,6 +171,48 @@
           "optional": false
         }
       ]
+    },
+    {
+      "name": "pin_shown",
+      "payload": "PinShownPayload",
+      "fields": [
+        {
+          "name": "pinId",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "target",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "timestamp",
+          "type": "string",
+          "optional": false
+        }
+      ]
+    },
+    {
+      "name": "pin_dismissed",
+      "payload": "PinDismissedPayload",
+      "fields": [
+        {
+          "name": "pinId",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "target",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "timestamp",
+          "type": "string",
+          "optional": false
+        }
+      ]
     }
   ]
 }
