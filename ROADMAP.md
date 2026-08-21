@@ -103,7 +103,7 @@ Goal: **Make the SDK work for more than one flavor of user.** All items are smal
 
 ---
 
-## Next — v0.5 · Pins + Goals + adopter #2 (Sprints 9–14, ~6 weeks)
+## Shipped — v0.5 · Pins + Goals + two adopters (Sprints 9–14) — tag `v0.5.0`
 
 Goal: **Cover the "point at the thing" gap the v0.1 launch surfaced, and prove the SDK on a second host product.**
 

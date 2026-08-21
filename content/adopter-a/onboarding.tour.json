@@ -10,7 +10,7 @@
   "prerequisites": [],
   "goal": {
     "event": "adoptera.data_source_added",
-    "windowMinutes": 5
+    "windowMinutes": 10
   },
   "steps": [
     {

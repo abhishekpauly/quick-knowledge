@@ -4,6 +4,20 @@ All notable changes to this project. Format follows [Keep a Changelog](https://k
 
 ## [Unreleased]
 
+### v0.5.0 (stable) — tier close-out (Sprints 9–14)
+
+- **Sprints 9–14 shipped together as `v0.5.0`.** See per-sprint blocks below.
+- **Tier summary:**
+  * Pins (Sprint 9) + Goals (Sprint 10) — two new experience types, live on the example app and both adopter products.
+  * `Trainer.forgetUser()` + `ConsentAdapter` (Sprint 12) — v1.0 compliance code landed early.
+  * Two adopters onboarded: Adopter Product A (React, Sprint 11), Adopter Product B (Vue-first Pins-only, Sprint 13).
+  * Vue adapter production-validated end-to-end.
+  * Event dictionary grew 6 → 11 with CI drift check throughout.
+  * Content authoring surface unchanged in shape (additive Pin + Goal + consentCategory + preferredCorner).
+- **Final v0.5 HOLD/DROP:** Launchpad + NPS + Surveys DROPPED. Banners + Webhooks stay HOLD (real ask required).
+- **Sprint 15 = v1.0 kickoff.** REST API design, content-served-from-API, third-adopter.
+
+
 ### Sprint 10 · v0.5.0-goals-preview · Goals kickoff + Sprint 09 carry-overs
 
 - **T-130** · GoalSchema additive on TourSchema. Every existing tour still validates. 9 tests.
