@@ -41,7 +41,7 @@ Native form and survey creation within Flows. Both built-in components and exter
   - `validation` on text inputs — email/phone regex, minLength/maxLength.
   - On submit, emit `training.survey_response` event with `{promptId, fields}`.
   - Follow the same analytics-flows-out-to-your-sink pattern — no in-SDK response viewer.
-- Tooltip/hotspot restriction: whether we match or exceed Appcues here is a design call. Their limitation may be UX-driven (surveys inside tooltips are cramped). Suggest starting with Modal-only for MVP; expand later if a real UPTIQ tour needs it.
+- Tooltip/hotspot restriction: whether we match or exceed Appcues here is a design call. Their limitation may be UX-driven (surveys inside tooltips are cramped). Suggest starting with Modal-only for MVP; expand later if a real tour needs it.
 - Multi-question per step: we support because step body is arbitrary content in our model.
 - Response destinations: reuse analytics adapter. Response data goes to the same sink (PostHog, Amplitude) as other events. Products with a dedicated response viewer (e.g. via webhook to a custom backend) build it themselves.
 - Downstream flow targeting on response: overlaps with property-targeting from v0.2. If we store the response as a user property (via persistence), other tours can gate on it.

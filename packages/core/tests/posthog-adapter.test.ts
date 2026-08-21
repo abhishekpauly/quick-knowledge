@@ -26,9 +26,9 @@ describe('posthogAnalytics', () => {
 
   it('honors a custom prefix', () => {
     const ph = stubPosthog();
-    const analytics = posthogAnalytics(ph, { prefix: 'uptiq_training_' });
+    const analytics = posthogAnalytics(ph, { prefix: 'in-app-training_training_' });
     analytics.track('step_viewed', {});
-    expect(ph.calls[0]![0]).toBe('uptiq_training_step_viewed');
+    expect(ph.calls[0]![0]).toBe('in-app-training_training_step_viewed');
   });
 
   it('swallows errors from the underlying sink and logs a warning', () => {

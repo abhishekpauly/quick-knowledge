@@ -15,7 +15,7 @@ Non-goals: aesthetic preferences, feature requests, deep discussion of the produ
 ## Recruit
 
 Five users. Diverse across:
-- Two who have never used the AI Platform.
+- Two who have never used the example app.
 - Two who have used it briefly (few days).
 - One power user.
 
@@ -38,7 +38,7 @@ Compensation: gift card or coffee. Even internal, respect the time.
 Read verbatim to keep the sessions comparable.
 
 > **Intro (2 min):**
-> "Thanks for helping. I'm going to give you access to a new product called AI Platform. I want to see how you get started with it. I'll ask you to think out loud — say what you're seeing, what you're expecting to happen, what confuses you. There's no wrong answer, and none of this is a test of you — it's a test of the product. I'll be quiet mostly; if I'm silent, keep going. If you get stuck, that's the most useful thing that can happen. If you have questions, save them for the end. OK?"
+> "Thanks for helping. I'm going to give you access to a new product called the example app. I want to see how you get started with it. I'll ask you to think out loud — say what you're seeing, what you're expecting to happen, what confuses you. There's no wrong answer, and none of this is a test of you — it's a test of the product. I'll be quiet mostly; if I'm silent, keep going. If you get stuck, that's the most useful thing that can happen. If you have questions, save them for the end. OK?"
 >
 > "One more thing: there's going to be a walkthrough. Treat it like you'd treat any product walkthrough you encountered in real life — read it, skip it, ignore it, whatever feels natural. Ready?"
 

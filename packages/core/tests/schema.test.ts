@@ -11,7 +11,7 @@ import { parseTour, loadContent } from '../src/schema/loader.js';
 const validTour = {
   schemaVersion: 'v1',
   id: 'test-tour',
-  product: 'ai-platform',
+  product: 'example-app',
   title: 'Test tour',
   difficulty: 'basic',
   triggers: [{ type: 'manual' }],

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "v1",
-  "product": "ai-platform",
+  "product": "example-app",
   "hints": [
     {
       "id": "workflow-node-name",
@@ -12,13 +12,13 @@
       "id": "project-region",
       "title": "Region",
       "body": "Choose the region closest to your data. You can't change this after the project is created.",
-      "learnMoreUrl": "https://docs.uptiq.example/ai-platform/regions"
+      "learnMoreUrl": "https://docs.in-app-training.example/example-app/regions"
     },
     {
       "id": "model-max-tokens",
       "title": "Max tokens",
       "body": "The maximum number of tokens the model can generate per response. Higher = longer answers but more cost.",
-      "learnMoreUrl": "https://docs.uptiq.example/ai-platform/pricing"
+      "learnMoreUrl": "https://docs.in-app-training.example/example-app/pricing"
     }
   ]
 }

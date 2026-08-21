@@ -1,15 +1,15 @@
 # Adopter #2 scouting
 
 **Sprint 08 · T-094 (outreach calls) + T-095 (this doc).**
-**Owner:** Abhishek Paul, with Priya Nair (AI Platform PM) making the introductions.
+**Owner:** Abhishek Paul, with [Product PM] (the example app PM) making the introductions.
 **Date:** 2026-09-03.
-**Simulation note:** intro-call outcomes are walked-through outputs for the T-094/T-095 rehearsal. The doc structure is the deliverable; the two candidates named (Workbench, Insights) are the two UPTIQ product teams Priya volunteered at the v0.1.0 retro.
+**Simulation note:** intro-call outcomes are walked-through outputs for the T-094/T-095 rehearsal. The doc structure is the deliverable; the two candidates named (Adopter Product A, Adopter Product B) are the two host product teams [Product PM] volunteered at the v0.1.0 retro.
 
 ---
 
 ## Purpose
 
-Find UPTIQ's second product to adopt the training SDK. v0.1.0 proved the SDK works for one product; the whole cross-product ROI story of the roadmap depends on adopter #2 arriving. This doc captures the two intro calls and recommends a next step per candidate.
+Find the org's second product to adopt the training SDK. v0.1.0 proved the SDK works for one product; the whole cross-product ROI story of the roadmap depends on adopter #2 arriving. This doc captures the two intro calls and recommends a next step per candidate.
 
 Criteria used to score fit (before the calls, applied after):
 
@@ -20,24 +20,24 @@ Criteria used to score fit (before the calls, applied after):
 
 ---
 
-## Candidate 1 — Workbench
+## Candidate 1 — Adopter Product A
 
-**Product:** UPTIQ Workbench — internal + external users; multi-tab notebook + model-registry surface.
-**Call attendees:** Abhishek Paul, Priya Nair (introducing), Diya Kapoor (Workbench PM).
+**Product:** Adopter Product A — internal + external users; multi-tab notebook + model-registry surface.
+**Call attendees:** Abhishek Paul, [Product PM (introducing)], [Adopter A PM].
 **Date:** 2026-09-02, 30 min.
 
 ### What we learned
 
-- **Onboarding pain: high.** Workbench's welcome flow is a single "Get started" splash and a link to a Notion doc. Diya described the current adoption pattern as "power users onboard themselves; everyone else opens a support ticket titled 'how do I add a data source'." Support tickets tagged "onboarding-workbench" ran at ~40/week last month; Diya wants that below 10/week.
-- **Frontend stack:** **React 18** + Tailwind. `@uptiq/training-sdk-react` is a drop-in.
+- **Onboarding pain: high.** Adopter Product A's welcome flow is a single "Get started" splash and a link to a Notion doc. [Adopter A PM] described the current adoption pattern as "power users onboard themselves; everyone else opens a support ticket titled 'how do I add a data source'." Support tickets tagged "onboarding-workbench" ran at ~40/week last month; [Adopter A PM] wants that below 10/week.
+- **Frontend stack:** **React 18** + Tailwind. `@in-app-training/react` is a drop-in.
 - **First tour candidates the team already has copy for:**
   1. "Add your first data source" (the ticket-driver — 40/week).
   2. "Run your first notebook cell" (has a written help page; needs a tour that mirrors it).
-  3. "Share a notebook with a teammate" (a common-task tour, mirrors AI Platform's share-workflow shape).
+  3. "Share a notebook with a teammate" (a common-task tour, mirrors the example app's share-workflow shape).
 - **Blockers:** Frontend team is currently mid-refactor of the workbench canvas (~2 weeks left). `data-tour` PR shouldn't land during the refactor window; safe to open Week 3 of Sprint 09.
-- **Sink:** PostHog. Same as AI Platform. Zero adapter work.
-- **Compliance:** the T-093 ADRs (GDPR delete API + consent hook) matter to Workbench because it has external customers on data-processing contracts. Diya explicitly asked whether the SDK carries a compliance liability. Answer per ADR-0005/ADR-0006: opt-in, no server-side state before v1.0, ready-shaped for the erasure and consent flows they'll want.
-- **Timeline they'd accept:** first tour live in Workbench staging by end of Sprint 10, prod by end of Sprint 11.
+- **Sink:** PostHog. Same as the example app. Zero adapter work.
+- **Compliance:** the T-093 ADRs (GDPR delete API + consent hook) matter to Adopter Product A because it has external customers on data-processing contracts. [Adopter A PM] explicitly asked whether the SDK carries a compliance liability. Answer per ADR-0005/ADR-0006: opt-in, no server-side state before v1.0, ready-shaped for the erasure and consent flows they'll want.
+- **Timeline they'd accept:** first tour live in Adopter Product A staging by end of Sprint 10, prod by end of Sprint 11.
 
 ### Fit score
 
@@ -52,28 +52,28 @@ Criteria used to score fit (before the calls, applied after):
 
 ### Next step
 
-- **Sprint 08 wrap:** send Diya the [`docs/how-to-integrate.md`](../docs/how-to-integrate.md) doc + the [`releases/ai-platform-data-tour-pr.md`](../releases/ai-platform-data-tour-pr.md) template. Ask her to circulate to her frontend lead.
-- **Sprint 09 Week 3:** open the Workbench `data-tour` PR (once their canvas refactor lands).
-- **Sprint 10:** Workbench-flavoured content: author the "Add your first data source" tour (mirror AI Platform onboarding.tour.json shape). Ship to Workbench staging.
-- **Sprint 11:** Workbench production ship + first-week metrics snapshot.
+- **Sprint 08 wrap:** send [Adopter A PM] the [`docs/how-to-integrate.md`](../docs/how-to-integrate.md) doc + the [`releases/adopter-data-tour-pr.md`](../releases/adopter-data-tour-pr.md) template. Ask her to circulate to her frontend lead.
+- **Sprint 09 Week 3:** open the Adopter Product A `data-tour` PR (once their canvas refactor lands).
+- **Sprint 10:** Adopter Product A-flavoured content: author the "Add your first data source" tour (mirror the example app onboarding.tour.json shape). Ship to Adopter Product A staging.
+- **Sprint 11:** Adopter Product A production ship + first-week metrics snapshot.
 
 ---
 
-## Candidate 2 — Insights
+## Candidate 2 — Adopter Product B
 
-**Product:** UPTIQ Insights — internal-only BI + dashboarding surface used by the finance and analytics teams.
-**Call attendees:** Abhishek Paul, Priya Nair (introducing), Rohan Iyer (Insights PM).
+**Product:** Adopter Product B — internal-only BI + dashboarding surface used by the finance and analytics teams.
+**Call attendees:** Abhishek Paul, [Product PM (introducing)], [Adopter B PM].
 **Date:** 2026-09-03, 30 min.
 
 ### What we learned
 
-- **Onboarding pain: low-moderate.** Insights is used by ~40 internal people. Most were trained by their team lead in a 15-minute walkthrough on join. Rohan estimated maybe 1 new user per month.
-- **Frontend stack:** **Vue 3** + Element Plus. `@uptiq/training-sdk-vue` is a drop-in.
-- **First tour candidates:** Rohan didn't have a concrete top tour in mind. He was interested in the SDK as a way to surface **feature-discovery hints** (Pins from v0.5) more than tours. "Half the finance team doesn't know we shipped saved dashboards last quarter."
+- **Onboarding pain: low-moderate.** Adopter Product B is used by ~40 internal people. Most were trained by their team lead in a 15-minute walkthrough on join. [Adopter B PM] estimated maybe 1 new user per month.
+- **Frontend stack:** **Vue 3** + Element Plus. `@in-app-training/vue` is a drop-in.
+- **First tour candidates:** [Adopter B PM] didn't have a concrete top tour in mind. He was interested in the SDK as a way to surface **feature-discovery hints** (Pins from v0.5) more than tours. "Half the finance team doesn't know we shipped saved dashboards last quarter."
 - **Blockers:** No engineering blocker, but low volume of new users means the ROI on a tour would be limited. Pins would land better.
-- **Sink:** PostHog (via a shared UPTIQ project). Same adapter.
-- **Compliance:** internal-only means the ADR-0005/ADR-0006 story is theoretical for Insights — nice to know we have it, but not gating.
-- **Timeline:** Rohan didn't press for one. Willing to be second-in-line behind Workbench.
+- **Sink:** PostHog (via a shared project). Same adapter.
+- **Compliance:** internal-only means the ADR-0005/ADR-0006 story is theoretical for Adopter Product B — nice to know we have it, but not gating.
+- **Timeline:** [Adopter B PM] didn't press for one. Willing to be second-in-line behind Adopter Product A.
 
 ### Fit score
 
@@ -88,20 +88,20 @@ Criteria used to score fit (before the calls, applied after):
 
 ### Next step
 
-- **Sprint 09:** while shipping Pins for AI Platform, keep Rohan in the loop. Once Pins ship on AI Platform prod (target end of Sprint 9), open a follow-up with Rohan: "here's what it looks like; want to try it on the saved-dashboards feature?"
-- **Sprint 10:** if Rohan's still in, open Insights `data-tour` PR for the 2–3 elements that would carry pins.
-- **Sprint 11:** first 2–3 pins live in Insights.
-- **Explicit note:** Insights validates the Vue adapter in production even though the *feature* it uses is Pins-first, not tours. That's a valuable side-effect.
+- **Sprint 09:** while shipping Pins for the example app, keep [Adopter B PM] in the loop. Once Pins ship on the example app prod (target end of Sprint 9), open a follow-up with [Adopter B PM]: "here's what it looks like; want to try it on the saved-dashboards feature?"
+- **Sprint 10:** if [Adopter B PM]'s still in, open Adopter Product B `data-tour` PR for the 2–3 elements that would carry pins.
+- **Sprint 11:** first 2–3 pins live in Adopter Product B.
+- **Explicit note:** Adopter Product B validates the Vue adapter in production even though the *feature* it uses is Pins-first, not tours. That's a valuable side-effect.
 
 ---
 
 ## Combined outcome
 
-- **Adopter #2 is Workbench.** Committed for Sprint 10–11 integration. Sponsor identified, stack compatible, real pain, concrete first tour.
-- **Adopter #3 is Insights.** Deferred to Pins-first integration in Sprints 10–11. Different mode of adoption (Pins, not tours), also valuable — the Vue adapter gets its first production use.
+- **Adopter #2 is Adopter Product A.** Committed for Sprint 10–11 integration. Sponsor identified, stack compatible, real pain, concrete first tour.
+- **Adopter #3 is Adopter Product B.** Deferred to Pins-first integration in Sprints 10–11. Different mode of adoption (Pins, not tours), also valuable — the Vue adapter gets its first production use.
 - **Both use PostHog.** Zero sink work for either.
-- **Sprint 09 stays AI-Platform-focused for Pins** (per v0.5-kickoff.md). Adopter integration lands in Sprints 10–11 as originally sequenced. Nothing changes about the v0.5 plan.
+- **Sprint 09 stays the example app-focused for Pins** (per v0.5-kickoff.md). Adopter integration lands in Sprints 10–11 as originally sequenced. Nothing changes about the v0.5 plan.
 
 ## What the retro's "second-product signal" reads as now
 
-Was **soft** at retro time. Now: **committed** (Workbench), plus **soft-plus-different-mode** (Insights). Update the ROADMAP v0.5 line accordingly.
+Was **soft** at retro time. Now: **committed** (Adopter Product A), plus **soft-plus-different-mode** (Adopter Product B). Update the ROADMAP v0.5 line accordingly.

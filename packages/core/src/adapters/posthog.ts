@@ -1,5 +1,5 @@
 /**
- * PostHog analytics adapter — the chosen default sink for the AI Platform launch.
+ * PostHog analytics adapter — the chosen default sink for the example app launch.
  *
  * Why PostHog as the default:
  *   - Product-analytics native. Funnels, cohorts, and session recordings live
@@ -8,7 +8,7 @@
  *   - Zero code change on our side to swap to Amplitude / Mixpanel / GA4 later —
  *     any adapter matching the Analytics interface drops in.
  *
- * If UPTIQ actually uses a different sink, swap: import from a different factory
+ * If actually uses a different sink, swap: import from a different factory
  * in this file's neighbors (`docs/wiring-analytics-sink.md` has recipes for
  * PostHog, Amplitude, Mixpanel, Segment, GA4, custom internal, and multi-sink).
  *
@@ -55,7 +55,7 @@ export function posthogAnalytics(
       } catch (err) {
         // Never propagate. A broken sink cannot crash a user's tour.
         // eslint-disable-next-line no-console
-        console.warn('[training-sdk] posthog capture failed', err);
+        console.warn('[in-app-training] posthog capture failed', err);
       }
     },
   };

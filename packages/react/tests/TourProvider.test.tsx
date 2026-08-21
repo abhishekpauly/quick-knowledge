@@ -7,7 +7,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render } from '@testing-library/react';
 import { TourProvider } from '../src/TourProvider.js';
-import type { Trainer } from '@uptiq/training-sdk';
+import type { Trainer } from '@in-app-training/sdk';
 
 // Minimal Trainer stub — enough to satisfy the type at the provider boundary.
 function stubTrainer(): Trainer {
@@ -55,7 +55,7 @@ describe('TourProvider', () => {
       </TourProvider>,
     );
     // Effect runs after mount — value on documentElement reflects the theme.
-    expect(document.documentElement.style.getPropertyValue('--uptiq-training-primary')).toBe(
+    expect(document.documentElement.style.getPropertyValue('--in-app-training-primary')).toBe(
       '#ff0000',
     );
   });

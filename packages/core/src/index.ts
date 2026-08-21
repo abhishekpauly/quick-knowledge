@@ -1,7 +1,7 @@
 /**
- * Public API for @uptiq/training-sdk.
+ * Public API for @in-app-training/sdk.
  *
- * This file is the contract other UPTIQ products depend on. Every export here
+ * This file is the contract other host products depend on. Every export here
  * is stable across MINOR versions. Removing or renaming anything here requires
  * a MAJOR bump and a note in CHANGELOG.md.
  */
@@ -45,9 +45,9 @@ export {
 } from './adapters/persistence.js';
 
 // Theme
-export { defaultTheme, aiPlatformTheme, applyTheme, type Theme } from './theme/default.js';
+export { defaultTheme, exampleAppTheme, applyTheme, type Theme } from './theme/default.js';
 
-// Content schema (re-exported here for convenience; also available at @uptiq/training-sdk/schema/v1)
+// Content schema (re-exported here for convenience; also available at @in-app-training/sdk/schema/v1)
 export {
   TourSchema,
   StepSchema,

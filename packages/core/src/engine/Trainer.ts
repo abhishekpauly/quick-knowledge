@@ -368,7 +368,7 @@ export class Trainer {
               }
             } catch (err) {
               // eslint-disable-next-line no-console
-              console.warn('[training-sdk] redirect step navigation failed', err);
+              console.warn('[in-app-training] redirect step navigation failed', err);
             }
           }
           setTimeout(() => {
@@ -411,7 +411,7 @@ export class Trainer {
     }
     // Video: placeholder — implement in v0.5 with proper iframe handling.
     // eslint-disable-next-line no-console
-    console.warn(`[training-sdk] media type "${media.type}" not yet rendered; skipping`);
+    console.warn(`[in-app-training] media type "${media.type}" not yet rendered; skipping`);
     return '';
   }
 
@@ -612,7 +612,7 @@ export class Trainer {
       this.config.analytics.track(event.name, event.payload as unknown as Record<string, unknown>);
     } catch (err) {
       // eslint-disable-next-line no-console
-      console.warn('[training-sdk] analytics adapter threw:', err);
+      console.warn('[in-app-training] analytics adapter threw:', err);
     }
     const set = this.listeners.get(event.name);
     if (!set) return;
@@ -621,7 +621,7 @@ export class Trainer {
         listener(event as never);
       } catch (err) {
         // eslint-disable-next-line no-console
-        console.warn('[training-sdk] event listener threw:', err);
+        console.warn('[in-app-training] event listener threw:', err);
       }
     }
   }

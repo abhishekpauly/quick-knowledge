@@ -4,7 +4,7 @@
  * Vue counterpart of the React HintsProvider.
  */
 import { defineComponent, provide, computed, type PropType } from 'vue';
-import type { HintsFile, Hint } from '@uptiq/training-sdk';
+import type { HintsFile, Hint } from '@in-app-training/sdk';
 import { HintsKey } from './inject-keys.js';
 
 export const HintsProvider = defineComponent({

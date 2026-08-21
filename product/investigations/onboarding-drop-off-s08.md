@@ -2,7 +2,7 @@
 
 **Sprint 08 · T-091.**
 **Question owner:** Abhishek Paul.
-**Co-owner:** Priya Nair (AI Platform PM).
+**Co-owner:** [Product PM] (the example app PM).
 **Date:** 2026-09-02.
 **Simulation note:** the session-replay sample below is walked-through data from the T-091 rehearsal; a real run substitutes the actual PostHog session IDs and outcomes. The investigation shape is the deliverable.
 
@@ -25,7 +25,7 @@ The `create-project → user-menu` step lost 12 percentage points, the biggest s
 
 ## Method
 
-1. In PostHog, filter the last 7 days of `tour_dismissed` events where `stepId = create-project` and tour id = `ai-platform-onboarding`. Sample 20 sessions.
+1. In PostHog, filter the last 7 days of `tour_dismissed` events where `stepId = create-project` and tour id = `example-app-onboarding`. Sample 20 sessions.
 2. For each session, open session replay. Watch the 60 seconds after the dismissal event.
 3. Classify each session into one of:
    - **A · went-to-goal:** user clicked "Create project" and started the project-creation flow (URL change to `/projects/new` or similar).
@@ -80,7 +80,7 @@ Two secondary findings:
 ## Recommendation
 
 - **Do not "fix" the tour based on the drop-off number alone.** The drop-off is largely a measurement artifact.
-- **Adopt Goals (v0.5) to measure this correctly going forward.** Attach a goal `ai_platform.project_created` with a 5-minute window to the onboarding tour. That single number replaces the drop-off-based hand-wringing with a real success rate.
+- **Adopt Goals (v0.5) to measure this correctly going forward.** Attach a goal `exampleapp.project_created` with a 5-minute window to the onboarding tour. That single number replaces the drop-off-based hand-wringing with a real success rate.
 - **Do NOT skip the user-menu step for A-class users** as the retro speculatively suggested. The step is useful — the measurement is what's broken.
 - **Small experiment for v0.5:** add a pin on the "Ready" step's return path so A-class users who come back after creating a project get a friendly "welcome back — here's what else" prompt. Track it separately.
 

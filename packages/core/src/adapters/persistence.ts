@@ -13,7 +13,7 @@ export interface Persistence {
   remove(key: string): Promise<void>;
 }
 
-const KEY_PREFIX = 'uptiq-training';
+const KEY_PREFIX = 'in-app-training';
 
 /**
  * Wrap localStorage. Falls back to in-memory if localStorage is unavailable
@@ -23,7 +23,9 @@ export function localStoragePersistence(): Persistence {
   const available = isLocalStorageAvailable();
   if (!available) {
     // eslint-disable-next-line no-console
-    console.warn('[training-sdk] localStorage unavailable, falling back to in-memory persistence');
+    console.warn(
+      '[in-app-training] localStorage unavailable, falling back to in-memory persistence',
+    );
     return memoryPersistence();
   }
 

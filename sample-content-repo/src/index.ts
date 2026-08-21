@@ -1,15 +1,15 @@
 /**
- * Public exports of the AI Platform training content.
+ * Public exports of the example app training content.
  *
- * Consumers (the AI Platform frontend) import from here:
+ * Consumers (the example app frontend) import from here:
  *
- *   import { tours, hints } from '@uptiq/ai-platform-training-content';
+ *   import { tours, hints } from '@in-app-training/example-app-content';
  *   const trainer = new Trainer({ tours, analytics, persistence });
  *
  * Content is parsed and validated at import time — any schema mistake fails
  * fast at boot rather than at first render.
  */
-import { parseTour, parseHints, type Tour, type HintsFile } from '@uptiq/training-sdk';
+import { parseTour, parseHints, type Tour, type HintsFile } from '@in-app-training/sdk';
 import onboardingRaw from '../tours/onboarding.tour.json' with { type: 'json' };
 import workflowsRaw from '../tours/workflows-create-project.tour.json' with { type: 'json' };
 import hintsRaw from '../hints.json' with { type: 'json' };

@@ -1,5 +1,5 @@
 {
-  "name": "@uptiq/training-sdk",
+  "name": "@in-app-training/sdk",
   "version": "0.0.1",
   "description": "In-app product training SDK — framework-agnostic core.",
   "type": "module",

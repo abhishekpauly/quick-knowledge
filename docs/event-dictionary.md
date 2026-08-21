@@ -3,7 +3,7 @@
 **Generated** — do not edit by hand. Regenerate via `npm run docs:events`.
 **Source:** `packages/core/src/engine/events.ts`
 
-Every event emitted by `@uptiq/training-sdk` through the `Analytics.track(name, properties)` contract.
+Every event emitted by `@in-app-training/sdk` through the `Analytics.track(name, properties)` contract.
 
 Dashboard authors: filter names below are exact. Property names are camelCase in the payload as delivered to `track()`; if your sink rewrites to snake_case, that is a sink-side concern.
 

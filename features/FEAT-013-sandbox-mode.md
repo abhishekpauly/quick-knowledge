@@ -6,7 +6,7 @@
 
 ## Problem (future)
 
-Advanced AI Platform workflows involve real cost (model training, deploys, spend). A tour that walks a user through "deploy a model" shouldn't actually deploy the model.
+Advanced the example app workflows involve real cost (model training, deploys, spend). A tour that walks a user through "deploy a model" shouldn't actually deploy the model.
 
 ## Deferral rationale
 

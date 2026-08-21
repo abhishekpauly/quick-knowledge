@@ -1,7 +1,7 @@
 {
   "schemaVersion": "v1",
   "id": "product-tour-id",
-  "product": "ai-platform",
+  "product": "example-app",
   "title": "Human-readable tour title",
   "description": "One-line description shown in checklists.",
   "difficulty": "basic",

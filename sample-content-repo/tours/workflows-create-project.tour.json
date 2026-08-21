@@ -1,7 +1,7 @@
 {
   "schemaVersion": "v1",
-  "id": "ai-platform-workflows-create-project",
-  "product": "ai-platform",
+  "id": "example-app-workflows-create-project",
+  "product": "example-app",
   "title": "Create your first workflow",
   "description": "Walk through creating a workflow from scratch — connect a data source, pick a model, and run it.",
   "difficulty": "basic",
@@ -9,7 +9,7 @@
   "triggers": [
     { "type": "manual" }
   ],
-  "prerequisites": ["ai-platform-onboarding"],
+  "prerequisites": ["example-app-onboarding"],
   "steps": [
     {
       "id": "open-workflows",

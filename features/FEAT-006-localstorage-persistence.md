@@ -19,7 +19,7 @@ We need to remember which tours a user has completed so we don't re-trigger onbo
 
 - `localStoragePersistence()` factory.
 - Async `get` / `set`.
-- Namespaced keys: `uptiq-training:<product>:<tourId>:<field>`.
+- Namespaced keys: `in-app-training:<product>:<tourId>:<field>`.
 - Graceful degradation if localStorage is unavailable (private mode) — falls back to in-memory.
 
 ## Acceptance criteria
@@ -27,7 +27,7 @@ We need to remember which tours a user has completed so we don't re-trigger onbo
 - [ ] Completing a tour writes a completion record to localStorage.
 - [ ] Re-mounting reads that record and does not re-trigger first-run tours.
 - [ ] Works when localStorage is blocked (falls back to in-memory, logs a warning).
-- [ ] Keys are namespaced by product so multiple UPTIQ products on the same origin don't collide.
+- [ ] Keys are namespaced by product so multiple host products on the same origin don't collide.
 
 ## Risks
 

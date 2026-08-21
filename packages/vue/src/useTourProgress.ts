@@ -2,7 +2,7 @@
  * useTourProgress — reactive per-tour progress. Vue composable.
  */
 import { inject, ref, onBeforeUnmount, type Ref } from 'vue';
-import type { TourProgress } from '@uptiq/training-sdk';
+import type { TourProgress } from '@in-app-training/sdk';
 import { TrainerKey } from './inject-keys.js';
 
 export function useTourProgress(tourId: string): Ref<TourProgress> {

@@ -30,7 +30,7 @@ export function personalize(text: string, ctx: PersonalizationContext | undefine
       if (IS_DEV) {
         // eslint-disable-next-line no-console
         console.warn(
-          `[training-sdk] personalization: unknown path "{{${path}}}" — inserted empty string`,
+          `[in-app-training] personalization: unknown path "{{${path}}}" — inserted empty string`,
         );
       }
       return '';

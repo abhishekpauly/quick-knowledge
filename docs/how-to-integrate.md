@@ -1,6 +1,6 @@
 # How to integrate the Training SDK
 
-For a UPTIQ product team adopting the in-app training system for the first time. If you're the AI Platform team, you're following this too — you're just the first.
+For a host product team adopting the in-app training system for the first time. If you're the example app team, you're following this too — you're just the first.
 
 Time to first working tour: ~15 minutes.
 
@@ -14,7 +14,7 @@ Time to first working tour: ~15 minutes.
 ## Step 1 — Install
 
 ```bash
-npm install @uptiq/training-sdk @uptiq/training-sdk-react
+npm install @in-app-training/sdk @in-app-training/react
 ```
 
 Add Shepherd's CSS to your app's HTML head (once, globally):
@@ -43,15 +43,15 @@ This is the one required change to your existing components. See `docs/data-tour
 </button>
 ```
 
-Add attributes for every element any tour will point at. The curriculum team will tell you which — see `tracker/sprint-01-selectors.md` for the AI Platform's initial list.
+Add attributes for every element any tour will point at. The curriculum team will tell you which — see `tracker/sprint-01-selectors.md` for the example app's initial list.
 
 ## Step 3 — Author or import tour content
 
 The curriculum team owns this. For the integration itself, you just need to load their JSON. Either import files directly (bundled with your app):
 
 ```ts
-import onboarding from '@uptiq/training-content/ai-platform/onboarding.tour.json';
-import workflows from '@uptiq/training-content/ai-platform/workflows-create-project.tour.json';
+import onboarding from '@in-app-training/training-content/example-app/onboarding.tour.json';
+import workflows from '@in-app-training/training-content/example-app/workflows-create-project.tour.json';
 ```
 
 Or serve content from an API (v0.5+ feature — not MVP).
@@ -61,7 +61,7 @@ Or serve content from an API (v0.5+ feature — not MVP).
 Every host product implements the `Analytics` interface for its own sink. Full recipes for Amplitude, PostHog, Mixpanel, and custom sinks in `docs/analytics-adapters.md`. Simplest example (PostHog):
 
 ```ts
-import type { Analytics } from '@uptiq/training-sdk';
+import type { Analytics } from '@in-app-training/sdk';
 import { posthog } from './your-posthog-instance';
 
 export const analytics: Analytics = {
@@ -83,9 +83,9 @@ import {
   Trainer,
   localStoragePersistence,
   parseTour,
-} from '@uptiq/training-sdk';
+} from '@in-app-training/sdk';
 import { analytics } from './analytics-adapter';
-import { aiPlatformTheme } from './theme';
+import { exampleAppTheme } from './theme';
 import onboardingRaw from './content/onboarding.tour.json';
 import workflowsRaw from './content/workflows-create-project.tour.json';
 
@@ -100,11 +100,11 @@ if (tours.length !== 2) {
 }
 
 export const trainer = new Trainer({
-  product: 'ai-platform',
+  product: 'example-app',
   tours,
   analytics,
   persistence: localStoragePersistence(),
-  theme: aiPlatformTheme,
+  theme: exampleAppTheme,
 });
 ```
 
@@ -114,14 +114,14 @@ At your app root, inside the auth-protected area:
 
 ```tsx
 // src/App.tsx
-import { TourProvider, FirstRunTour } from '@uptiq/training-sdk-react';
+import { TourProvider, FirstRunTour } from '@in-app-training/react';
 import { trainer } from './training';
-import { aiPlatformTheme } from './theme';
+import { exampleAppTheme } from './theme';
 
 export function App() {
   return (
-    <TourProvider trainer={trainer} theme={aiPlatformTheme}>
-      <FirstRunTour tourId="ai-platform-onboarding" delayMs={500} />
+    <TourProvider trainer={trainer} theme={exampleAppTheme}>
+      <FirstRunTour tourId="example-app-onboarding" delayMs={500} />
       <YourAppShell />
     </TourProvider>
   );
@@ -138,12 +138,12 @@ Two things happen here:
 Anywhere in your component tree:
 
 ```tsx
-import { useTour } from '@uptiq/training-sdk-react';
+import { useTour } from '@in-app-training/react';
 
 function HelpButton() {
   const { start } = useTour();
   return (
-    <button onClick={() => start('ai-platform-workflows-create-project')}>
+    <button onClick={() => start('example-app-workflows-create-project')}>
       Show me how to create a workflow
     </button>
   );
@@ -153,10 +153,10 @@ function HelpButton() {
 ## Step 8 — Read progress (optional, for checklist widgets and unlock logic)
 
 ```tsx
-import { useTourProgress } from '@uptiq/training-sdk-react';
+import { useTourProgress } from '@in-app-training/react';
 
 function WorkflowsBadge() {
-  const progress = useTourProgress('ai-platform-workflows-create-project');
+  const progress = useTourProgress('example-app-workflows-create-project');
   if (progress.status === 'completed') return <span>✓ Learned</span>;
   return null;
 }

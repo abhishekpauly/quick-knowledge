@@ -30,4 +30,4 @@ What did we decide to do? State it clearly and briefly.
 
 ## Revisit triggers
 
-Conditions under which we should reconsider this decision. Example: "Revisit if Shepherd.js is unmaintained for 12 months" or "Revisit if a second product's needs diverge from AI Platform's."
+Conditions under which we should reconsider this decision. Example: "Revisit if Shepherd.js is unmaintained for 12 months" or "Revisit if a second product's needs diverge from the example app's."

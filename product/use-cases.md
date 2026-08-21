@@ -10,7 +10,7 @@ A four-minute walkthrough that runs the first time a user lands in the app. Auto
 
 *Why it matters:* New users who complete onboarding activate at meaningfully higher rates than those who don't. Even a 5–10% lift compounds into retention and revenue.
 
-*Currently shipping:* `content/ai-platform/onboarding.tour.json`, 6 steps.
+*Currently shipping:* `content/example-app/onboarding.tour.json`, 6 steps.
 
 ## 2. Workflow tutorials by difficulty
 
@@ -23,7 +23,7 @@ Basic → intermediate → advanced. Users unlock each level as they complete pr
 
 *Why it matters:* Users learn at their pace. Advanced content stays hidden until they're ready — no overwhelming beginners; no boring power users.
 
-*Currently shipping:* `content/ai-platform/workflows-create-project.tour.json`. More authored in Sprint 04 based on user testing.
+*Currently shipping:* `content/example-app/workflows-create-project.tour.json`. More authored in Sprint 04 based on user testing.
 
 ## 3. Common-task walkthroughs
 
@@ -41,11 +41,11 @@ The `?` icons next to inputs that answer "what does this field actually do?" wit
 
 *Why it matters:* Cheaper than a tour, more discoverable than a doc, and doesn't interrupt the user's flow.
 
-*Currently shipping:* `content/ai-platform/hints.json` with three real hints (workflow node names, project region, model max tokens).
+*Currently shipping:* `content/example-app/hints.json` with three real hints (workflow node names, project region, model max tokens).
 
 ## 5. Feature-launch nudges
 
-When any UPTIQ product ships a new feature, a targeted tour introduces it — but only to users who would benefit. Triggered by the URL of the new feature's page or by an analytics event that signals eligibility.
+When any host product ships a new feature, a targeted tour introduces it — but only to users who would benefit. Triggered by the URL of the new feature's page or by an analytics event that signals eligibility.
 
 *Structure:* 2–4 steps. Highlights the entry point, explains the value, walks the user through their first use.
 
@@ -64,7 +64,7 @@ Systematic: identify the top 10 confusing screens or workflows from support tick
 4. Author training content covering each.
 5. Ship. Measure ticket volume against the baseline over the next 30 days.
 
-*Why it matters:* Every deflected ticket is 15–30 minutes of support time saved. At UPTIQ's loaded support cost, this is measurable in dollars within weeks. See `roi.md` for the math.
+*Why it matters:* Every deflected ticket is 15–30 minutes of support time saved. At the org's loaded support cost, this is measurable in dollars within weeks. See `roi.md` for the math.
 
 ## 7. Sales demo prep for enterprise deals
 

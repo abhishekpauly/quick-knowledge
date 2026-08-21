@@ -59,7 +59,7 @@ Three kinds of adapters, each pluggable per host product:
 - Products can swap in a backend adapter for cross-device sync.
 
 ### Theme
-- CSS variables. One theme object per product, applied via `<TourProvider theme={aiPlatformTheme}>`.
+- CSS variables. One theme object per product, applied via `<TourProvider theme={exampleAppTheme}>`.
 - Documented tokens: colors, typography, tooltip shape/shadow, spacing.
 
 ## The `data-tour` contract
@@ -103,15 +103,15 @@ Content ships with the SDK for MVP. In a later phase, we may serve content from 
 ## Public API sketch (target for end of Sprint 03)
 
 ```ts
-import { Trainer } from '@uptiq/training-sdk';
-import { ReactAdapter } from '@uptiq/training-sdk-react';
-import tours from './content/ai-platform/index.json';
+import { Trainer } from '@in-app-training/sdk';
+import { ReactAdapter } from '@in-app-training/react';
+import tours from './content/example-app/index.json';
 
 const trainer = new Trainer({
   content: tours,
   analytics: { track: (name, props) => amplitude.logEvent(name, props) },
   persistence: localStoragePersistence(),
-  theme: aiPlatformTheme,
+  theme: exampleAppTheme,
 });
 
 // In your React root:

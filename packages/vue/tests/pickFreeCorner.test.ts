@@ -68,9 +68,9 @@ describe('pickFreeCorner (Vue)', () => {
     expect(isCornerFree('bottom-right')).toBe(true);
   });
 
-  it('treats a hit inside our own [data-uptiq-training] widget as free', () => {
+  it('treats a hit inside our own [data-in-app-training] widget as free', () => {
     const ourWidget = document.createElement('div');
-    ourWidget.setAttribute('data-uptiq-training', '1');
+    ourWidget.setAttribute('data-in-app-training', '1');
     const inner = document.createElement('span');
     ourWidget.appendChild(inner);
     document.body.appendChild(ourWidget);

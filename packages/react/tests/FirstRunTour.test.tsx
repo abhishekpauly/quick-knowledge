@@ -12,7 +12,7 @@ import type {
   EventListener,
   TrainingEvent,
   TourProgress,
-} from '@uptiq/training-sdk';
+} from '@in-app-training/sdk';
 
 function stubTrainer(initialStatus: TourProgress['status'] = 'not-started') {
   const listeners = new Map<TrainingEventName, Set<EventListener>>();

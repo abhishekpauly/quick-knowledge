@@ -5,7 +5,7 @@ Run this before every release. ~30 minutes.
 ## Environment
 
 - Fresh browser profile (no localStorage).
-- QA / staging environment of AI Platform.
+- QA / staging environment of the example app.
 - One test user account.
 
 ## Suite
@@ -41,7 +41,7 @@ Run this before every release. ~30 minutes.
 - [ ] Verify it completes.
 
 ### 6. Theming
-- [ ] Tooltip colors match AI Platform brand.
+- [ ] Tooltip colors match the example app brand.
 - [ ] Font matches app font.
 - [ ] No visual clashes with app CSS.
 

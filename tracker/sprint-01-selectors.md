@@ -1,6 +1,6 @@
-# Sprint 01 · Proposed `data-tour` selectors for AI Platform
+# Sprint 01 · Proposed `data-tour` selectors for the example app
 
-Before day 1 code, propose the selectors we'll need for the onboarding tour and the first workflow tour. This lets us batch a single PR against the AI Platform frontend rather than N PRs of one attribute each.
+Before day 1 code, propose the selectors we'll need for the onboarding tour and the first workflow tour. This lets us batch a single PR against the example app frontend rather than N PRs of one attribute each.
 
 Each entry lists the ID, the element description, and (best guess) which component owns it. Verify against the actual codebase on day 1 — you may need to adjust names or split IDs.
 
@@ -23,7 +23,7 @@ Each entry lists the ID, the element description, and (best guess) which compone
 | `workflows-canvas-add-node-button` | The "+" button on the workflow canvas that adds a node. | `<WorkflowCanvas>` |
 | `workflows-canvas-run-button` | The "Run" button on the workflow canvas. | `<WorkflowCanvas>` header |
 
-## PR checklist for the AI Platform frontend
+## PR checklist for the example app frontend
 
 Open a single PR titled: `chore: add data-tour attributes for training SDK`.
 
@@ -47,7 +47,7 @@ PR description should include:
 Run in the SDK repo:
 
 ```bash
-npm run validate:selectors -- --content ./content --host ../ai-platform-frontend/src
+npm run validate:selectors -- --content ./content --host ../example-app-frontend/src
 ```
 
 All 9 IDs should be found. If any are missing, coordinate the addition before starting Sprint 02 (which depends on stable selectors).
@@ -56,7 +56,7 @@ All 9 IDs should be found. If any are missing, coordinate the addition before st
 
 Some workflow tour targets (e.g., `workflows-canvas-add-node-button`) only exist inside a rendered workflow canvas. That's fine — the runtime `data-tour` attribute goes on the element wherever it lives in the JSX. It doesn't have to be present at page load.
 
-If the workflow canvas isn't built yet in AI Platform, drop that tour from Sprint 01 scope and pick a different basic workflow that's already implemented. Adjust `content/ai-platform/workflows-create-project.tour.json` accordingly.
+If the workflow canvas isn't built yet in the example app, drop that tour from Sprint 01 scope and pick a different basic workflow that's already implemented. Adjust `content/example-app/workflows-create-project.tour.json` accordingly.
 
 ## Naming convention reminder
 

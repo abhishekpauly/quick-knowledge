@@ -7,9 +7,9 @@ Tours are authored as JSON files under `content/<product>/<tour-id>.tour.json`. 
 ```json
 {
   "schemaVersion": "v1",
-  "id": "ai-platform-onboarding",
-  "product": "ai-platform",
-  "title": "Welcome to the AI Platform",
+  "id": "example-app-onboarding",
+  "product": "example-app",
+  "title": "Welcome to the example app",
   "description": "Five-minute tour of the essentials.",
   "difficulty": "onboarding",
   "estimatedMinutes": 5,

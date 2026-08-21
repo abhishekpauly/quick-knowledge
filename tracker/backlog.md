@@ -12,7 +12,7 @@ Priority: `P0` (blocker) · `P1` (must for MVP) · `P2` (nice-to-have) · `P3` (
 | ID | Task | Priority | Status | Feature | Notes |
 | --- | --- | --- | --- | --- | --- |
 | T-001 | Fork Shepherd.js example, set up local dev | P0 | TODO | FEAT-001 | ~30 min |
-| T-002 | Pick target screen in AI Platform QA env | P0 | TODO | FEAT-001 | Suggest onboarding/dashboard |
+| T-002 | Pick target screen in the example app QA env | P0 | TODO | FEAT-001 | Suggest onboarding/dashboard |
 | T-003 | Add `data-tour` attributes to 5-8 target elements | P0 | TODO | FEAT-001 | Coordinate PRs with product engineers |
 | T-004 | Hardcode Tour A (onboarding, ~6 steps) as JS objects | P0 | TODO | FEAT-001 | |
 | T-005 | Hardcode Tour B (one basic workflow, ~4 steps) as JS objects | P0 | TODO | FEAT-001 | |
@@ -23,14 +23,14 @@ Priority: `P0` (blocker) · `P1` (must for MVP) · `P2` (nice-to-have) · `P3` (
 
 | ID | Task | Priority | Status | Feature | Notes |
 | --- | --- | --- | --- | --- | --- |
-| T-010 | Extract engine into `@uptiq/training-sdk` npm workspace | P0 | TODO | FEAT-001 | |
+| T-010 | Extract engine into `@in-app-training/sdk` npm workspace | P0 | TODO | FEAT-001 | |
 | T-011 | Define Zod v1 schema in `src/schema/v1.ts` | P0 | TODO | FEAT-002 | Mirror `docs/content-schema.md` |
 | T-012 | Content loader: `loadContent(dir): Tour[]` | P0 | TODO | FEAT-002 | |
 | T-013 | Migrate Tour A + Tour B to JSON | P0 | TODO | FEAT-002 | |
 | T-014 | Author 3 more tours (basic + intermediate + common task) | P0 | TODO | FEAT-002 | Curriculum work |
 | T-015 | Wire `data-tour` attributes for new tours | P0 | TODO | FEAT-003 | |
 | T-016 | Implement LocalStorage persistence adapter | P1 | TODO | FEAT-006 | |
-| T-017 | CSS variables + AI Platform theme | P1 | TODO | FEAT-007 | |
+| T-017 | CSS variables + the example app theme | P1 | TODO | FEAT-007 | |
 | T-018 | Console analytics adapter | P1 | TODO | FEAT-005 | Real sink in Sprint 03 |
 | T-019 | `npm run validate:content` script | P0 | TODO | FEAT-002 | |
 
@@ -38,10 +38,10 @@ Priority: `P0` (blocker) · `P1` (must for MVP) · `P2` (nice-to-have) · `P3` (
 
 | ID | Task | Priority | Status | Feature | Notes |
 | --- | --- | --- | --- | --- | --- |
-| T-020 | `@uptiq/training-sdk-react` package + `<TourProvider>` | P0 | DONE | FEAT-004 | `packages/react/src/TourProvider.tsx` |
+| T-020 | `@in-app-training/react` package + `<TourProvider>` | P0 | DONE | FEAT-004 | `packages/react/src/TourProvider.tsx` |
 | T-021 | `useTour()` and `useTourProgress()` hooks | P0 | DONE | FEAT-004 | + bonus: `<FirstRunTour>` |
 | T-022 | `npm run validate:selectors` script | P0 | DONE | FEAT-003 | Delivered in Sprint 02 |
-| T-023 | Wire real analytics adapter (AI Platform sink) | P0 | DONE | FEAT-005 | `posthogAnalytics()` shipped as chosen default. Swap via docs/wiring-analytics-sink.md if needed. |
+| T-023 | Wire real analytics adapter (the example app sink) | P0 | DONE | FEAT-005 | `posthogAnalytics()` shipped as chosen default. Swap via docs/wiring-analytics-sink.md if needed. |
 | T-024 | Write "How to integrate" doc | P0 | DONE | — | `docs/how-to-integrate.md` |
 | T-025 | Write "How to author a tour" doc | P0 | DONE | — | Delivered in Sprint 02 |
 | T-026 | Public API docs (inline JSDoc + README) | P1 | DONE | — | TypeDoc HTML deferred to v0.2 |
@@ -54,7 +54,7 @@ Priority: `P0` (blocker) · `P1` (must for MVP) · `P2` (nice-to-have) · `P3` (
 | T-031 | URL trigger + event trigger | P1 | DONE | FEAT-008 | `triggers.ts`, wired for SPA nav |
 | T-032 | Checklist widget component | P1 | DONE | FEAT-009 | `TrainingChecklist.tsx` |
 | T-033 | Contextual `<TrainingHint>` component | P2 | DONE | FEAT-010 | + hints schema + `HintsProvider` |
-| T-034 | Deploy to AI Platform staging | P0 | BLOCKED | — | Env access needed. Checklist ready. |
+| T-034 | Deploy to the example app staging | P0 | BLOCKED | — | Env access needed. Checklist ready. |
 | T-035 | 5-user usability test | P0 | BLOCKED | — | Protocol in `testing/five-user-test-protocol.md` |
 | T-036 | Ship to production | P0 | BLOCKED | — | See `releases/v0.1.0-mvp.md` |
 | T-037 | Verify analytics events flowing end-to-end | P0 | BLOCKED | FEAT-005 | Checklist in `testing/analytics-verification.md` |
@@ -90,11 +90,11 @@ Priority: `P0` (blocker) · `P1` (must for MVP) · `P2` (nice-to-have) · `P3` (
 | ID | Task | Priority | Status | Feature | Notes |
 | --- | --- | --- | --- | --- | --- |
 | T-060 | Send compliance / security review request | P0 | DONE | v0.1 launch | Ticket SEC-1187. Approved for staging + prod, with two v1.0-scoped follow-ups (GDPR delete API, consent hook). |
-| T-061 | Open AI Platform `data-tour` PR | P0 | DONE | v0.1 launch | ai-platform-frontend#4291 merged. 9 selectors added. |
+| T-061 | Open the example app `data-tour` PR | P0 | DONE | v0.1 launch | example-app-frontend#4291 merged. 9 selectors added. |
 | T-062 | Confirm or swap analytics sink | P1 | DONE | v0.1 launch | Confirmed PostHog. No adapter swap. |
-| T-063 | Real AI Platform brand tokens in `aiPlatformTheme` | P1 | DONE | v0.1 launch | Tokens from AI Platform design system v2.4. |
+| T-063 | Real the example app brand tokens in `exampleAppTheme` | P1 | DONE | v0.1 launch | Tokens from the example app design system v2.4. |
 | T-064 | Content pre-flight — refine + author remaining tours | P1 | DONE | v0.1 launch | 3 draft tours filled: basic-2 Import dataset, intermediate Scheduled workflow, common-task Share workflow. |
-| T-065 | Staging deploy | P0 | DONE | v0.1 launch | v0.1.0-rc.1 to AI Platform staging Day 30. |
+| T-065 | Staging deploy | P0 | DONE | v0.1 launch | v0.1.0-rc.1 to the example app staging Day 30. |
 | T-066 | Acceptance suite on staging | P0 | DONE | v0.1 launch | All P0/P1 items ✅ Day 30. |
 | T-067 | Analytics verification on staging | P0 | DONE | v0.1 launch | Every event fires. 1 dashboard-side filter typo caught + fixed. |
 | T-068 | 5-user usability test | P0 | DONE | v0.1 launch | Day 31. 4 rewrite items, 0 blocking bugs. |
@@ -122,10 +122,10 @@ Priority: `P0` (blocker) · `P1` (must for MVP) · `P2` (nice-to-have) · `P3` (
 | --- | --- | --- | --- | --- | --- |
 | T-090 | Event dictionary exporter (`docs/event-dictionary.md` + JSON) | P1 | DONE | v0.2 tail | `scripts/generate-event-dictionary.ts` parses `events.ts` via TS compiler API. `npm run docs:events` regenerates; `npm run docs:events:check` fails CI on drift. 6 events emitted. |
 | T-091 | Investigate `create-project → user-menu` drop-off (12 pts) | P1 | DONE | v0.2 tail | 65% class-A (went-to-goal), 15% B (abandoned), 10% C (confused), 10% D. Hypothesis confirmed. Do not "fix" the tour; adopt Goals to measure correctly. `product/investigations/onboarding-drop-off-s08.md`. |
-| T-092 | `TrainingChecklist` `preferredCorners` prop (React + Vue) | P1 | DONE | v0.2 | Shared `pickFreeCorner` via `elementFromPoint` per package. Widget marks itself with `data-uptiq-training="1"` so re-probes on resize do not disqualify our own corner. React + Vue parity. 12 new tests (6 shared logic × 2 packages). |
+| T-092 | `TrainingChecklist` `preferredCorners` prop (React + Vue) | P1 | DONE | v0.2 | Shared `pickFreeCorner` via `elementFromPoint` per package. Widget marks itself with `data-in-app-training="1"` so re-probes on resize do not disqualify our own corner. React + Vue parity. 12 new tests (6 shared logic × 2 packages). |
 | T-093 | v1.0 compliance follow-ups — ADR-0005 (GDPR delete API) + ADR-0006 (consent gating hook) | P2 | DONE | v1.0 prep | ADR-0005 spec: `trainer.forgetUser(userId?)` returning a receipt; analytics is a host-signalled event, not a sink call. ADR-0006 spec: `ConsentAdapter` on `TrainerConfig` + `consentCategory` on tour schema, dual gating (execution + emission). Both design-only; implementation lands in v1.0. |
-| T-094 | Adopter-#2 outreach calls (Workbench PM, Insights PM) | P1 | DONE | v0.5 prep | Both calls held. Workbench = GO (React, real pain, sponsor). Insights = DEFER to Pins (Vue, low tour pain but Pins fit). |
-| T-095 | `product/adopter-scouting.md` capture | P1 | DONE | v0.5 prep | Adopter #2 = Workbench (Sprints 10–11). Adopter #3 = Insights via Pins-first (Sprints 10–11). Both on PostHog. |
+| T-094 | Adopter-#2 outreach calls (Adopter A PM, Adopter B PM) | P1 | DONE | v0.5 prep | Both calls held. Adopter Product A = GO (React, real pain, sponsor). Adopter Product B = DEFER to Pins (Vue, low tour pain but Pins fit). |
+| T-095 | `product/adopter-scouting.md` capture | P1 | DONE | v0.5 prep | Adopter #2 = Adopter Product A (Sprints 10–11). Adopter #3 = Adopter Product B via Pins-first (Sprints 10–11). Both on PostHog. |
 | T-096 | `product/v0.5-kickoff.md` — Pins + Goals scope | P1 | DONE | v0.5 | Pins: `*.pins.json` schema + PinsProvider/Pin (React + Vue) + 2 events. Goals: additive tour field + `GoalsSink` on TrainerConfig + 2 events + PostHog/Amplitude recipes. Explicit non-goals; Sprint 9 + 10–11 shapes; success criteria per feature. |
 | T-097 | CHANGELOG + roadmap tick-off | P2 | DONE | — | Sprint 08 additions logged. ROADMAP Sprint 08 line flipped to shipped. |
 
@@ -136,7 +136,7 @@ Priority: `P0` (blocker) · `P1` (must for MVP) · `P2` (nice-to-have) · `P3` (
 | T-100 | Vue adapter | P3 | DEFERRED | FEAT-011 | A Vue product commits |
 | T-101 | Admin authoring UI | P3 | DEFERRED | FEAT-012 | Author velocity < 1/hour |
 | T-102 | Sandbox mode | P3 | DEFERRED | FEAT-013 | A specific tour needs it |
-| T-103 | Segmentation | P3 | DEFERRED | FEAT-014 | AI Platform PM asks |
+| T-103 | Segmentation | P3 | DEFERRED | FEAT-014 | the example app PM asks |
 | T-104 | A/B testing hooks | P3 | DEFERRED | FEAT-015 | Two viable variants ready |
 | T-105 | Cross-device persistence backend | P3 | DEFERRED | — | Cross-device UX complaint |
 
@@ -146,9 +146,9 @@ Priority: `P0` (blocker) · `P1` (must for MVP) · `P2` (nice-to-have) · `P3` (
 
 All engineering-blocking questions closed. Remaining items are external actions tracked in `product/launch-status.md`.
 
-- [x] Analytics sink → **PostHog** wired as default. `posthogAnalytics()` shipped. Swap via `docs/wiring-analytics-sink.md` if AI Platform confirms a different tool.
-- [x] Frontend framework mix → **50/50 React and Vue**. Both adapters shipped (React `@uptiq/training-sdk-react`, Vue `@uptiq/training-sdk-vue`).
-- [x] SDK name → **Keep `@uptiq/training-sdk`** (working name is final).
+- [x] Analytics sink → **PostHog** wired as default. `posthogAnalytics()` shipped. Swap via `docs/wiring-analytics-sink.md` if the example app confirms a different tool.
+- [x] Frontend framework mix → **50/50 React and Vue**. Both adapters shipped (React `@in-app-training/react`, Vue `@in-app-training/vue`).
+- [x] SDK name → **Keep `@in-app-training/sdk`** (working name is final).
 - [x] Content location → **Separate content repo per product** (`sample-content-repo/` scaffolds the pattern; `docs/content-repos.md` documents it).
 - [x] Compliance / security review path → **Templated in `releases/compliance-review-request.md`**. Send when ready.
 
@@ -157,5 +157,5 @@ All engineering-blocking questions closed. Remaining items are external actions 
 Tracked in `product/launch-status.md`:
 
 - Send the compliance review request (est. 3–7 business days).
-- Send the AI Platform `data-tour` PR (est. 1–3 business days).
+- Send the example app `data-tour` PR (est. 1–3 business days).
 - Confirm PostHog is the actual sink OR swap the adapter (est. 15 minutes).

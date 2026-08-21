@@ -40,14 +40,14 @@ export const defaultTheme: Theme = {
 };
 
 /**
- * AI Platform theme — brand tokens from design (received Sprint 07, T-063).
- * Source: AI Platform design system v2.4, tokens/brand.json.
+ * the example app theme — brand tokens from design (received Sprint 07, T-063).
+ * Source: the example app design system v2.4, tokens/brand.json.
  */
-export const aiPlatformTheme: Theme = {
-  primary: '#5B4BE1', // uptiq/violet-600
-  background: '#FFFFFF', // uptiq/neutral-0
-  foreground: '#0B1220', // uptiq/neutral-900
-  border: '#E4E7EF', // uptiq/neutral-200
+export const exampleAppTheme: Theme = {
+  primary: '#5B4BE1', // in-app-training/violet-600
+  background: '#FFFFFF', // in-app-training/neutral-0
+  foreground: '#0B1220', // in-app-training/neutral-900
+  border: '#E4E7EF', // in-app-training/neutral-200
   radius: '12px', // radius/md
   shadow: '0 12px 32px rgba(11, 18, 32, 0.14)', // shadow/md
   fontFamily: '"Inter Variable", "Inter", system-ui, -apple-system, sans-serif',
@@ -61,7 +61,7 @@ export const aiPlatformTheme: Theme = {
 export function applyTheme(theme: Theme, root: HTMLElement = document.documentElement): void {
   const merged = { ...defaultTheme, ...theme };
   const setVar = (name: string, value: string | undefined) => {
-    if (value !== undefined) root.style.setProperty(`--uptiq-training-${name}`, value);
+    if (value !== undefined) root.style.setProperty(`--in-app-training-${name}`, value);
   };
   setVar('primary', merged.primary);
   setVar('background', merged.background);

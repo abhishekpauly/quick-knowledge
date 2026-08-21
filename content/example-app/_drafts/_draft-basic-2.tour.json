@@ -1,13 +1,13 @@
 {
   "schemaVersion": "v1",
-  "id": "ai-platform-TODO-basic-2",
-  "product": "ai-platform",
+  "id": "example-app-TODO-basic-2",
+  "product": "example-app",
   "title": "[TODO — short, action-oriented, e.g. 'Import your first dataset']",
   "description": "[TODO — one sentence, what the user learns to do]",
   "difficulty": "basic",
   "estimatedMinutes": 3,
   "triggers": [{ "type": "manual" }],
-  "prerequisites": ["ai-platform-onboarding"],
+  "prerequisites": ["example-app-onboarding"],
   "steps": [
     {
       "id": "entry-point",

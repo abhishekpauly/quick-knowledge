@@ -1,7 +1,7 @@
 {
   "schemaVersion": "v1",
-  "id": "ai-platform-TODO-common-task",
-  "product": "ai-platform",
+  "id": "example-app-TODO-common-task",
+  "product": "example-app",
   "title": "[TODO — e.g. 'Share a workflow with your team' or 'Export run results']",
   "description": "[TODO — one sentence. Should read as 'How do I X?' answered.]",
   "difficulty": "basic",

@@ -114,7 +114,7 @@ function main(): void {
   md.push('**Source:** `packages/core/src/engine/events.ts`');
   md.push('');
   md.push(
-    'Every event emitted by `@uptiq/training-sdk` through the `Analytics.track(name, properties)` contract.',
+    'Every event emitted by `@in-app-training/sdk` through the `Analytics.track(name, properties)` contract.',
   );
   md.push('');
   md.push(

@@ -4,22 +4,22 @@ Environment-agnostic. Fill the `[BRACKETED]` sections with your actual environme
 
 ## Pre-flight (T -1 day)
 
-- [ ] `data-tour` PR merged to AI Platform frontend main branch. See `releases/ai-platform-data-tour-pr.md`.
+- [ ] `data-tour` PR merged to the example app frontend main branch. See `releases/adopter-data-tour-pr.md`.
 - [ ] Compliance sign-off received. See `releases/compliance-review-request.md`.
-- [ ] `sample-content-repo/` extracted to its own repo `@uptiq/ai-platform-training-content` and published to `[internal npm registry URL]`.
+- [ ] `sample-content-repo/` extracted to its own repo `@in-app-training/example-app-content` and published to `[internal npm registry URL]`.
 - [ ] Real analytics adapter wired (NOT `placeholderAnalytics()`). See `docs/wiring-analytics-sink.md`.
-- [ ] Theme values replaced with real AI Platform brand tokens (currently stubs in `packages/core/src/theme/default.ts` `aiPlatformTheme`).
-- [ ] SDK packages published: `@uptiq/training-sdk`, `@uptiq/training-sdk-react` (and `@uptiq/training-sdk-vue` since the frontend is 50/50).
-- [ ] AI Platform frontend has installed all three packages + the content repo package.
+- [ ] Theme values replaced with real the example app brand tokens (currently stubs in `packages/core/src/theme/default.ts` `exampleAppTheme`).
+- [ ] SDK packages published: `@in-app-training/sdk`, `@in-app-training/react` (and `@in-app-training/vue` since the frontend is 50/50).
+- [ ] the example app frontend has installed all three packages + the content repo package.
 - [ ] `<TourProvider>` (React) and `<TourProvider>` (Vue) mounted at appropriate roots.
-- [ ] `<FirstRunTour tourId="ai-platform-onboarding">` mounted.
+- [ ] `<FirstRunTour tourId="example-app-onboarding">` mounted.
 - [ ] `<TrainingChecklist>` mounted.
 - [ ] Analytics adapter's sink dashboard is watchable in real time — url: `[BRACKETED]`.
 
 ## Staging deploy (T 0, day of)
 
-- [ ] Merge AI Platform frontend PR that consumes the SDK + content packages.
-- [ ] Deploy AI Platform frontend to staging via `[BRACKETED — normal AI Platform deploy pipeline]`.
+- [ ] Merge the example app frontend PR that consumes the SDK + content packages.
+- [ ] Deploy the example app frontend to staging via `[BRACKETED — normal the example app deploy pipeline]`.
 - [ ] Confirm staging URL loads without console errors: `[BRACKETED — staging URL]`.
 - [ ] Sign in as a fresh test user (no localStorage).
 - [ ] Onboarding tour auto-starts within 2 seconds — smoke pass.
@@ -41,9 +41,9 @@ Environment-agnostic. Fill the `[BRACKETED]` sections with your actual environme
 - [ ] User-test content revisions merged.
 - [ ] Support team briefed (see below).
 - [ ] Internal announcement drafted (see below).
-- [ ] Deploy AI Platform frontend to production via `[BRACKETED — normal AI Platform prod deploy pipeline]`.
+- [ ] Deploy the example app frontend to production via `[BRACKETED — normal the example app prod deploy pipeline]`.
 - [ ] Confirm production URL loads without console errors: `[BRACKETED — prod URL]`.
-- [ ] Confirm SDK is loaded (check browser devtools for the `@uptiq/training-sdk` bundle).
+- [ ] Confirm SDK is loaded (check browser devtools for the `@in-app-training/sdk` bundle).
 - [ ] Watch analytics dashboard for 30 minutes post-deploy. Confirm events arriving with expected payloads.
 
 ## Post-deploy monitoring (T +2 to T +9)
@@ -58,7 +58,7 @@ Environment-agnostic. Fill the `[BRACKETED]` sections with your actual environme
 
 Send 24 hours before ship. Content:
 
-> The AI Platform will start showing in-app training walkthroughs to users tomorrow. New users will see a ~4-minute onboarding tour automatically on first sign-in. All users will see a small "Getting started" widget in the bottom-right corner they can open anytime.
+> The the example app will start showing in-app training walkthroughs to users tomorrow. New users will see a ~4-minute onboarding tour automatically on first sign-in. All users will see a small "Getting started" widget in the bottom-right corner they can open anytime.
 >
 > If users report anything odd (tour not appearing, tooltip in wrong spot, can't close, seeing the tour again after completing it), please tag those tickets `training-sdk` and ping `[YOUR NAME]`.
 >
@@ -68,7 +68,7 @@ Send 24 hours before ship. Content:
 
 Post to `#product-updates` or equivalent:
 
-> **Shipped:** In-app training for AI Platform. New users get a 4-minute onboarding walkthrough on first sign-in. Everyone can open the "Getting started" checklist in the corner anytime. Runs on a new in-house SDK we built to avoid $12–24k/year in Appcues-style licenses per product.
+> **Shipped:** In-app training for the example app. New users get a 4-minute onboarding walkthrough on first sign-in. Everyone can open the "Getting started" checklist in the corner anytime. Runs on a new in-house SDK we built to avoid $12–24k/year in Appcues-style licenses per product.
 >
 > **What to expect:** Completion metrics land in `[YOUR ANALYTICS TOOL]` under `training.*` events. Support has been briefed.
 >
@@ -76,11 +76,11 @@ Post to `#product-updates` or equivalent:
 
 ## Rollback (any time metrics trigger it)
 
-See `releases/rollback-runbook.md`. Fast path: revert the AI Platform frontend PR that consumed the SDK. Time to safety: ~10 minutes.
+See `releases/rollback-runbook.md`. Fast path: revert the example app frontend PR that consumed the SDK. Time to safety: ~10 minutes.
 
 ## Owners
 
 - SDK / deploy owner: `[your name]`
-- AI Platform frontend on-call: `[TBD]`
+- the example app frontend on-call: `[TBD]`
 - Analytics sink on-call: `[TBD]`
 - Support team lead (for briefing): `[TBD]`

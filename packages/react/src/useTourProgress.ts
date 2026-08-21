@@ -6,7 +6,7 @@
  * conditional rendering ("show upgrade CTA only after workflow tour done").
  */
 import { useContext, useEffect, useState } from 'react';
-import type { TourProgress } from '@uptiq/training-sdk';
+import type { TourProgress } from '@in-app-training/sdk';
 import { TrainerContext } from './context.js';
 
 export function useTourProgress(tourId: string): TourProgress {

@@ -14,7 +14,7 @@ Full recipes for PostHog, Amplitude, Mixpanel, Segment, GA4, custom internal, an
 
 ```ts
 // src/analytics-adapter.ts (in the HOST product, or as an internal shim in the SDK repo)
-import type { Analytics } from '@uptiq/training-sdk';
+import type { Analytics } from '@in-app-training/sdk';
 import posthog from 'posthog-js';
 
 export const analytics: Analytics = {
@@ -23,7 +23,7 @@ export const analytics: Analytics = {
       posthog.capture(`training.${event}`, properties);
     } catch (err) {
       // Never propagate — the tour must not crash if the sink is down.
-      console.warn('[training-sdk] posthog capture failed', err);
+      console.warn('[in-app-training] posthog capture failed', err);
     }
   },
 };
@@ -32,7 +32,7 @@ export const analytics: Analytics = {
 ### Amplitude
 
 ```ts
-import type { Analytics } from '@uptiq/training-sdk';
+import type { Analytics } from '@in-app-training/sdk';
 import * as amplitude from '@amplitude/analytics-browser';
 
 export const analytics: Analytics = {
@@ -40,7 +40,7 @@ export const analytics: Analytics = {
     try {
       amplitude.track(`training.${event}`, properties);
     } catch (err) {
-      console.warn('[training-sdk] amplitude track failed', err);
+      console.warn('[in-app-training] amplitude track failed', err);
     }
   },
 };
@@ -49,7 +49,7 @@ export const analytics: Analytics = {
 ### Mixpanel
 
 ```ts
-import type { Analytics } from '@uptiq/training-sdk';
+import type { Analytics } from '@in-app-training/sdk';
 import mixpanel from 'mixpanel-browser';
 
 export const analytics: Analytics = {
@@ -57,7 +57,7 @@ export const analytics: Analytics = {
     try {
       mixpanel.track(`training.${event}`, properties);
     } catch (err) {
-      console.warn('[training-sdk] mixpanel track failed', err);
+      console.warn('[in-app-training] mixpanel track failed', err);
     }
   },
 };
@@ -65,12 +65,12 @@ export const analytics: Analytics = {
 
 ### Custom internal sink
 
-If UPTIQ has an in-house analytics service:
+If has an in-house analytics service:
 
 ```ts
-import type { Analytics } from '@uptiq/training-sdk';
+import type { Analytics } from '@in-app-training/sdk';
 
-export function uptiqInternalAnalytics(userId: string): Analytics {
+export function in-app-trainingInternalAnalytics(userId: string): Analytics {
   return {
     track(event, properties) {
       void fetch('/api/analytics/events', {
@@ -81,7 +81,7 @@ export function uptiqInternalAnalytics(userId: string): Analytics {
           properties,
           userId,
         }),
-      }).catch((err) => console.warn('[training-sdk] internal analytics failed', err));
+      }).catch((err) => console.warn('[in-app-training] internal analytics failed', err));
     },
   };
 }
@@ -93,7 +93,7 @@ Once you have an adapter file, swap it in wherever the Trainer is constructed:
 
 ```ts
 // Before
-import { placeholderAnalytics } from '@uptiq/training-sdk';
+import { placeholderAnalytics } from '@in-app-training/sdk';
 const trainer = new Trainer({ analytics: placeholderAnalytics(), /* ... */ });
 
 // After

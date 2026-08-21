@@ -6,13 +6,13 @@
  * <TourProvider>.
  *
  * Usage:
- *   <TourProvider :trainer="trainer" :theme="aiPlatformTheme">
+ *   <TourProvider :trainer="trainer" :theme="exampleAppTheme">
  *     <App />
  *   </TourProvider>
  */
 import { defineComponent, h, onMounted, watch, type PropType } from 'vue';
-import type { Trainer, Theme } from '@uptiq/training-sdk';
-import { applyTheme } from '@uptiq/training-sdk';
+import type { Trainer, Theme } from '@in-app-training/sdk';
+import { applyTheme } from '@in-app-training/sdk';
 import { TrainerKey } from './inject-keys.js';
 
 export const TourProvider = defineComponent({
@@ -43,7 +43,7 @@ export const TourProvider = defineComponent({
     onMounted(applyCurrent);
     watch(() => [props.theme, props.themeRoot], applyCurrent, { deep: false });
 
-    return () => h('div', { 'data-uptiq-training-provider': '' }, slots.default?.());
+    return () => h('div', { 'data-in-app-training-provider': '' }, slots.default?.());
   },
 });
 

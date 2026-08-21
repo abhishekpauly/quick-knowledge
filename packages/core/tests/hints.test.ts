@@ -6,7 +6,7 @@ import { parseHints } from '../src/schema/hints.js';
 
 const valid = {
   schemaVersion: 'v1' as const,
-  product: 'ai-platform',
+  product: 'example-app',
   hints: [
     { id: 'ok-hint', body: 'A short helpful body.' },
     { id: 'another', title: 'Title', body: 'Body.', learnMoreUrl: 'https://docs.example/x' },

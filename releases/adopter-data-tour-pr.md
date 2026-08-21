@@ -1,6 +1,6 @@
-# PR description template — data-tour attributes for AI Platform frontend
+# PR description template — data-tour attributes for the example app frontend
 
-Paste-ready. Fill the bracketed sections and open the PR against the AI Platform frontend repo.
+Paste-ready. Fill the bracketed sections and open the PR against the example app frontend repo.
 
 ---
 
@@ -12,7 +12,7 @@ Paste-ready. Fill the bracketed sections and open the PR against the AI Platform
 
 ### Why
 
-Enabling the in-house in-app training SDK (`@uptiq/training-sdk`). This PR adds `data-tour="..."` HTML attributes to 9 elements the initial onboarding and workflow tours will point at. **Zero behavior change** — attributes only.
+Enabling the in-house in-app training SDK (`@in-app-training/sdk`). This PR adds `data-tour="..."` HTML attributes to 9 elements the initial onboarding and workflow tours will point at. **Zero behavior change** — attributes only.
 
 ### What changes
 
@@ -38,7 +38,7 @@ Adds a `data-tour` attribute to each of the following elements. See [tracker/spr
 
 ### Contract this creates
 
-Once merged, these `data-tour` IDs are **effectively public API** of the AI Platform frontend. Downstream tour content depends on them. Don't rename or remove without checking the training SDK's `content/` folder for references (`grep -r "workflows-canvas-add-node-button" ../in-app-training-sdk/content/`). The training SDK will add a CI check that fails builds on missing references — this catches accidents before they hit staging.
+Once merged, these `data-tour` IDs are **effectively public API** of the example app frontend. Downstream tour content depends on them. Don't rename or remove without checking the training SDK's `content/` folder for references (`grep -r "workflows-canvas-add-node-button" ../in-app-training-sdk/content/`). The training SDK will add a CI check that fails builds on missing references — this catches accidents before they hit staging.
 
 ### Naming convention
 
@@ -58,8 +58,8 @@ If any attribute causes a regression (extremely unlikely — they're plain HTML 
 
 ### Links
 
-- Training SDK repo (public working copy): https://github.com/abhishekpauly/quick-knowledge `[replace with UPTIQ internal repo URL when it exists]`
-- Content the SDK will use: `[TBD — link to @uptiq/ai-platform-training-content once created]`
+- Training SDK repo (public working copy): https://github.com/abhishekpauly/quick-knowledge `[replace with internal repo URL when it exists]`
+- Content the SDK will use: `[TBD — link to @in-app-training/example-app-content once created]`
 - Naming convention docs: [docs/data-tour-conventions.md](https://github.com/abhishekpauly/quick-knowledge/blob/main/docs/data-tour-conventions.md)
 - ADR-0002 (why this contract exists): [docs/adrs/ADR-0002-data-tour-contract.md](https://github.com/abhishekpauly/quick-knowledge/blob/main/docs/adrs/ADR-0002-data-tour-contract.md)
 
@@ -68,4 +68,4 @@ If any attribute causes a regression (extremely unlikely — they're plain HTML 
 - One senior frontend engineer for fast-track approval.
 - Curriculum author (informational — so they know when it merges).
 
-/cc **@ravi-mehta** (AI Platform frontend lead) **@abhishekpauly** (curriculum author)
+/cc **@ravi-mehta** (the example app frontend lead) **@abhishekpauly** (curriculum author)

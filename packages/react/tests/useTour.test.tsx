@@ -6,7 +6,12 @@ import { renderHook, act } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { TourProvider } from '../src/TourProvider.js';
 import { useTour } from '../src/useTour.js';
-import type { Trainer, TrainingEventName, EventListener, TrainingEvent } from '@uptiq/training-sdk';
+import type {
+  Trainer,
+  TrainingEventName,
+  EventListener,
+  TrainingEvent,
+} from '@in-app-training/sdk';
 
 /**
  * Build a trainer stub with a working event bus so we can simulate the trainer

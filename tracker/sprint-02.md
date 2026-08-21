@@ -3,10 +3,10 @@
 **Goal:** Five real tours live in QA, all authored in JSON, running from a real npm package with a real content schema.
 
 **Definition of done:**
-- `@uptiq/training-sdk` extracted as a workspace/package.
+- `@in-app-training/sdk` extracted as a workspace/package.
 - Zod v1 schema in place. All tours are JSON files that validate.
 - Five tours live: onboarding, 2 basic, 1 intermediate, 1 common task.
-- CSS variable theming matches AI Platform.
+- CSS variable theming matches the example app.
 - LocalStorage persistence — completed tours don't re-trigger.
 - `npm run validate:content` green.
 
@@ -29,7 +29,7 @@ See `backlog.md` T-010 through T-019.
 
 - All 5 tours load from JSON and pass validation.
 - Onboarding tour does not re-trigger after completion (localStorage working).
-- Visual matches AI Platform brand.
+- Visual matches the example app brand.
 
 ## Risks
 

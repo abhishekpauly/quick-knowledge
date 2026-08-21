@@ -2,7 +2,7 @@
 
 - **Status:** Proposed
 - **Date:** 2026-08-29
-- **Deciders:** Abhishek Paul (SDK), Priya Nair (AI Platform PM), UPTIQ Security (async review)
+- **Deciders:** Abhishek Paul (SDK), [Product PM] (the example app PM), InfoSec (async review)
 - **Related:** [`ADR-0005-gdpr-delete-api.md`](ADR-0005-gdpr-delete-api.md), [`docs/analytics-adapters.md`](../analytics-adapters.md), [`releases/compliance-review-request.md`](../../releases/compliance-review-request.md). Sprint 08 T-093.
 
 ## Context
@@ -49,7 +49,7 @@ Passed via `TrainerConfig`:
 
 ```ts
 new Trainer({
-  product: 'ai-platform',
+  product: 'example-app',
   tours,
   analytics: posthogAnalytics(posthog),
   persistence: localStoragePersistence(),
@@ -117,7 +117,7 @@ Categories map naturally onto standard consent frameworks (IAB TCF v2, GDPR, ePr
 
 ## Revisit triggers
 
-- **A UPTIQ product needs a category we don't have** (e.g. `personalization` distinct from `analytics`). Extend the enum in a schema-additive minor bump.
+- **A host product needs a category we don't have** (e.g. `personalization` distinct from `analytics`). Extend the enum in a schema-additive minor bump.
 - **A jurisdiction requires an audit trail of what was dropped.** Add an optional `onEventDropped(event, category)` hook to `ConsentAdapter`.
 - **A checklist widget UX study finds users confused by tours listed but ungated.** Add first-class rendering hints to `TrainingChecklist` for "blocked by consent" state.
 - **IAB TCF v3 (or successor) becomes the standard our hosts converge on.** Consider shipping a first-party `iabTcfConsent(...)` helper adapter that maps purpose flags into our four categories automatically.

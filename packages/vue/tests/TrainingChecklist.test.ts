@@ -6,7 +6,7 @@ import { mount } from '@vue/test-utils';
 import { h } from 'vue';
 import { TourProvider } from '../src/TourProvider.js';
 import { TrainingChecklist } from '../src/TrainingChecklist.js';
-import type { Trainer, Tour, TourProgress } from '@uptiq/training-sdk';
+import type { Trainer, Tour, TourProgress } from '@in-app-training/sdk';
 
 function tour(id: string, difficulty: Tour['difficulty']): Tour {
   return {

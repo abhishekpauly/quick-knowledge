@@ -1,22 +1,22 @@
 # Compliance / security review request — In-App Training SDK
 
-Paste-ready template. Send to whoever owns security review at UPTIQ (Security team / InfoSec / Compliance).
+Paste-ready template. Send to whoever owns security review at (Security team / InfoSec / Compliance).
 
 ---
 
 ## Subject
 
-`Security review request: @uptiq/training-sdk (internal in-app training system)`
+`Security review request: @in-app-training/sdk (internal in-app training system)`
 
 ## Summary
 
-We've built an in-house SDK for guided in-app training in UPTIQ products. First customer is the AI Platform. The SDK is code we own end-to-end — no third-party script tags, no external data flow, no third-party services in the runtime. We're requesting a security review before the first production deploy.
+We've built an in-house SDK for guided in-app training in host products. First customer is the example app. The SDK is code we own end-to-end — no third-party script tags, no external data flow, no third-party services in the runtime. We're requesting a security review before the first production deploy.
 
 ## Deployment posture
 
-- **Type:** Two internal npm packages published to UPTIQ's internal registry (not npmjs.org): `@uptiq/training-sdk` (framework-agnostic engine) and `@uptiq/training-sdk-react` / `@uptiq/training-sdk-vue` (framework adapters).
+- **Type:** Two internal npm packages published to the org's internal registry (not npmjs.org): `@in-app-training/sdk` (framework-agnostic engine) and `@in-app-training/react` / `@in-app-training/vue` (framework adapters).
 - **How it runs:** Bundled with the host product's frontend build. Loaded in-browser as JS. No server-side component.
-- **Where it runs:** Only inside authenticated UPTIQ product apps.
+- **Where it runs:** Only inside authenticated host product apps.
 - **Third-party runtime dependencies:** Two.
   - `shepherd.js` (MIT license) — the tooltip rendering engine. Framework-agnostic, ~40KB gzipped.
   - `zod` (MIT license) — schema validator, ~15KB gzipped.
@@ -25,7 +25,7 @@ We've built an in-house SDK for guided in-app training in UPTIQ products. First 
 ## Data flow
 
 - The SDK reads DOM elements to anchor tooltips. Only elements the host product explicitly tags with `data-tour="..."` attributes are queryable — we enforce this at runtime.
-- The SDK writes tour completion state to `localStorage` under a namespaced key (`uptiq-training:*`). No PII stored by default.
+- The SDK writes tour completion state to `localStorage` under a namespaced key (`in-app-training:*`). No PII stored by default.
 - The SDK emits typed events (`tour_started`, `step_viewed`, etc.) to whatever analytics adapter the host product wires. Events include: tour ID, step ID, timestamps, and durations. No PII in the default event schema.
 - The host product may pass `userAttributes` to the trainer for targeting / personalization. These stay in-browser and are only echoed to the analytics adapter if the host product's adapter chooses to include them. This is a deliberate choice by the host product, not the SDK.
 
@@ -35,11 +35,11 @@ The SDK supports `{{user.firstName}}`-style interpolation into tour copy, drawin
 
 ## Content model
 
-Tour content is authored as JSON files, validated by a Zod schema at build time and runtime. Content lives in a separate content repo (`@uptiq/ai-platform-training-content` per direction). Content changes ship with the product's next release; no dynamic content loading in v0.1.
+Tour content is authored as JSON files, validated by a Zod schema at build time and runtime. Content lives in a separate content repo (`@in-app-training/example-app-content` per direction). Content changes ship with the product's next release; no dynamic content loading in v0.1.
 
 ## Anticipated compliance questions
 
-- **GDPR data deletion.** LocalStorage keys are namespaced; deletion is `localStorage.clear()` scoped to `uptiq-training:*`. A formal GDPR delete API is planned for v1.0.
+- **GDPR data deletion.** LocalStorage keys are namespaced; deletion is `localStorage.clear()` scoped to `in-app-training:*`. A formal GDPR delete API is planned for v1.0.
 - **CCPA / user data export.** Same as above; per-user state is browser-local. No server-side user state until v1.0's cross-device persistence backend.
 - **Data residency.** N/A — no data leaves the host product's browser session.
 - **Cookie / tracker policy.** Uses `localStorage` (functional, not tracking). No cookies.
@@ -51,28 +51,28 @@ Tour content is authored as JSON files, validated by a Zod schema at build time 
 - **XSS via tour content** — mitigated by content review + validation. Content is code-reviewed (curriculum author + SDK engineer) before merge. No user-editable content.
 - **Selector abuse** — the runtime rejects selectors not matching `[data-tour="..."]`. Product engineers can't accidentally point the SDK at password fields or other sensitive elements.
 - **Broken analytics sink crashes the tour** — the SDK wraps every `track()` call in try/catch. A failing sink logs and continues.
-- **Supply-chain risk** — two runtime dependencies, both MIT, both audited by many downstream users. Snyk / Dependabot / whatever UPTIQ uses will alert on new CVEs.
+- **Supply-chain risk** — two runtime dependencies, both MIT, both audited by many downstream users. Snyk / Dependabot / whatever uses will alert on new CVEs.
 
 ## What we're asking for
 
-- [ ] Sign-off on shipping to AI Platform staging.
-- [ ] Sign-off on shipping to AI Platform production.
+- [ ] Sign-off on shipping to the example app staging.
+- [ ] Sign-off on shipping to the example app production.
 - [ ] Any specific requirements we should incorporate (e.g. GDPR delete endpoint on a specific timeline, additional event redaction, specific consent gating).
-- [ ] Confirmation that internal npm registry publishing follows any existing UPTIQ internal-package process.
+- [ ] Confirmation that internal npm registry publishing follows any existing internal-package process.
 
 ## Timeline
 
-Target: ship to AI Platform staging within **5 business days** of your sign-off, production within **12 business days**. Please flag any process step that would push this timeline back so we can plan accordingly.
+Target: ship to the example app staging within **5 business days** of your sign-off, production within **12 business days**. Please flag any process step that would push this timeline back so we can plan accordingly.
 
 ## Owners
 
-- SDK / release owner: **Abhishek Paul** (abhishek.paul@uptiq.ai)
-- First customer product owner (AI Platform): **Priya Nair** (priya.nair@uptiq.ai) — AI Platform PM
-- Curriculum author: **Abhishek Paul** (abhishek.paul@uptiq.ai)
+- SDK / release owner: **Abhishek Paul** ([email])
+- First customer product owner (the example app): **[Product PM]** (priya.nair@in-app-training.ai) — the example app PM
+- Curriculum author: **Abhishek Paul** ([email])
 
 ## Attachments / links
 
-- Repo: https://git.uptiq.internal/platform/in-app-training-sdk (internal-registry mirror; public working copy at https://github.com/abhishekpauly/quick-knowledge)
+- Repo: https://git.example.internal/platform/in-app-training-sdk (internal-registry mirror; public working copy at https://github.com/abhishekpauly/quick-knowledge)
 - Architecture: `docs/architecture.md`
 - ADRs: `docs/adrs/`
 - Threat model detail (this doc): `releases/compliance-review-request.md`

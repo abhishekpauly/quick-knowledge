@@ -10,8 +10,8 @@ The SDK is a runtime. Content is authored, versioned, and published independentl
 ## Anatomy of a product content repo
 
 ```
-ai-platform-training-content/
-├── package.json                (name: @uptiq/ai-platform-training-content)
+example-app-training-content/
+├── package.json                (name: @in-app-training/example-app-content)
 ├── README.md
 ├── tours/
 │   ├── onboarding.tour.json
@@ -29,18 +29,18 @@ ai-platform-training-content/
 
 ```json
 {
-  "name": "@uptiq/ai-platform-training-content",
+  "name": "@in-app-training/example-app-content",
   "version": "0.1.0",
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "scripts": {
     "validate": "tsx ../in-app-training-sdk/scripts/validate-content.ts tours",
-    "validate:selectors": "tsx ../in-app-training-sdk/scripts/validate-selectors.ts --content tours --host ../ai-platform-frontend/src",
+    "validate:selectors": "tsx ../in-app-training-sdk/scripts/validate-selectors.ts --content tours --host ../example-app-frontend/src",
     "ci": "npm run validate && npm run validate:selectors"
   },
   "dependencies": {
-    "@uptiq/training-sdk": "*"
+    "@in-app-training/sdk": "*"
   }
 }
 ```
@@ -48,7 +48,7 @@ ai-platform-training-content/
 ### `src/index.ts`
 
 ```ts
-import { parseTour, parseHints, type Tour, type HintsFile } from '@uptiq/training-sdk';
+import { parseTour, parseHints, type Tour, type HintsFile } from '@in-app-training/sdk';
 import onboardingRaw from '../tours/onboarding.tour.json' with { type: 'json' };
 import workflowsRaw from '../tours/workflows-create-project.tour.json' with { type: 'json' };
 import hintsRaw from '../hints.json' with { type: 'json' };
@@ -70,17 +70,17 @@ export const hints: HintsFile = must(parseHints(hintsRaw));
 ### Host product integration
 
 ```ts
-// In AI Platform's frontend
-import { Trainer } from '@uptiq/training-sdk';
-import { tours, hints } from '@uptiq/ai-platform-training-content';
+// In the example app's frontend
+import { Trainer } from '@in-app-training/sdk';
+import { tours, hints } from '@in-app-training/example-app-content';
 import { analytics } from './analytics-adapter';
 
 export const trainer = new Trainer({
-  product: 'ai-platform',
+  product: 'example-app',
   tours,
   analytics,
   persistence: localStoragePersistence(),
-  theme: aiPlatformTheme,
+  theme: exampleAppTheme,
 });
 ```
 
@@ -88,13 +88,13 @@ export const trainer = new Trainer({
 
 - **Curriculum team owns their repo.** No PR review conflicts with SDK engineers over tour copy.
 - **Content ships on the product's release cadence, not the SDK's.** A copy tweak doesn't require an SDK release.
-- **Different products have different content lifecycles.** AI Platform ships weekly; a slower product might ship monthly. Coupling to one SDK release cadence hurts both.
+- **Different products have different content lifecycles.** the example app ships weekly; a slower product might ship monthly. Coupling to one SDK release cadence hurts both.
 - **Access control differs.** SDK repo may need broader access (engineering + curriculum). Content repos can be scoped to curriculum team only.
 
 ## Naming convention
 
-- SDK: `@uptiq/training-sdk`, `@uptiq/training-sdk-react`, `@uptiq/training-sdk-vue`.
-- Content repos: `@uptiq/<product>-training-content` (e.g. `@uptiq/ai-platform-training-content`).
+- SDK: `@in-app-training/sdk`, `@in-app-training/react`, `@in-app-training/vue`.
+- Content repos: `@in-app-training/<product>-training-content` (e.g. `@in-app-training/example-app-content`).
 
 ## Governance
 
@@ -105,19 +105,19 @@ export const trainer = new Trainer({
 
 ## Sample content
 
-The `content/ai-platform/` folder in this SDK repo is **sample content** — kept for the demo (`npm run dev`) and for tests. It is NOT the source of truth. The real AI Platform content will live in `@uptiq/ai-platform-training-content` once that repo is created.
+The `content/example-app/` folder in this SDK repo is **sample content** — kept for the demo (`npm run dev`) and for tests. It is NOT the source of truth. The real the example app content will live in `@in-app-training/example-app-content` once that repo is created.
 
 Do NOT keep two copies in sync. When the real content repo exists, either:
 
-- Delete `content/ai-platform/` and switch the demo to import from the content repo, OR
-- Keep `content/ai-platform/` as a minimal 1-tour demo fixture only, clearly labeled as such.
+- Delete `content/example-app/` and switch the demo to import from the content repo, OR
+- Keep `content/example-app/` as a minimal 1-tour demo fixture only, clearly labeled as such.
 
 ## Creating a new content repo (checklist)
 
-- [ ] `npm init @uptiq/<product>-training-content`.
-- [ ] Add `@uptiq/training-sdk` as a dependency.
+- [ ] `npm init @in-app-training/<product>-training-content`.
+- [ ] Add `@in-app-training/sdk` as a dependency.
 - [ ] Copy `content/_template.tour.json` as a starting point.
-- [ ] Copy `content/ai-platform/hints.json` structure for hints.
+- [ ] Copy `content/example-app/hints.json` structure for hints.
 - [ ] Add `scripts/validate.ts` that shells out to the SDK's validators.
 - [ ] Add CI running `npm run validate` on every PR.
 - [ ] Add a README with links back to `docs/how-to-author-a-tour.md` and this doc.

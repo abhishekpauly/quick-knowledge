@@ -1,7 +1,7 @@
 /**
- * Public API for @uptiq/training-sdk-vue.
+ * Public API for @in-app-training/vue.
  *
- * API parity with @uptiq/training-sdk-react — same names, same shapes, different
+ * API parity with @in-app-training/react — same names, same shapes, different
  * framework idioms. Devs moving between codebases should have no cognitive load.
  */
 export { TourProvider } from './TourProvider.js';

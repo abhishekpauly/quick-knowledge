@@ -1,5 +1,5 @@
 {
-  "name": "@uptiq/training-sdk-monorepo",
+  "name": "@in-app-training/monorepo",
   "version": "0.0.1",
   "private": true,
   "description": "Monorepo root. Publishable packages live in packages/. See individual package READMEs.",

@@ -6,7 +6,7 @@ import { mount } from '@vue/test-utils';
 import { defineComponent, h, inject } from 'vue';
 import { TourProvider } from '../src/TourProvider.js';
 import { TrainerKey } from '../src/inject-keys.js';
-import type { Trainer } from '@uptiq/training-sdk';
+import type { Trainer } from '@in-app-training/sdk';
 
 function stubTrainer(): Trainer {
   return {
@@ -44,7 +44,7 @@ describe('TourProvider (Vue)', () => {
       props: { trainer, theme: { primary: '#ff00ff' } },
       slots: { default: () => h('div', 'child') },
     });
-    expect(document.documentElement.style.getPropertyValue('--uptiq-training-primary')).toBe(
+    expect(document.documentElement.style.getPropertyValue('--in-app-training-primary')).toBe(
       '#ff00ff',
     );
   });

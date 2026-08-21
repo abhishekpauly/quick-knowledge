@@ -1,20 +1,20 @@
 # Sprint 07 · Days 27–35 · Launch + hardening
 
-**Goal:** Get v0.1.0-mvp into AI Platform production, watch it, iterate the copy from real feedback, and lock the retro-driven signals that will decide whether v0.5 promotes.
+**Goal:** Get v0.1.0-mvp into the example app production, watch it, iterate the copy from real feedback, and lock the retro-driven signals that will decide whether v0.5 promotes.
 
 **Status:** COMPLETE (simulated). All Sprint 07 tasks closed. v0.1.0 shipped 2026-08-28. See `releases/v0.1.0-launch-log.md` and `releases/v0.1.0-retro.md`.
 
 **Definition of done:**
 - [ ] Compliance / security review request sent; approval received (or explicit "OK to staging" received).
-- [ ] AI Platform `data-tour` PR merged to production branch.
+- [ ] the example app `data-tour` PR merged to production branch.
 - [ ] PostHog sink confirmed as real sink OR one-line adapter swap merged.
-- [ ] Deployed to AI Platform **staging** per `releases/deploy-runbook.md`.
+- [ ] Deployed to the example app **staging** per `releases/deploy-runbook.md`.
 - [ ] Acceptance suite passed against staging (`testing/acceptance-criteria.md`).
 - [ ] Analytics verification passed against staging (`testing/analytics-verification.md`).
 - [ ] 5-user usability test executed (`testing/five-user-test-protocol.md`); rewrite list produced.
 - [ ] Content revisions from usability test merged and re-validated (`npm run validate:content`).
-- [ ] Real AI Platform brand tokens swapped into `packages/core/src/theme/default.ts` `aiPlatformTheme` (design hand-off).
-- [ ] Deployed to AI Platform **production**.
+- [ ] Real the example app brand tokens swapped into `packages/core/src/theme/default.ts` `exampleAppTheme` (design hand-off).
+- [ ] Deployed to the example app **production**.
 - [ ] 30-minute post-deploy watch complete; no rollback-triggering signals.
 - [ ] 7-day metrics snapshot captured against `releases/v0.1.0-mvp.md` success criteria.
 - [ ] Post-launch retro doc written (`releases/v0.1.0-retro.md`).
@@ -32,9 +32,9 @@ See `backlog.md` T-060 through T-072.
 | ID | Task | Est | Owner | Notes |
 | --- | --- | --- | --- | --- |
 | T-060 | Send compliance / security review request | 0.25d | you | Fill brackets in `releases/compliance-review-request.md` and send. Blocks prod. |
-| T-061 | Open AI Platform `data-tour` PR | 0.25d | you | Use `releases/ai-platform-data-tour-pr.md` template. Blocks staging. |
-| T-062 | Confirm or swap analytics sink | 0.25d | you | Confirm PostHog with AI Platform. If different, one-line swap via `docs/wiring-analytics-sink.md`. |
-| T-063 | Design hand-off: real brand tokens | 0.5d | you + design | Replace placeholder values in `aiPlatformTheme`. Include focus-ring, shadow, radius. |
+| T-061 | Open the example app `data-tour` PR | 0.25d | you | Use `releases/adopter-data-tour-pr.md` template. Blocks staging. |
+| T-062 | Confirm or swap analytics sink | 0.25d | you | Confirm PostHog with the example app. If different, one-line swap via `docs/wiring-analytics-sink.md`. |
+| T-063 | Design hand-off: real brand tokens | 0.5d | you + design | Replace placeholder values in `exampleAppTheme`. Include focus-ring, shadow, radius. |
 | T-064 | Content pre-flight: refine 2 existing tours + author intermediate + common-task tours | 1.5d | curriculum author | Safe to do in parallel with unblocks. |
 | T-065 | Staging deploy per `deploy-runbook.md` | 0.5d | you | Requires T-061 merged, T-062 done. |
 | T-066 | Acceptance suite on staging | 0.5d | you | Every tour played through manually. |
@@ -64,12 +64,12 @@ Roll back immediately per `releases/rollback-runbook.md` if any of these hit wit
 
 - Onboarding completion rate drops below 20% in first hour.
 - `tour_error` rate exceeds 5% of `tour_started`.
-- Console error rate up 3x from baseline in AI Platform.
+- Console error rate up 3x from baseline in the example app.
 - Any P0 bug reported.
 
 ## Success signals
 
-- v0.1.0 tagged and deployed to AI Platform production.
+- v0.1.0 tagged and deployed to the example app production.
 - Onboarding completion rate ≥ 60% at 7 days (target from `releases/v0.1.0-mvp.md`).
 - Zero P0 rollbacks; ≤ 2 P1 hotfixes needed in the first week.
 - 5-user test surfaced ≤ 5 rewrite items and 0 blocking bugs.

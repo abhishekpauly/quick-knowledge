@@ -37,7 +37,7 @@ Legend: **✓** shipped in v0.1 · **◐** partial today · **○** planned in t
 | **Checklists — Auto-suppress under active tour** | ○ | v0.2 **+** | **New candidate** — one-liner: hide pill when `getActiveTourId() !== null` |
 | **Banners** | ○ | v0.5 | Already planned |
 | **Launchpads — Core widget** | ○ | v0.5 | Already planned; recommend building as separate component from Checklist (not merged) |
-| **Launchpads — Knowledge base search** | ○ | v0.5 | Already planned; ship one integration first (whichever UPTIQ uses) |
+| **Launchpads — Knowledge base search** | ○ | v0.5 | Already planned; ship one integration first (whichever uses) |
 | **Launchpads — Auto icon-merge with Checklist** | ○ | v0.5 **+** | **New candidate** — subtle UX detail |
 | **NPS — Core survey** | ○ | v0.5 | Already planned |
 | **NPS — Score-based property (for downstream targeting)** | ○ | v0.5 | Depends on v0.2 property targeting — sequence v0.2 before NPS |
@@ -98,7 +98,7 @@ Three questions this pass surfaced that need a decision before we start writing 
 
 - **Merge Launchpad and Checklist into one widget, or keep separate?** Recommend keep separate — Appcues, Pendo, Chameleon, and Intercom all do; users know both patterns.
 - **Ship Pin-button variant (persistent CTA that launches a tour) or route through the launchpad?** Recommend ship — smaller, more flexible, and Appcues treats them as different UX patterns for good reason.
-- **Overlay-on-target hint variant (attaches to a `data-tour` selector at runtime, vs. our current inline-in-JSX only)?** Recommend defer to v1.0 unless a real UPTIQ product asks. Inline JSX is cheaper for product teams to ship.
+- **Overlay-on-target hint variant (attaches to a `data-tour` selector at runtime, vs. our current inline-in-JSX only)?** Recommend defer to v1.0 unless a real host product asks. Inline JSX is cheaper for product teams to ship.
 
 ## Non-goals reconfirmed
 

@@ -40,7 +40,7 @@ One-time integration per product.
 
 **Install**
 ```bash
-npm install @uptiq/training-sdk @uptiq/training-sdk-react
+npm install @in-app-training/sdk @in-app-training/react
 ```
 
 **Add `data-tour` attributes** to any element a tour will point at. Naming convention: `<area>-<component>-<intent>` (e.g. `sidebar-projects-link`, `workflows-canvas-add-node-button`). See `docs/data-tour-conventions.md`.
@@ -49,8 +49,8 @@ npm install @uptiq/training-sdk @uptiq/training-sdk-react
 
 **Construct the trainer** once at app root, mount the provider:
 ```tsx
-<TourProvider trainer={trainer} theme={aiPlatformTheme}>
-  <FirstRunTour tourId="ai-platform-onboarding" />
+<TourProvider trainer={trainer} theme={exampleAppTheme}>
+  <FirstRunTour tourId="example-app-onboarding" />
   <TrainingChecklist />
   <YourApp />
 </TourProvider>
@@ -62,7 +62,7 @@ npm install @uptiq/training-sdk @uptiq/training-sdk-react
 - Initial integration: ~4 hours to first working tour.
 - Ongoing: ~0 hours per week. Content is not the engineer's problem after integration.
 
-## For the end user (of any UPTIQ product using the SDK)
+## For the end user (of any host product using the SDK)
 
 No install, no setup. Just uses the app.
 

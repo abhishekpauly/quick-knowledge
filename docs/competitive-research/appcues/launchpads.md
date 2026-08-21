@@ -42,5 +42,5 @@ In-app content centers (a.k.a. resource centers or help widgets). Users access s
   1. Extend `<TrainingChecklist>` to accept external-link items and a search integration — one widget, two roles. Simpler but conflates concepts.
   2. Ship `<TrainingLaunchpad>` as a separate component. Cleaner separation, more code.
   - Recommend path 2 for v0.5 PRD, since Appcues, Pendo, Chameleon, and Intercom all treat them as separate widgets — and users know both patterns.
-- KB search: integration-hub territory. Freshdesk / Helpjuice / Zendesk each have public search APIs. Ship one integration (whichever UPTIQ uses) as v0.5; add others when triggered.
+- KB search: integration-hub territory. Freshdesk / Helpjuice / Zendesk each have public search APIs. Ship one integration (whichever uses) as v0.5; add others when triggered.
 - Auto icon-merge (when both a checklist and a launchpad would appear in the same corner): worth including in v0.5 spec — a subtle UX detail that matters a lot in the wild.

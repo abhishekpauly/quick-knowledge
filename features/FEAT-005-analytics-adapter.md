@@ -14,7 +14,7 @@ Every host product uses a different analytics sink (Amplitude, Mixpanel, PostHog
 ## Non-goals
 
 - Building our own analytics backend.
-- Standardizing analytics vendors across UPTIQ products (not our fight).
+- Standardizing analytics vendors across host products (not our fight).
 - Dashboards (later — likely built on top of the existing analytics tool).
 
 ## Solution sketch
@@ -28,7 +28,7 @@ Define an `Analytics` interface with a `track(event, props)` method. Define the 
 - Each event's payload typed: e.g., `step_viewed` includes `tourId`, `stepId`, `stepIndex`, `timestamp`.
 - Console adapter (dev).
 - No-op adapter (tests).
-- One concrete adapter for AI Platform's sink.
+- One concrete adapter for the example app's sink.
 
 ## Full scope (Sprint 04+)
 
@@ -46,7 +46,7 @@ Define an `Analytics` interface with a `track(event, props)` method. Define the 
 
 ## Open questions
 
-- Which sink does AI Platform actually use? → Confirm before Sprint 03.
+- Which sink does the example app actually use? → Confirm before Sprint 03.
 
 ## Risks
 

@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/abhishekpauly/quick-knowledge/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/abhishekpauly/quick-knowledge/actions/workflows/ci.yml)
 
-An in-house in-app product training system. First customer: **UPTIQ AI Platform**. Designed as a reusable SDK so other UPTIQ products can adopt it without a rewrite.
+An in-house in-app product training system. First customer: **the example app**. Designed as a reusable SDK so other host products can adopt it without a rewrite.
 
 **Owner:** Technical Curriculum Developer + Claude AI Engineer
 **Status:** Sprint 07 in progress — launch + hardening. Engineering complete for v0.1 and most of v0.2; production deploy pending compliance sign-off, frontend `data-tour` PR merge, and analytics sink confirmation. See [`product/launch-status.md`](product/launch-status.md).
@@ -14,9 +14,9 @@ An in-house in-app product training system. First customer: **UPTIQ AI Platform*
 
 | Package | Location | Purpose |
 | --- | --- | --- |
-| `@uptiq/training-sdk` | `packages/core/` | Framework-agnostic engine, content schema, adapters, theme. |
-| `@uptiq/training-sdk-react` | `packages/react/` | React adapter — `<TourProvider>`, `useTour`, `useTourProgress`, `<FirstRunTour>`. |
-| `@uptiq/training-sdk-vue` | `packages/vue/` | Vue 3 adapter — API-parity with React. Un-deferred once AI Platform's 50/50 React/Vue mix was confirmed. |
+| `@in-app-training/sdk` | `packages/core/` | Framework-agnostic engine, content schema, adapters, theme. |
+| `@in-app-training/react` | `packages/react/` | React adapter — `<TourProvider>`, `useTour`, `useTourProgress`, `<FirstRunTour>`. |
+| `@in-app-training/vue` | `packages/vue/` | Vue 3 adapter — API-parity with React. Un-deferred once the example app's 50/50 React/Vue mix was confirmed. |
 
 ## Repo layout
 
@@ -28,22 +28,22 @@ in-app-training-sdk/
 ├── tsconfig.json                references to workspace packages
 ├── vite.config.ts               demo dev server (packages/*/src via aliases)
 ├── packages/
-│   ├── core/                    @uptiq/training-sdk
+│   ├── core/                    @in-app-training/sdk
 │   │   ├── package.json, tsconfig.json, tsconfig.build.json, vitest.config.ts
 │   │   ├── src/
 │   │   │   ├── index.ts         Public API
 │   │   │   ├── engine/          Trainer, event types, public types
 │   │   │   ├── schema/          Zod v1 schema, loader
 │   │   │   ├── adapters/        Analytics + persistence interfaces + impls
-│   │   │   └── theme/           CSS variables, default + AI Platform themes
+│   │   │   └── theme/           CSS variables, default + the example app themes
 │   │   └── tests/               Vitest suites (schema, persistence, trainer)
-│   └── react/                   @uptiq/training-sdk-react
+│   └── react/                   @in-app-training/react
 │       ├── package.json, tsconfig.json, tsconfig.build.json, vitest.config.ts
 │       ├── src/                 TrainerContext, TourProvider, hooks, FirstRunTour
 │       └── tests/               React Testing Library
 ├── content/                     Tour JSON authored by curriculum team
 │   ├── _template.tour.json
-│   └── ai-platform/             Product-scoped folder
+│   └── example-app/             Product-scoped folder
 ├── docs/
 │   ├── architecture.md
 │   ├── content-schema.md
@@ -84,15 +84,15 @@ npm run typecheck                # typecheck all packages
 npm run lint
 npm run format
 npm run validate:content         # Zod-validate all tour JSON
-npm run validate:selectors -- --content ./content --host ../ai-platform-frontend/src
+npm run validate:selectors -- --content ./content --host ../example-app-frontend/src
 npm run ci                       # typecheck + lint + test + validate:content
 ```
 
 Per-package:
 
 ```bash
-npm test --workspace @uptiq/training-sdk
-npm run build --workspace @uptiq/training-sdk-react
+npm test --workspace @in-app-training/sdk
+npm run build --workspace @in-app-training/react
 ```
 
 ## Definitions
@@ -101,7 +101,7 @@ npm run build --workspace @uptiq/training-sdk-react
 - **Content** — tours authored as JSON, validated by a Zod schema.
 - **Adapter** — thin per-framework binding. React and Vue both shipped.
 - **`data-tour` contract** — every element a tour can target has a stable `data-tour="..."` attribute. Selectors are validated in CI.
-- **Product** — a UPTIQ product that installs this SDK. First is AI Platform.
+- **Product** — a host product that installs this SDK. First is the example app.
 
 ## Versioning
 

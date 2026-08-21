@@ -1,5 +1,5 @@
 /**
- * Public API for @uptiq/training-sdk-react.
+ * Public API for @in-app-training/react.
  *
  * Everything here is part of the stable contract. Removing or renaming an
  * export is a MAJOR bump.

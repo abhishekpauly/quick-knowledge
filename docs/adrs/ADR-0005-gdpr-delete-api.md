@@ -2,14 +2,14 @@
 
 - **Status:** Proposed
 - **Date:** 2026-08-29
-- **Deciders:** Abhishek Paul (SDK), Priya Nair (AI Platform PM), UPTIQ Security (async review)
+- **Deciders:** Abhishek Paul (SDK), [Product PM] (the example app PM), InfoSec (async review)
 - **Related:** [`releases/compliance-review-request.md`](../../releases/compliance-review-request.md) — Sprint 07 security review flagged GDPR delete as a v1.0 requirement. Sprint 08 T-093 opens the design; implementation lands in the v1.0 window.
 
 ## Context
 
 The SDK stores per-user state in the browser only. There is no server component in v0.1.
 
-- **v0.1 persistence** — `Persistence` interface (see `packages/core/src/adapters/persistence.ts`); the shipped adapter is `localStoragePersistence()` writing under `uptiq-training:*`. No cross-device sync, no server round-trip.
+- **v0.1 persistence** — `Persistence` interface (see `packages/core/src/adapters/persistence.ts`); the shipped adapter is `localStoragePersistence()` writing under `in-app-training:*`. No cross-device sync, no server round-trip.
 - **v0.1 analytics** — every `TrainingEvent` payload is delivered synchronously into the host product's `Analytics` adapter (PostHog by default). The SDK never phones home; the host owns retention.
 - **v1.0 promised capabilities** (per `ROADMAP.md`): cross-device persistence backend + a public REST API. Both create *server-side* per-user state, which brings GDPR Article 17 (right to erasure) squarely into scope.
 
@@ -82,7 +82,7 @@ interface UserForgetRequestedPayload {
 - **A dedicated `GdprAdapter` interface.** Would sit alongside `Analytics` and `Persistence`. Rejected: the operation is rare (one call per request), doesn't need per-host customization beyond what the analytics event covers, and adds a mandatory-implement contract every host would have to fulfil even if they never see a GDPR request in practice.
 - **`Persistence.clear(userId)` only.** Rejected: works for browser storage but says nothing about the analytics propagation obligation. Compliance's concern isn't just the local key; it's the whole data-flow story.
 - **A REST endpoint on the SDK itself.** Rejected: the SDK is a browser bundle in v1.0-and-earlier, not a service. When v1.0 ships the server-side backend, that backend gets its own admin endpoint — but the browser-facing `forgetUser` stays and forwards to it.
-- **No API — document manual cleanup instead.** Rejected: compliance explicitly asked for a programmatic surface so the AI Platform's account-deletion flow can call it from code, not from a runbook.
+- **No API — document manual cleanup instead.** Rejected: compliance explicitly asked for a programmatic surface so the example app's account-deletion flow can call it from code, not from a runbook.
 
 ## Consequences
 
@@ -106,7 +106,7 @@ interface UserForgetRequestedPayload {
 
 ## Revisit triggers
 
-- **A UPTIQ product regulated under CCPA or an APAC equivalent needs a differently-shaped API.** The current shape is Article-17-flavoured; other regimes may need a `restrictProcessing` verb or a data-export receipt.
+- **A host product regulated under CCPA or an APAC equivalent needs a differently-shaped API.** The current shape is Article-17-flavoured; other regimes may need a `restrictProcessing` verb or a data-export receipt.
 - **A second store type lands** (e.g. IndexedDB for larger persistence). The receipt shape may need per-store granularity.
 - **A host asks for sink-side deletion to happen in-SDK.** Would require a `GdprAdapter` interface after all — reopen this ADR.
 - **The v1.0 REST API design formalises `userId` differently than assumed here.** ADR-0005 and the REST design must reconcile.

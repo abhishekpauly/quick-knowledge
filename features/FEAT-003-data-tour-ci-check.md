@@ -23,7 +23,7 @@ Tour targets rot silently when someone refactors the host product and drops or r
 
 ## MVP scope (Sprint 03)
 
-- CLI script `npm run validate:selectors -- --content ./content --host ../ai-platform-frontend/src`.
+- CLI script `npm run validate:selectors -- --content ./content --host ../example-app-frontend/src`.
 - Extracts IDs from all `.tour.json` files.
 - Greps host source for each ID.
 - Reports missing IDs with file:line context if possible.
@@ -40,9 +40,9 @@ Tour targets rot silently when someone refactors the host product and drops or r
 
 - [ ] Running against valid content + host source: exits 0, prints count of checked IDs.
 - [ ] Running against content that references a missing ID: exits non-zero, names the missing ID and the tour file that references it.
-- [ ] Runs in under 5 seconds on the AI Platform codebase.
+- [ ] Runs in under 5 seconds on the example app codebase.
 - [ ] Wired into SDK repo's CI (fails on missing IDs).
-- [ ] Documented + added to AI Platform frontend repo's CI as an optional-but-recommended job.
+- [ ] Documented + added to the example app frontend repo's CI as an optional-but-recommended job.
 
 ## Open questions
 

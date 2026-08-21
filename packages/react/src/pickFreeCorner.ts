@@ -3,7 +3,7 @@
  * point is not occupied by another fixed-position widget in the host page.
  *
  * Motivation: Sprint 08 T-092, itself a follow-up from the v0.1.0 5-user
- * test where the checklist collided with AI Platform's help-chat launcher
+ * test where the checklist collided with the example app's help-chat launcher
  * for 1 of 5 users. The host product doesn't know we exist; we don't know
  * what they've placed at each corner. Probing is the cheapest defence.
  *
@@ -12,7 +12,7 @@
  *   from the corner by PROBE_OFFSET_PX so we sample where the pill would sit,
  *   not the exact page edge).
  * - A candidate is "free" if the probe hits nothing, hits `<html>`/`<body>`,
- *   or hits an element inside a `data-uptiq-training="1"` root (our own
+ *   or hits an element inside a `data-in-app-training="1"` root (our own
  *   widget doesn't disqualify itself, so re-picks on resize don't oscillate).
  * - If every candidate is occupied, the last one is returned. Better a busy
  *   corner than an unplaced widget.
@@ -41,7 +41,7 @@ function probePoint(corner: Corner): { x: number; y: number } {
 
 function isOurOwnWidget(el: Element | null): boolean {
   if (!el) return false;
-  return el.closest('[data-uptiq-training="1"]') !== null;
+  return el.closest('[data-in-app-training="1"]') !== null;
 }
 
 export function isCornerFree(corner: Corner): boolean {

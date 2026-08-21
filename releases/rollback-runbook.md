@@ -10,10 +10,10 @@ Prefer rolling back over hotfixing under pressure. Fix on trunk, re-ship deliber
 
 ### Fast path — host product only
 
-If the SDK is embedded in AI Platform's bundle:
+If the SDK is embedded in the example app's bundle:
 
-1. Revert the AI Platform PR that consumed the new SDK version.
-2. Redeploy AI Platform to production.
+1. Revert the example app PR that consumed the new SDK version.
+2. Redeploy the example app to production.
 3. Users get the previous SDK version on next page load (bounded by CDN cache).
 4. Time to safety: ~10 minutes.
 

@@ -5,7 +5,7 @@
  * At runtime, consumers typically import their content JSON directly and pass
  * the array of parsed tours to the Trainer:
  *
- *   import onboarding from './content/ai-platform/onboarding.tour.json';
+ *   import onboarding from './content/example-app/onboarding.tour.json';
  *   const tour = parseTour(onboarding);
  */
 import { TourSchema, type Tour } from './v1.js';

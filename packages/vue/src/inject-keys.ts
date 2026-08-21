@@ -6,8 +6,8 @@
  * runtime if the runtime lookup fails.
  */
 import type { InjectionKey } from 'vue';
-import type { Trainer, HintsFile } from '@uptiq/training-sdk';
+import type { Trainer, HintsFile } from '@in-app-training/sdk';
 
-export const TrainerKey: InjectionKey<Trainer> = Symbol('uptiq-training-trainer');
+export const TrainerKey: InjectionKey<Trainer> = Symbol('in-app-training-trainer');
 export const HintsKey: InjectionKey<{ hintsById: Map<string, HintsFile['hints'][number]> }> =
-  Symbol('uptiq-training-hints');
+  Symbol('in-app-training-hints');

@@ -1,6 +1,6 @@
-# Roadmap to Appcues-for-UPTIQ
+# Roadmap to Appcues-for-the org
 
-The phased path from v0.1.0-mvp (shipped) to a mature in-app training SDK covering the 60–70% of Appcues that matters for UPTIQ products.
+The phased path from v0.1.0-mvp (shipped) to a mature in-app training SDK covering the 60–70% of Appcues that matters for host products.
 
 Read `vs-appcues.md` first for the strategic framing and the explicit non-goals.
 
@@ -13,7 +13,7 @@ Read `vs-appcues.md` first for the strategic framing and the explicit non-goals.
 | **v0.5** | Sprints 9–14 (~2 quarters) | New experience types | Banners, Pins, Launchpad, NPS, basic Surveys/Forms, Goals, Webhooks, second product onboarded |
 | **v1.0** | Sprints 15–20 (~1 year) | Enterprise readiness | Embeds, A/B testing, Debugger UI, hot-updates (content-from-API), public REST API, GDPR delete, third product onboarded |
 | **Sprint 18–20** | ~4–5 months post-v0.1 | Cross-product analytics | Lightweight cross-product training dashboard (NOT a full Amplitude replacement) |
-| **v2.0+** | Beyond | On demand | Only if a specific UPTIQ trigger requires it |
+| **v2.0+** | Beyond | On demand | Only if a specific trigger requires it |
 
 ## v0.2 — Targeting + polish (Sprints 5–8, ~4 weeks)
 
@@ -25,7 +25,7 @@ Every item is small (1 sprint or less). Total: one focused month.
 - **Frequency limits.** "Don't show this tour more than once per week." Config per tour. ~3 days.
 - **Flow priority / ordering.** When multiple tours could fire, priority decides which wins. ~2 days.
 - **Localization (schema v2).** `title.en`, `title.es` on every user-facing field. Loader picks language from user context. ~4 days.
-- **Permalinks.** Any tour is a deep link (`?tour=ai-platform-onboarding&debug=1`) for QA, support handoffs, sales demos. Bypasses targeting. ~2 days.
+- **Permalinks.** Any tour is a deep link (`?tour=example-app-onboarding&debug=1`) for QA, support handoffs, sales demos. Bypasses targeting. ~2 days.
 - **Slideout step pattern.** Content that slides in from the edge. Expose via `placement: "slideout-right"`. ~2 days.
 - **Hotspot / Beacon pattern.** Pulsing-dot pattern that expands on click. ~4 days.
 - **Full reactive checklist pill count.** Current widget shows total only; make it reactive. ~2 days.
@@ -47,15 +47,15 @@ Bigger items. Roughly a quarter of focused work.
 - **Basic Surveys / Forms.** Multi-question, multi-type inputs. Responses posted to analytics adapter. ~2 weeks.
 - **Goals (conversion tracking).** After a tour completes, mark whether the user did the target action within N minutes. Analytics event `training.goal_hit`. ~1 week.
 - **Webhooks.** Outbound HTTP POST on tour events. For integration with tools we don't own (HubSpot workflows, Slack notifications). ~4 days.
-- **Second UPTIQ product onboarded.** Real customer #2 (whichever product commits first). Validates cross-product model. Parallel track.
+- **Second host product onboarded.** Real customer #2 (whichever product commits first). Validates cross-product model. Parallel track.
 
 **Deliverable:** SDK is a full in-app messaging system, not just a tour engine. A second product is in production.
 
-**Trigger to actually build:** Second UPTIQ product commits to adoption OR AI Platform PM asks for one of these new types by name.
+**Trigger to actually build:** Second host product commits to adoption OR the example app PM asks for one of these new types by name.
 
 ## v1.0 — Enterprise readiness (Sprints 15–20, ~6 weeks + operational time)
 
-**Goal:** Mature, boring, safe. Ready for any UPTIQ product to adopt without hesitation.
+**Goal:** Mature, boring, safe. Ready for any host product to adopt without hesitation.
 
 - **Embeds.** Inline content blocks that render inside product pages (not overlays). Useful for empty-state coaching, contextual explainers in dashboards. ~2 weeks.
 - **A/B testing / Control experiments.** Split-test two variants of a tour. Assignment by stable hash. Variant ID in every event. ~2 weeks.
@@ -63,9 +63,9 @@ Bigger items. Roughly a quarter of focused work.
 - **Content-served-from-API.** Instead of bundling content with the app, serve tour JSON from a backend endpoint. Updates go live without redeploy. Optional per product. ~2 weeks + backend.
 - **Public REST API.** Programmatic user management, content read/write, GDPR delete. Needed for anyone integrating this with a data warehouse or admin flow. ~2 weeks.
 - **GDPR deletion flow.** Delete-user-data endpoint. Persistence adapter contract extension. ~3 days.
-- **Third UPTIQ product onboarded.** Validates the multi-product story at scale.
+- **Third host product onboarded.** Validates the multi-product story at scale.
 
-**Deliverable:** SDK is a real enterprise-ready product. Three UPTIQ products in production.
+**Deliverable:** SDK is a real enterprise-ready product. Three host products in production.
 
 **Trigger to actually build:** Compliance asks for GDPR delete OR the second product needs one of these features OR we hit "hot-updates without redeploy" as a real pain point.
 
@@ -74,8 +74,8 @@ Bigger items. Roughly a quarter of focused work.
 **Explicitly deferred to Sprint 18–20 per direction.** Not a full Analytics Studio (that's a non-goal per `vs-appcues.md`).
 
 **What we build:**
-- A small internal dashboard aggregating training metrics across all UPTIQ products using the SDK.
-- Reads from a single analytics warehouse (whatever UPTIQ has — Snowflake / BigQuery / etc.).
+- A small internal dashboard aggregating training metrics across all host products using the SDK.
+- Reads from a single analytics warehouse (whatever has — Snowflake / BigQuery / etc.).
 - Shows: per-product completion rates, per-tour drop-off, cross-product training-adoption curves.
 - Written as a simple internal web page or Notion / Retool dashboard, not a rebuilt Amplitude.
 
@@ -84,26 +84,26 @@ Bigger items. Roughly a quarter of focused work.
 
 **Effort:** ~1 sprint if we lean on Retool / Metabase / a simple Next.js page. NOT the multi-month Studio Appcues built.
 
-**Trigger to build:** Once we have 2+ products in production and someone (probably you) needs to answer "how is training performing across all UPTIQ products?"
+**Trigger to build:** Once we have 2+ products in production and someone (probably you) needs to answer "how is training performing across all host products?"
 
 ## v2.0+ — On demand
 
-Deliberately not planning yet. Track promotion triggers per feature; build only when a real UPTIQ signal appears.
+Deliberately not planning yet. Track promotion triggers per feature; build only when a real signal appears.
 
 - Advanced targeting (behavioral cohorts, machine-learning propensity).
-- Multi-tenant Content Studio (if UPTIQ ever sells the SDK externally — unlikely).
+- Multi-tenant Content Studio (if ever sells the SDK externally — unlikely).
 - Cross-device sync backend (if users complain about desktop → mobile continuity).
-- Native mobile SDKs (only if UPTIQ ships a mobile product — currently non-goal).
+- Native mobile SDKs (only if ships a mobile product — currently non-goal).
 - Video walkthroughs (if a tour needs > 2 sentences of body, video wins).
 
 ## Explicit non-goals — never building
 
 Restated from `vs-appcues.md` so this doc is self-contained:
 
-1. **Mobile SDKs** — no UPTIQ mobile product; would consume ~30% of Appcues' scope for zero value.
+1. **Mobile SDKs** — no mobile product; would consume ~30% of Appcues' scope for zero value.
 2. **Visual no-code Studio** — our author is technical; git PR beats WYSIWYG; would double our maintenance burden.
-3. **Multi-channel Workflow engine** — offload to HubSpot / Braze / Iterable, which UPTIQ likely already has.
-4. **Full Analytics Studio** — offload to Amplitude / PostHog / Mixpanel, which UPTIQ products already emit to. Only build the lightweight cross-product aggregator at Sprint 18–20.
+3. **Multi-channel Workflow engine** — offload to HubSpot / Braze / Iterable, which likely already has.
+4. **Full Analytics Studio** — offload to Amplitude / PostHog / Mixpanel, which host products already emit to. Only build the lightweight cross-product aggregator at Sprint 18–20.
 
 ## Effort summary
 
@@ -114,7 +114,7 @@ Restated from `vs-appcues.md` so this doc is self-contained:
 | v0.5 | Sprints 9–14 | 1 person + AI, or 2 in parallel | ~50% |
 | v1.0 | Sprints 15–20 | 2 engineers + designer + PM (part-time) | ~65–70% |
 
-At v1.0 we're at ~two-thirds of Appcues' feature surface, covering the two-thirds that matters for UPTIQ, at ~10% of Appcues' engineering cost and 0% of the SaaS bill.
+At v1.0 we're at ~two-thirds of Appcues' feature surface, covering the two-thirds that matters for the org, at ~10% of Appcues' engineering cost and 0% of the SaaS bill.
 
 ## What to revisit at each tier boundary
 

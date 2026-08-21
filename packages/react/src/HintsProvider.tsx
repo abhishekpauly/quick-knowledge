@@ -5,7 +5,7 @@
  * fits in a single JSON object per product.
  */
 import { createContext, useContext, useMemo, type ReactNode } from 'react';
-import type { Hint, HintsFile } from '@uptiq/training-sdk';
+import type { Hint, HintsFile } from '@in-app-training/sdk';
 
 interface HintsContextValue {
   hintsById: Map<string, Hint>;

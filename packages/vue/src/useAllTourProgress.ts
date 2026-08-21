@@ -3,7 +3,7 @@
  * Vue counterpart of the React hook of the same name. Powers the checklist widget.
  */
 import { inject, ref, onBeforeUnmount, type Ref } from 'vue';
-import type { TourProgress } from '@uptiq/training-sdk';
+import type { TourProgress } from '@in-app-training/sdk';
 import { TrainerKey } from './inject-keys.js';
 
 export function useAllTourProgress(): Ref<Map<string, TourProgress>> {

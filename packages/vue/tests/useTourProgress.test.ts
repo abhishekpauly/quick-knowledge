@@ -15,7 +15,7 @@ import type {
   TrainingEventName,
   EventListener,
   TrainingEvent,
-} from '@uptiq/training-sdk';
+} from '@in-app-training/sdk';
 
 function tour(id: string): Tour {
   return {

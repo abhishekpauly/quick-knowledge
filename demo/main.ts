@@ -1,7 +1,7 @@
 /**
  * Demo entry point.
  *
- * Wires the SDK up against the mock AI Platform layout in index.html.
+ * Wires the SDK up against the mock the example app layout in index.html.
  * Run with `npm run dev` — Vite serves it at http://localhost:5173.
  *
  * NOTE: This demo uses the vanilla engine directly. A React demo lives in
@@ -13,14 +13,14 @@ import {
   consoleAnalytics,
   localStoragePersistence,
   applyTheme,
-  aiPlatformTheme,
+  exampleAppTheme,
   parseTour,
   parseHints,
-} from '@uptiq/training-sdk';
+} from '@in-app-training/sdk';
 
-import onboardingRaw from '../content/ai-platform/onboarding.tour.json';
-import workflowsRaw from '../content/ai-platform/workflows-create-project.tour.json';
-import hintsRaw from '../content/ai-platform/hints.json';
+import onboardingRaw from '../content/example-app/onboarding.tour.json';
+import workflowsRaw from '../content/example-app/workflows-create-project.tour.json';
+import hintsRaw from '../content/example-app/hints.json';
 
 // 1. Validate content at boot.
 const onboarding = parseTour(onboardingRaw);
@@ -32,23 +32,23 @@ if (!onboarding.ok || !workflows.ok || !hints.ok) {
 }
 
 // 2. Apply theme.
-applyTheme(aiPlatformTheme);
+applyTheme(exampleAppTheme);
 
 // 3. Construct trainer.
 const trainer = new Trainer({
-  product: 'ai-platform',
+  product: 'example-app',
   tours: [onboarding.tour!, workflows.tour!],
   analytics: consoleAnalytics(),
   persistence: localStoragePersistence(),
-  theme: aiPlatformTheme,
+  theme: exampleAppTheme,
 });
 
 // 4. Wire demo controls.
 document.getElementById('start-onboarding')!.addEventListener('click', () => {
-  void trainer.start('ai-platform-onboarding', 'manual');
+  void trainer.start('example-app-onboarding', 'manual');
 });
 document.getElementById('start-workflow')!.addEventListener('click', () => {
-  void trainer.start('ai-platform-workflows-create-project', 'manual');
+  void trainer.start('example-app-workflows-create-project', 'manual');
 });
 document.getElementById('clear-progress')!.addEventListener('click', () => {
   window.localStorage.clear();
@@ -62,10 +62,10 @@ trainer.on('tour_dismissed', (e) => console.log('DEMO tour_dismissed', e.payload
 trainer.on('tour_error', (e) => console.warn('DEMO tour_error', e.payload));
 
 // 6. First-run auto-start (vanilla equivalent of <FirstRunTour>).
-const progress = trainer.getProgress('ai-platform-onboarding');
+const progress = trainer.getProgress('example-app-onboarding');
 if (progress.status === 'not-started') {
   setTimeout(() => {
-    void trainer.start('ai-platform-onboarding', 'first-run');
+    void trainer.start('example-app-onboarding', 'first-run');
   }, 300);
 }
 

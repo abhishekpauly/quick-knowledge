@@ -6,7 +6,7 @@
 
 ## Context
 
-The SDK will be installed in multiple UPTIQ products. Those products will differ along four dimensions we can predict:
+The SDK will be installed in multiple host products. Those products will differ along four dimensions we can predict:
 
 - **Framework** — React today, likely Vue for at least one product.
 - **Analytics sink** — each product wires to its own (Amplitude, Mixpanel, PostHog, internal).

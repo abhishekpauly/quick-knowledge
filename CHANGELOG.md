@@ -8,9 +8,9 @@ All notable changes to this project. Format follows [Keep a Changelog](https://k
 
 - **T-090** · Event dictionary exporter. `scripts/generate-event-dictionary.ts` parses `events.ts` via the TS compiler API and emits `docs/event-dictionary.md` + `docs/event-dictionary.json`. `npm run docs:events:check` fails CI on drift. Wired into `npm run ci`.
 - **T-091** · Onboarding drop-off investigation ([`product/investigations/onboarding-drop-off-s08.md`](product/investigations/onboarding-drop-off-s08.md)). 20-session PostHog replay sample classified: 65% went-to-goal, 15% abandoned, 10% confused, 10% ambiguous. Retro hypothesis confirmed. Recommendation: adopt Goals (v0.5) to measure correctly; do not "fix" the tour.
-- **T-092** · `TrainingChecklist` `preferredCorners` prop (React + Vue). `pickFreeCorner` probes each candidate via `document.elementFromPoint`; the widget marks itself with `data-uptiq-training="1"` so re-probes recognise us. 12 new shared-logic tests.
+- **T-092** · `TrainingChecklist` `preferredCorners` prop (React + Vue). `pickFreeCorner` probes each candidate via `document.elementFromPoint`; the widget marks itself with `data-in-app-training="1"` so re-probes recognise us. 12 new shared-logic tests.
 - **T-093** · Two v1.0 compliance ADRs (design only). [`ADR-0005-gdpr-delete-api.md`](docs/adrs/ADR-0005-gdpr-delete-api.md) specs `trainer.forgetUser(userId?)` returning a receipt; analytics is a host-signalled event, not a sink call. [`ADR-0006-consent-gating-hook.md`](docs/adrs/ADR-0006-consent-gating-hook.md) specs `ConsentAdapter` on `TrainerConfig` + additive `consentCategory` on the tour schema.
-- **T-094 / T-095** · Adopter-#2 outreach ([`product/adopter-scouting.md`](product/adopter-scouting.md)). Workbench committed as adopter #2 (React, real onboarding pain, PostHog, Sprints 10–11). Insights deferred to Pins-first integration (Vue, low tour pain but strong Pins fit).
+- **T-094 / T-095** · Adopter-#2 outreach ([`product/adopter-scouting.md`](product/adopter-scouting.md)). Adopter Product A committed as adopter #2 (React, real onboarding pain, PostHog, Sprints 10–11). Adopter Product B deferred to Pins-first integration (Vue, low tour pain but strong Pins fit).
 - **T-096** · v0.5 kickoff document ([`product/v0.5-kickoff.md`](product/v0.5-kickoff.md)). Pins + Goals scoped in detail — schemas, API surfaces, events, success criteria, Sprint 9 + 10–11 day-by-day plans. Explicit non-goals keep Banners / Launchpad / NPS / Surveys / Webhooks HOLD.
 
 **Green:** `npm run ci` and `npm run test:coverage` both exit 0. 178 tests (110 core / 34 react / 34 vue). Coverage above thresholds in every package.
@@ -23,24 +23,24 @@ All notable changes to this project. Format follows [Keep a Changelog](https://k
 
 ### Sprint 07 launch-prep additions
 
-- **`releases/ai-platform-theme-handoff.md`** — design hand-off doc: the exact tokens `aiPlatformTheme` needs, a11y contrast checklist, paste-ready response format for design.
+- **`releases/host-theme-handoff.md`** — design hand-off doc: the exact tokens `exampleAppTheme` needs, a11y contrast checklist, paste-ready response format for design.
 - **`releases/v0.1.0-retro.md`** — pre-written retro skeleton (T-072). Fill on day 35. Includes the v0.5 go/hold/drop table the sprint plan contractually requires.
-- **`content/ai-platform/_drafts/`** — three shape-complete tour skeletons (second-basic, intermediate, common-task) with placeholder selectors and `[TODO]`-tagged copy. Underscore prefix keeps them out of `validate:content` until the author renames.
+- **`content/example-app/_drafts/`** — three shape-complete tour skeletons (second-basic, intermediate, common-task) with placeholder selectors and `[TODO]`-tagged copy. Underscore prefix keeps them out of `validate:content` until the author renames.
 - **`tracker/sprint-07.md`** — Sprint 07 plan (launch + hardening, days 27–35). T-060 through T-072.
 - **`releases/compliance-review-request.md`** — pre-filled owner and timeline brackets (T-060 partial).
-- **`releases/ai-platform-data-tour-pr.md`** — pre-filled repo/docs/ADR links (T-061 partial).
+- **`releases/adopter-data-tour-pr.md`** — pre-filled repo/docs/ADR links (T-061 partial).
 
 ### Fixed (hardening)
 
 - **`scripts/validate-content.ts`** — import path was `../src/schema/loader.js`, correct path is `../packages/core/src/schema/loader.js`. Script now runs.
-- **`packages/*/tsconfig.build.json`** — added `rootDir: "src"` to each. Without it, TypeScript emitted `dist/src/index.js` while `package.json exports` pointed at `dist/index.js` — every cross-package import (`@uptiq/training-sdk` from react and vue) failed at test time. All three packages now emit at the paths their `exports` map declares.
+- **`packages/*/tsconfig.build.json`** — added `rootDir: "src"` to each. Without it, TypeScript emitted `dist/src/index.js` while `package.json exports` pointed at `dist/index.js` — every cross-package import (`@in-app-training/sdk` from react and vue) failed at test time. All three packages now emit at the paths their `exports` map declares.
 
 ### Fixed hardening blockers (T-073, T-074)
 
 _Landed via two parallel commits (PR #1 and this branch's Sprint 07 pre-flight pass). Same root causes, same code-level fix on the overlapping items; the merge dedup'd the shared changes and kept the Sprint 07 branch's superset of surrounding cleanups._
 
 - **T-073 · Shepherd.js types.** Root cause: `import type Shepherd from 'shepherd.js'` was treated as a namespace (`Shepherd.Tour`, `Shepherd.Step.StepOptions`, …), but shepherd.js@14 exports these as named types, not namespace members. Switched to named type imports with aliases (`ShepherdTour`, `ShepherdStepOptions`, `ShepherdStepOptionsButton`, `ShepherdStepOptionsAttachTo`). Dropped a redundant `as typeof Shepherd` cast on the lazy runtime import.
-- **T-074 · Vue package implicit-any.** Root cause: the 8 implicit-any errors were downstream of the `Cannot find module '@uptiq/training-sdk'` — TypeScript couldn't infer callback param types because the types-of-record for `trainer.on(...)` were missing. Fixed by the build config change (see `Fixed (hardening)` above): once `packages/core/dist/index.d.ts` exists at the path `package.json exports` declares, all inference lands correctly and the implicit-anys disappear.
+- **T-074 · Vue package implicit-any.** Root cause: the 8 implicit-any errors were downstream of the `Cannot find module '@in-app-training/sdk'` — TypeScript couldn't infer callback param types because the types-of-record for `trainer.on(...)` were missing. Fixed by the build config change (see `Fixed (hardening)` above): once `packages/core/dist/index.d.ts` exists at the path `package.json exports` declares, all inference lands correctly and the implicit-anys disappear.
 - **Trainer.ts `EventListener` generic narrowing.** `set.add(listener as EventListener)` failed strict conversion checks because `EventListener<N>` isn't assignable to erased `EventListener` without going through `unknown`. Added the `as unknown as` step in three places (Trainer emit + register + unregister).
 - **`noUncheckedIndexedAccess` test misses.** `ph.calls[0][0]` and `result.failures[0].index` in the tests type-check under strict now (`ph.calls[0]!` / `result.failures[0]!`).
 - **React tests missing RTL cleanup.** `packages/react/tests/setup.ts` calls `afterEach(cleanup)`, wired via `vitest.config.ts` `setupFiles`. Without it, checklist renders leaked across cases and `getByTestId` matched multiple pills.
@@ -58,13 +58,13 @@ _Landed via two parallel commits (PR #1 and this branch's Sprint 07 pre-flight p
 - **`posthog-adapter.test.ts`** — verifies prefix behavior, custom prefix, error swallowing.
 
 **Part A · v0.1 launch prep + Vue adapter (un-deferred)**
-- **`@uptiq/training-sdk-vue`** — new package. Full API parity with the React adapter: `TourProvider`, `useTour`, `useTourProgress`, `useAllTourProgress`, `FirstRunTour`, `TrainingChecklist`, `HintsProvider`, `TrainingHint`. Vue 3, uses provide/inject, composables + `defineComponent` + `h()` (JSX-free). Un-deferred from FEAT-011 because the AI Platform frontend is 50/50 React/Vue.
+- **`@in-app-training/vue`** — new package. Full API parity with the React adapter: `TourProvider`, `useTour`, `useTourProgress`, `useAllTourProgress`, `FirstRunTour`, `TrainingChecklist`, `HintsProvider`, `TrainingHint`. Vue 3, uses provide/inject, composables + `defineComponent` + `h()` (JSX-free). Un-deferred from FEAT-011 because the example app frontend is 50/50 React/Vue.
 - **Vue adapter test suite** — Vitest + @vue/test-utils. Provider errors, useTour reactivity, HintsProvider + TrainingHint.
 - **`placeholderAnalytics()`** — first-run-only console-warned no-op adapter for the launch window when the concrete sink is TBD. Auto-warns on first `track` call so it can't be silently left in production.
 - **`docs/wiring-analytics-sink.md`** — drop-in recipes for PostHog / Amplitude / Mixpanel / custom, wiring instructions, launch-day checklist.
 - **`sample-content-repo/`** — scaffold of the separate-per-product content repo pattern (per direction). Includes `package.json`, `src/index.ts` (typed parsed exports), README explaining the extract-to-real-repo process, and validation scripts.
 - **`docs/content-repos.md`** — full doc on the separate-content-repo model: anatomy, package.json, `src/index.ts`, host integration, governance, naming convention, extraction checklist.
-- **`releases/ai-platform-data-tour-pr.md`** — paste-ready PR description for the AI Platform frontend team, with the 9 selector rows and reviewer instructions.
+- **`releases/adopter-data-tour-pr.md`** — paste-ready PR description for the example app frontend team, with the 9 selector rows and reviewer instructions.
 - **`releases/compliance-review-request.md`** — paste-ready security-review request covering deployment posture, data flow, third-party deps, personalization XSS mitigations, threat model, GDPR posture.
 - **`releases/deploy-runbook.md`** — environment-agnostic day-of runbook (pre-flight → staging → 5-user test → production → post-deploy monitoring → rollback triggers), plus support-team briefing template + internal announcement template.
 
@@ -76,7 +76,7 @@ _Landed via two parallel commits (PR #1 and this branch's Sprint 07 pre-flight p
 - **Hotspot step pattern.** `stepType: "hotspot"` renders no buttons; auto-installs a click-on-target advance-on. Consumers style the beacon via the `training-hotspot` CSS class.
 - **Redirect step type.** `stepType: "redirect"` with `redirectUrl` navigates the user (SPA-friendly pushState for paths; `location.assign` for absolute URLs), waits `redirectWaitMs` (default 500ms), then advances. No tooltip UI rendered.
 - **Sprint 6 tests.** `frequency.test.ts`, `permalink.test.ts`, plus new "Sprint 6 additions" section in `schema.test.ts` covering the new step types and tour-level fields.
-- **Public API additions.** From `@uptiq/training-sdk`: `placeholderAnalytics`, `isAllowedByFrequency`, `markSeenThisSession`, `_resetSessionState`, `readPermalinkTourId`, `StepTypeSchema`, `FrequencySchema`, types `StepType` and `Frequency`.
+- **Public API additions.** From `@in-app-training/sdk`: `placeholderAnalytics`, `isAllowedByFrequency`, `markSeenThisSession`, `_resetSessionState`, `readPermalinkTourId`, `StepTypeSchema`, `FrequencySchema`, types `StepType` and `Frequency`.
 
 **Sprint 05 — v0.2 kickoff · targeting + polish**
 - **Property-based audience targeting.** Tours declare `audience: ["plan:enterprise", "!role:trial"]`. TrainerConfig accepts `userAttributes`. Matcher supports AND semantics and negation. Missing attribute makes positive atoms fail and negative atoms pass. `matchesAudience` exported for adapters and tests.
@@ -85,7 +85,7 @@ _Landed via two parallel commits (PR #1 and this branch's Sprint 07 pre-flight p
 - **Image rendering in step body.** The `media` field now renders as an inline `<img>` above the body text with theme-driven styling. Video type reserved for v0.5.
 - **Reactive checklist pill count.** `<TrainingChecklist>` now shows accurate `completed/total` on the pill and updates as tours complete. Implemented via new `useAllTourProgress` hook — reads all-tour progress reactively at the widget level (avoids Rules-of-Hooks violation from per-item useTourProgress calls).
 - **Checklist auto-suppress under active tour.** `<TrainingChecklist>` hides while any tour is running so it doesn't compete for attention. `hideDuringActiveTour` prop (default `true`) can be set to `false` to keep the widget visible.
-- **Public API additions.** From `@uptiq/training-sdk`: `LocalizedStringSchema`, `LocalizedString`, `matchesAudience`, `UserAttributes`, `resolveLocale`, `personalize`, `PersonalizationContext`. From `@uptiq/training-sdk-react`: `useAllTourProgress`.
+- **Public API additions.** From `@in-app-training/sdk`: `LocalizedStringSchema`, `LocalizedString`, `matchesAudience`, `UserAttributes`, `resolveLocale`, `personalize`, `PersonalizationContext`. From `@in-app-training/react`: `useAllTourProgress`.
 - **Tests.** `audience.test.ts`, `localize.test.ts`, `personalize.test.ts`, plus new "Sprint 5 additions" section in `schema.test.ts` covering audience atoms and LocalizedString variants.
 - **Sprint 05 plan doc + backlog updates.** `tracker/sprint-05.md`, `tracker/backlog.md` with T-040..T-047 for this sprint and T-050..T-055 seeded for Sprint 06.
 
@@ -98,15 +98,15 @@ _Landed via two parallel commits (PR #1 and this branch's Sprint 07 pre-flight p
 - `Trainer.dispose()` — free trigger listeners, abort target waits, cancel active tour. Idempotent.
 - `Trainer.getTours()` public method — the checklist widget reads content through the trainer, no separate wiring.
 - Prerequisites gating: `trainer.start()` silently no-ops if a tour's prereqs are not `completed`.
-- `hints.json` for AI Platform with three real hints (workflow node name, project region, model max tokens).
+- `hints.json` for the example app with three real hints (workflow node name, project region, model max tokens).
 - Progress cache hydrated eagerly on Trainer construction so first-run gates are correct on cold load.
 - Tests: `targeting.test.ts`, `triggers.test.ts`, `advance.test.ts`, `hints.test.ts`, `TrainingChecklist.test.tsx`, `TrainingHint.test.tsx`.
 - `testing/five-user-test-protocol.md` — recruit / script / note template / decision rubric for pre-launch usability testing.
 - `testing/analytics-verification.md` — event-by-event checklist for confirming the sink receives what the SDK emits.
-- Public API additions: `waitForElement`, `TargetTimeoutError`, `HintSchema`, `HintsFileSchema`, `parseHints`, `Hint`, `HintsFile` from `@uptiq/training-sdk`; `TrainingChecklist`, `HintsProvider`, `TrainingHint` from `@uptiq/training-sdk-react`.
+- Public API additions: `waitForElement`, `TargetTimeoutError`, `HintSchema`, `HintsFileSchema`, `parseHints`, `Hint`, `HintsFile` from `@in-app-training/sdk`; `TrainingChecklist`, `HintsProvider`, `TrainingHint` from `@in-app-training/react`.
 
 **Sprint 03 — Reusability layer**
-- New package `@uptiq/training-sdk-react` with `<TourProvider>`, `useTour()`, `useTourProgress()`, `<FirstRunTour>`.
+- New package `@in-app-training/react` with `<TourProvider>`, `useTour()`, `useTourProgress()`, `<FirstRunTour>`.
 - Repository restructured to npm workspaces monorepo (`packages/core`, `packages/react`).
 - `docs/how-to-integrate.md` — step-by-step integration guide for host product teams.
 - `docs/analytics-adapters.md` — concrete `Analytics` implementations for PostHog, Amplitude, Mixpanel, Segment, GA4, custom internal, and multi-sink patterns.
@@ -114,18 +114,18 @@ _Landed via two parallel commits (PR #1 and this branch's Sprint 07 pre-flight p
 - Root README updated for monorepo layout.
 
 **Sprint 02 — MVP as a real package**
-- `@uptiq/training-sdk` published as an npm package with public API surface.
+- `@in-app-training/sdk` published as an npm package with public API surface.
 - Zod v1 content schema with `SCHEMA_VERSION` sentinel.
 - Content loader (`parseTour`, `loadContent`) that never throws.
 - Console / no-op / memory analytics adapters.
 - LocalStorage + in-memory persistence adapters (localStorage falls back automatically).
-- CSS-variable theming with default and AI Platform stub themes.
+- CSS-variable theming with default and the example app stub themes.
 - Two real tour JSON files: onboarding + create-workflow.
 - CLI validators: `validate-content.ts` (Zod schema) and `validate-selectors.ts` (grep host codebase).
 - Vitest test suite: schema, persistence, trainer lifecycle.
-- Runnable demo (`npm run dev`) with mock AI Platform layout.
+- Runnable demo (`npm run dev`) with mock the example app layout.
 - `docs/how-to-author-a-tour.md` — curriculum-author-facing guide.
-- `tracker/sprint-01-selectors.md` — proposed `data-tour` IDs for the AI Platform PR.
+- `tracker/sprint-01-selectors.md` — proposed `data-tour` IDs for the example app PR.
 
 **Sprint 01 — Scaffolding**
 - README, ROADMAP, CHANGELOG, CONTRIBUTING.

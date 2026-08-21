@@ -1,6 +1,6 @@
 # Sprint 04 · Days 15–21 · Hardening + real users + production
 
-**Goal:** Live in AI Platform production. Measurable completion rate on the onboarding tour.
+**Goal:** Live in the example app production. Measurable completion rate on the onboarding tour.
 
 **Status:** 🟡 Engineering complete. Operational tasks (staging, user test, production ship) require live-env access — checklists and protocols in place.
 
@@ -9,10 +9,10 @@
 - [x] `advanceOn` conditions (click / input / url / event) wired end-to-end — `advance.ts` + `Trainer.toShepherdStep`.
 - [x] Checklist widget shipped — `packages/react/src/TrainingChecklist.tsx`.
 - [x] Contextual `<TrainingHint>` component shipped — `packages/react/src/TrainingHint.tsx` + `HintsProvider.tsx`.
-- [x] Hints schema (`schema/hints.ts`) + AI Platform hints content.
+- [x] Hints schema (`schema/hints.ts`) + the example app hints content.
 - [x] 5-user test protocol drafted — `testing/five-user-test-protocol.md`.
 - [x] Analytics verification checklist drafted — `testing/analytics-verification.md`.
-- [ ] Deployed to AI Platform staging — requires live env access.
+- [ ] Deployed to the example app staging — requires live env access.
 - [ ] 5-user usability test executed — requires live env + recruited users.
 - [ ] Deployed to production — requires live env access.
 - [ ] Analytics dashboard shows real completion rates — requires production traffic.
@@ -27,7 +27,7 @@
 | T-031 | URL trigger + event trigger | DONE | `TriggerManager` in `triggers.ts`. Monkey-patches `pushState`/`replaceState` for SPA nav. |
 | T-032 | Checklist widget | DONE | `TrainingChecklist` — collapsed pill / expanded panel, grouped by difficulty, prerequisite locking, dismissible. Themed via CSS variables. |
 | T-033 | Contextual `<TrainingHint>` | DONE | `TrainingHint` + `HintsProvider` + hints Zod schema. Hover-to-show + click-to-pin. Dev warning for missing IDs. |
-| T-034 | Deploy to AI Platform staging | BLOCKED (env) | Follow `releases/deploy-checklist.md`. |
+| T-034 | Deploy to the example app staging | BLOCKED (env) | Follow `releases/deploy-checklist.md`. |
 | T-035 | 5-user usability test | BLOCKED (people) | Follow `testing/five-user-test-protocol.md`. Recruit → run in one afternoon. |
 | T-036 | Ship to production | BLOCKED (env) | Follow `releases/deploy-checklist.md`. Rollback: `releases/rollback-runbook.md`. |
 | T-037 | Verify analytics events flowing | BLOCKED (env) | Follow `testing/analytics-verification.md`. |

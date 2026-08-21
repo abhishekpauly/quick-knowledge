@@ -28,7 +28,7 @@ Define Zod schema at `src/schema/v1.ts`. TypeScript types are inferred via `z.in
 - CLI script `npm run validate:content` walks `content/` and validates every file.
 - CI job that fails on invalid content.
 - Migrate the two Sprint 01 hardcoded tours into JSON files.
-- Support ≥ 5 tours in the AI Platform product folder.
+- Support ≥ 5 tours in the example app product folder.
 
 ## Full scope (Sprint 03+)
 

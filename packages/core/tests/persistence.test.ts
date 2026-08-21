@@ -34,7 +34,7 @@ describe('localStoragePersistence', () => {
   it('writes to localStorage under a namespace', async () => {
     const p = localStoragePersistence();
     await p.set('foo', { bar: 1 });
-    expect(window.localStorage.getItem('uptiq-training:foo')).toBe(JSON.stringify({ bar: 1 }));
+    expect(window.localStorage.getItem('in-app-training:foo')).toBe(JSON.stringify({ bar: 1 }));
   });
 
   it('reads back typed values', async () => {
@@ -44,17 +44,17 @@ describe('localStoragePersistence', () => {
   });
 
   it('returns undefined when a stored value is corrupted JSON', async () => {
-    window.localStorage.setItem('uptiq-training:corrupt', 'not-json-{{');
+    window.localStorage.setItem('in-app-training:corrupt', 'not-json-{{');
     const p = localStoragePersistence();
     expect(await p.get('corrupt')).toBeUndefined();
     // Corrupted value should have been removed.
-    expect(window.localStorage.getItem('uptiq-training:corrupt')).toBeNull();
+    expect(window.localStorage.getItem('in-app-training:corrupt')).toBeNull();
   });
 
   it('removes values from localStorage', async () => {
     const p = localStoragePersistence();
     await p.set('foo', 1);
     await p.remove('foo');
-    expect(window.localStorage.getItem('uptiq-training:foo')).toBeNull();
+    expect(window.localStorage.getItem('in-app-training:foo')).toBeNull();
   });
 });

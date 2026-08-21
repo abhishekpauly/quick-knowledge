@@ -24,7 +24,7 @@ function probePoint(corner: Corner): { x: number; y: number } {
 
 function isOurOwnWidget(el: Element | null): boolean {
   if (!el) return false;
-  return el.closest('[data-uptiq-training="1"]') !== null;
+  return el.closest('[data-in-app-training="1"]') !== null;
 }
 
 export function isCornerFree(corner: Corner): boolean {

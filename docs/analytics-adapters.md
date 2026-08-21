@@ -22,7 +22,7 @@ Namespace convention when forwarding: prefix event names with `training.` so the
 ## PostHog
 
 ```ts
-import type { Analytics } from '@uptiq/training-sdk';
+import type { Analytics } from '@in-app-training/sdk';
 import posthog from 'posthog-js';
 
 export function posthogAnalytics(): Analytics {
@@ -31,7 +31,7 @@ export function posthogAnalytics(): Analytics {
       try {
         posthog.capture(`training.${event}`, properties);
       } catch (err) {
-        console.warn('[training-sdk] posthog capture failed', err);
+        console.warn('[in-app-training] posthog capture failed', err);
       }
     },
   };
@@ -41,7 +41,7 @@ export function posthogAnalytics(): Analytics {
 ## Amplitude
 
 ```ts
-import type { Analytics } from '@uptiq/training-sdk';
+import type { Analytics } from '@in-app-training/sdk';
 import * as amplitude from '@amplitude/analytics-browser';
 
 export function amplitudeAnalytics(): Analytics {
@@ -50,7 +50,7 @@ export function amplitudeAnalytics(): Analytics {
       try {
         amplitude.track(`training.${event}`, properties);
       } catch (err) {
-        console.warn('[training-sdk] amplitude track failed', err);
+        console.warn('[in-app-training] amplitude track failed', err);
       }
     },
   };
@@ -60,7 +60,7 @@ export function amplitudeAnalytics(): Analytics {
 ## Mixpanel
 
 ```ts
-import type { Analytics } from '@uptiq/training-sdk';
+import type { Analytics } from '@in-app-training/sdk';
 import mixpanel from 'mixpanel-browser';
 
 export function mixpanelAnalytics(): Analytics {
@@ -69,7 +69,7 @@ export function mixpanelAnalytics(): Analytics {
       try {
         mixpanel.track(`training.${event}`, properties);
       } catch (err) {
-        console.warn('[training-sdk] mixpanel track failed', err);
+        console.warn('[in-app-training] mixpanel track failed', err);
       }
     },
   };
@@ -79,7 +79,7 @@ export function mixpanelAnalytics(): Analytics {
 ## Segment
 
 ```ts
-import type { Analytics } from '@uptiq/training-sdk';
+import type { Analytics } from '@in-app-training/sdk';
 import { analytics as segment } from './your-segment-instance';
 
 export function segmentAnalytics(): Analytics {
@@ -88,7 +88,7 @@ export function segmentAnalytics(): Analytics {
       try {
         segment.track(`training.${event}`, properties);
       } catch (err) {
-        console.warn('[training-sdk] segment track failed', err);
+        console.warn('[in-app-training] segment track failed', err);
       }
     },
   };
@@ -98,7 +98,7 @@ export function segmentAnalytics(): Analytics {
 ## Google Analytics 4
 
 ```ts
-import type { Analytics } from '@uptiq/training-sdk';
+import type { Analytics } from '@in-app-training/sdk';
 
 export function ga4Analytics(): Analytics {
   return {
@@ -108,7 +108,7 @@ export function ga4Analytics(): Analytics {
         // "training_" prefix stays under the limit for every event.
         window.gtag?.('event', `training_${event}`, properties);
       } catch (err) {
-        console.warn('[training-sdk] ga4 track failed', err);
+        console.warn('[in-app-training] ga4 track failed', err);
       }
     },
   };
@@ -117,12 +117,12 @@ export function ga4Analytics(): Analytics {
 
 ## Custom internal sink
 
-If UPTIQ has an in-house analytics service:
+If has an in-house analytics service:
 
 ```ts
-import type { Analytics } from '@uptiq/training-sdk';
+import type { Analytics } from '@in-app-training/sdk';
 
-export function uptiqInternalAnalytics(userId: string): Analytics {
+export function in-app-trainingInternalAnalytics(userId: string): Analytics {
   return {
     track(event, properties) {
       // Fire-and-forget POST. Failure is logged but never thrown.
@@ -134,7 +134,7 @@ export function uptiqInternalAnalytics(userId: string): Analytics {
           properties,
           userId,
         }),
-      }).catch((err) => console.warn('[training-sdk] internal analytics failed', err));
+      }).catch((err) => console.warn('[in-app-training] internal analytics failed', err));
     },
   };
 }
@@ -145,7 +145,7 @@ export function uptiqInternalAnalytics(userId: string): Analytics {
 To fan out to multiple destinations:
 
 ```ts
-import type { Analytics } from '@uptiq/training-sdk';
+import type { Analytics } from '@in-app-training/sdk';
 
 export function multiAnalytics(...sinks: Analytics[]): Analytics {
   return {
@@ -154,7 +154,7 @@ export function multiAnalytics(...sinks: Analytics[]): Analytics {
         try {
           sink.track(event, properties);
         } catch (err) {
-          console.warn('[training-sdk] sink threw', err);
+          console.warn('[in-app-training] sink threw', err);
         }
       }
     },
@@ -164,7 +164,7 @@ export function multiAnalytics(...sinks: Analytics[]): Analytics {
 // Usage
 const analytics = multiAnalytics(
   posthogAnalytics(),
-  uptiqInternalAnalytics(userId),
+  in-app-trainingInternalAnalytics(userId),
 );
 ```
 
@@ -173,7 +173,7 @@ const analytics = multiAnalytics(
 Use `memoryAnalytics()` from the core package in unit tests:
 
 ```ts
-import { memoryAnalytics } from '@uptiq/training-sdk';
+import { memoryAnalytics } from '@in-app-training/sdk';
 
 const analytics = memoryAnalytics();
 const trainer = new Trainer({ /*...*/, analytics });

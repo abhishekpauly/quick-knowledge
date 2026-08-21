@@ -12,7 +12,7 @@ import type {
   TrainingEventName,
   EventListener,
   TrainingEvent,
-} from '@uptiq/training-sdk';
+} from '@in-app-training/sdk';
 
 function stubTrainer(initial: TourProgress) {
   const listeners = new Map<TrainingEventName, Set<EventListener>>();

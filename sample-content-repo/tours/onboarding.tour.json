@@ -1,8 +1,8 @@
 {
   "schemaVersion": "v1",
-  "id": "ai-platform-onboarding",
-  "product": "ai-platform",
-  "title": "Welcome to the AI Platform",
+  "id": "example-app-onboarding",
+  "product": "example-app",
+  "title": "Welcome to the example app",
   "description": "A four-minute tour of the essentials. Skippable anytime.",
   "difficulty": "onboarding",
   "estimatedMinutes": 4,

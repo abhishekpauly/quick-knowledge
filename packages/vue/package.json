@@ -1,7 +1,7 @@
 {
-  "name": "@uptiq/training-sdk-vue",
+  "name": "@in-app-training/vue",
   "version": "0.0.1",
-  "description": "Vue 3 adapter for @uptiq/training-sdk. Provider + composables + components.",
+  "description": "Vue 3 adapter for @in-app-training/sdk. Provider + composables + components.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -21,11 +21,11 @@
     "test:coverage": "vitest run --coverage"
   },
   "peerDependencies": {
-    "@uptiq/training-sdk": "*",
+    "@in-app-training/sdk": "*",
     "vue": ">=3.3.0"
   },
   "devDependencies": {
-    "@uptiq/training-sdk": "*",
+    "@in-app-training/sdk": "*",
     "@vitest/coverage-v8": "^1.4.0",
     "@vue/test-utils": "^2.4.0",
     "jsdom": "^24.0.0",

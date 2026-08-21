@@ -19,7 +19,7 @@ export function consoleAnalytics(): Analytics {
   return {
     track(event, properties) {
       // eslint-disable-next-line no-console
-      console.log(`[training-sdk] ${event}`, properties);
+      console.log(`[in-app-training] ${event}`, properties);
     },
   };
 }
@@ -37,7 +37,7 @@ export function noopAnalytics(): Analytics {
 }
 
 /**
- * Placeholder adapter for the AI Platform pre-launch window.
+ * Placeholder adapter for the example app pre-launch window.
  *
  * The concrete sink is not yet confirmed (see plan-of-record open questions).
  * Use this in production temporarily to keep the SDK live end-to-end without
@@ -54,13 +54,13 @@ export function placeholderAnalytics(): Analytics {
       if (!warned) {
         // eslint-disable-next-line no-console
         console.warn(
-          '[training-sdk] placeholderAnalytics is active — no sink is wired. ' +
+          '[in-app-training] placeholderAnalytics is active — no sink is wired. ' +
             'Events are logged to console only. See docs/wiring-analytics-sink.md.',
         );
         warned = true;
       }
       // eslint-disable-next-line no-console
-      console.log(`[training-sdk] (placeholder) ${event}`, properties);
+      console.log(`[in-app-training] (placeholder) ${event}`, properties);
     },
   };
 }

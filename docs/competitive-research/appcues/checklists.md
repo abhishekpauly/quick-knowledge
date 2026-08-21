@@ -52,6 +52,6 @@ Persistent self-serve task lists that appear as a floating beacon in the app. Us
 - Item types beyond "launch a tour": ◐ — we support tour-launch and passively handle nav-then-completion via prerequisites. Explicit "navigate to page" item type would surface as a new content type; new backlog candidate.
 - Auto-completion via event / property / click: ◐ — we complete when the linked tour completes. External event-based item completion (e.g. "invite a teammate" ticks off when the API fires) is a new backlog candidate.
 - Positioning options: ✓ — all four corners (better than Appcues' two).
-- Account-wide completion (team member ticks it for everyone): ○ — depends on persistence backend. Requires backend sync (v0.5+). Real interest signal from AI Platform's enterprise story.
+- Account-wide completion (team member ticks it for everyone): ○ — depends on persistence backend. Requires backend sync (v0.5+). Real interest signal from the example app's enterprise story.
 - Auto-suppression during modal/slideout: ○ — new backlog candidate. Simple check: if `trainer.getActiveTourId()` is set, hide the pill.
 - Sequential vs free-form ordering: ◐ — we display in order but don't enforce sequentiality. Simple prop to add.

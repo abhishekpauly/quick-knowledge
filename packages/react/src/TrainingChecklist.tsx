@@ -13,7 +13,7 @@
  * users want the dismissal to be.
  */
 import { useMemo, useState, useContext, useEffect } from 'react';
-import type { Tour, Difficulty, TourProgress } from '@uptiq/training-sdk';
+import type { Tour, Difficulty, TourProgress } from '@in-app-training/sdk';
 import { TrainerContext } from './context.js';
 import { useTour } from './useTour.js';
 import { useAllTourProgress } from './useAllTourProgress.js';
@@ -32,7 +32,7 @@ export interface TrainingChecklistProps {
    * candidate is occupied.
    *
    * Added in Sprint 08 (T-092) after the v0.1.0 5-user test caught a
-   * collision with AI Platform's help launcher for 1/5 users.
+   * collision with the example app's help launcher for 1/5 users.
    */
   preferredCorners?: Corner[];
   /** Widget label when collapsed. Default 'Getting started'. */
@@ -117,12 +117,12 @@ export function TrainingChecklist({
         position: 'fixed',
         ...positionStyles(pickedCorner),
         zIndex: 9999,
-        fontFamily: 'var(--uptiq-training-font-family, system-ui, sans-serif)',
-        fontSize: 'var(--uptiq-training-font-size, 14px)',
-        color: 'var(--uptiq-training-foreground, #111827)',
+        fontFamily: 'var(--in-app-training-font-family, system-ui, sans-serif)',
+        fontSize: 'var(--in-app-training-font-size, 14px)',
+        color: 'var(--in-app-training-foreground, #111827)',
       }}
       data-testid="training-checklist"
-      data-uptiq-training="1"
+      data-in-app-training="1"
     >
       {expanded ? (
         <ExpandedPanel
@@ -163,11 +163,11 @@ function CollapsedPill({
         alignItems: 'center',
         gap: 10,
         padding: '10px 14px',
-        background: 'var(--uptiq-training-background, #fff)',
-        color: 'var(--uptiq-training-foreground, #111827)',
-        border: '1px solid var(--uptiq-training-border, #e2e8f0)',
-        borderRadius: 'var(--uptiq-training-radius, 999px)',
-        boxShadow: 'var(--uptiq-training-shadow, 0 4px 12px rgba(0,0,0,0.1))',
+        background: 'var(--in-app-training-background, #fff)',
+        color: 'var(--in-app-training-foreground, #111827)',
+        border: '1px solid var(--in-app-training-border, #e2e8f0)',
+        borderRadius: 'var(--in-app-training-radius, 999px)',
+        boxShadow: 'var(--in-app-training-shadow, 0 4px 12px rgba(0,0,0,0.1))',
         cursor: 'pointer',
         fontFamily: 'inherit',
         fontSize: 'inherit',
@@ -179,7 +179,7 @@ function CollapsedPill({
       <span
         style={{
           padding: '2px 8px',
-          background: 'var(--uptiq-training-primary, #2563eb)',
+          background: 'var(--in-app-training-primary, #2563eb)',
           color: '#fff',
           borderRadius: 999,
           fontSize: 12,
@@ -211,10 +211,10 @@ function ExpandedPanel({
         width: 320,
         maxHeight: '80vh',
         overflow: 'auto',
-        background: 'var(--uptiq-training-background, #fff)',
-        border: '1px solid var(--uptiq-training-border, #e2e8f0)',
-        borderRadius: 'var(--uptiq-training-radius, 12px)',
-        boxShadow: 'var(--uptiq-training-shadow, 0 10px 25px rgba(0,0,0,0.1))',
+        background: 'var(--in-app-training-background, #fff)',
+        border: '1px solid var(--in-app-training-border, #e2e8f0)',
+        borderRadius: 'var(--in-app-training-radius, 12px)',
+        boxShadow: 'var(--in-app-training-shadow, 0 10px 25px rgba(0,0,0,0.1))',
       }}
       data-testid="training-checklist-panel"
     >
@@ -224,7 +224,7 @@ function ExpandedPanel({
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '12px 16px',
-          borderBottom: '1px solid var(--uptiq-training-border, #e2e8f0)',
+          borderBottom: '1px solid var(--in-app-training-border, #e2e8f0)',
           fontWeight: 600,
         }}
       >
@@ -324,8 +324,8 @@ function ChecklistItem({
           width: 18,
           height: 18,
           borderRadius: 4,
-          border: '1.5px solid var(--uptiq-training-border, #e2e8f0)',
-          background: isDone ? 'var(--uptiq-training-primary, #2563eb)' : 'transparent',
+          border: '1.5px solid var(--in-app-training-border, #e2e8f0)',
+          background: isDone ? 'var(--in-app-training-primary, #2563eb)' : 'transparent',
           color: '#fff',
           display: 'grid',
           placeItems: 'center',

@@ -9,17 +9,17 @@
 
 ## Problem
 
-AI Platform is React. We need an idiomatic way to mount the SDK in a React app and to trigger tours from any component without prop-drilling a `Trainer` instance.
+the example app is React. We need an idiomatic way to mount the SDK in a React app and to trigger tours from any component without prop-drilling a `Trainer` instance.
 
 ## Non-goals
 
 - Vue adapter (FEAT-011, deferred).
-- SSR support (not needed for AI Platform).
+- SSR support (not needed for the example app).
 - React Native (out of scope, likely forever).
 
 ## Solution sketch
 
-Ship `@uptiq/training-sdk-react` package. `<TourProvider trainer={trainer}>` mounts once at the app root and puts the `Trainer` into React context. `useTour()` returns `{ start, stop, progress, isActive }`. Adapter is under 300 lines.
+Ship `@in-app-training/react` package. `<TourProvider trainer={trainer}>` mounts once at the app root and puts the `Trainer` into React context. `useTour()` returns `{ start, stop, progress, isActive }`. Adapter is under 300 lines.
 
 ## MVP scope (Sprint 03)
 

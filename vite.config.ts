@@ -10,8 +10,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@uptiq/training-sdk': new URL('./packages/core/src/index.ts', import.meta.url).pathname,
-      '@uptiq/training-sdk-react': new URL(
+      '@in-app-training/sdk': new URL('./packages/core/src/index.ts', import.meta.url).pathname,
+      '@in-app-training/react': new URL(
         './packages/react/src/index.ts',
         import.meta.url,
       ).pathname,

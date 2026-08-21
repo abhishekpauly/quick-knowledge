@@ -14,7 +14,7 @@ import {
   h,
   type PropType,
 } from 'vue';
-import type { Tour, Difficulty, TourProgress } from '@uptiq/training-sdk';
+import type { Tour, Difficulty, TourProgress } from '@in-app-training/sdk';
 import { TrainerKey } from './inject-keys.js';
 import { useTour } from './useTour.js';
 import { useAllTourProgress } from './useAllTourProgress.js';
@@ -103,14 +103,14 @@ export const TrainingChecklist = defineComponent({
         position: 'fixed' as const,
         ...positionStyles(pickedCorner.value),
         zIndex: '9999',
-        fontFamily: 'var(--uptiq-training-font-family, system-ui, sans-serif)',
-        fontSize: 'var(--uptiq-training-font-size, 14px)',
-        color: 'var(--uptiq-training-foreground, #111827)',
+        fontFamily: 'var(--in-app-training-font-family, system-ui, sans-serif)',
+        fontSize: 'var(--in-app-training-font-size, 14px)',
+        color: 'var(--in-app-training-foreground, #111827)',
       };
 
       return h(
         'div',
-        { style, 'data-testid': 'training-checklist', 'data-uptiq-training': '1' },
+        { style, 'data-testid': 'training-checklist', 'data-in-app-training': '1' },
         expanded.value
           ? renderPanel(
               grouped.value,
@@ -142,11 +142,11 @@ function renderPill(label: string, total: number, completed: number, onExpand: (
         alignItems: 'center',
         gap: '10px',
         padding: '10px 14px',
-        background: 'var(--uptiq-training-background, #fff)',
-        color: 'var(--uptiq-training-foreground, #111827)',
-        border: '1px solid var(--uptiq-training-border, #e2e8f0)',
-        borderRadius: 'var(--uptiq-training-radius, 999px)',
-        boxShadow: 'var(--uptiq-training-shadow, 0 4px 12px rgba(0,0,0,0.1))',
+        background: 'var(--in-app-training-background, #fff)',
+        color: 'var(--in-app-training-foreground, #111827)',
+        border: '1px solid var(--in-app-training-border, #e2e8f0)',
+        borderRadius: 'var(--in-app-training-radius, 999px)',
+        boxShadow: 'var(--in-app-training-shadow, 0 4px 12px rgba(0,0,0,0.1))',
         cursor: 'pointer',
       },
       'data-testid': 'training-checklist-pill',
@@ -159,7 +159,7 @@ function renderPill(label: string, total: number, completed: number, onExpand: (
         {
           style: {
             padding: '2px 8px',
-            background: 'var(--uptiq-training-primary, #2563eb)',
+            background: 'var(--in-app-training-primary, #2563eb)',
             color: '#fff',
             borderRadius: '999px',
             fontSize: '12px',
@@ -188,10 +188,10 @@ function renderPanel(
         width: '320px',
         maxHeight: '80vh',
         overflow: 'auto',
-        background: 'var(--uptiq-training-background, #fff)',
-        border: '1px solid var(--uptiq-training-border, #e2e8f0)',
-        borderRadius: 'var(--uptiq-training-radius, 12px)',
-        boxShadow: 'var(--uptiq-training-shadow, 0 10px 25px rgba(0,0,0,0.1))',
+        background: 'var(--in-app-training-background, #fff)',
+        border: '1px solid var(--in-app-training-border, #e2e8f0)',
+        borderRadius: 'var(--in-app-training-radius, 12px)',
+        boxShadow: 'var(--in-app-training-shadow, 0 10px 25px rgba(0,0,0,0.1))',
       },
       'data-testid': 'training-checklist-panel',
     },
@@ -204,7 +204,7 @@ function renderPanel(
             alignItems: 'center',
             justifyContent: 'space-between',
             padding: '12px 16px',
-            borderBottom: '1px solid var(--uptiq-training-border, #e2e8f0)',
+            borderBottom: '1px solid var(--in-app-training-border, #e2e8f0)',
             fontWeight: '600',
           },
         },
@@ -294,8 +294,8 @@ function renderItem(
             width: '18px',
             height: '18px',
             borderRadius: '4px',
-            border: '1.5px solid var(--uptiq-training-border, #e2e8f0)',
-            background: isDone ? 'var(--uptiq-training-primary, #2563eb)' : 'transparent',
+            border: '1.5px solid var(--in-app-training-border, #e2e8f0)',
+            background: isDone ? 'var(--in-app-training-primary, #2563eb)' : 'transparent',
             color: '#fff',
             display: 'grid',
             placeItems: 'center',

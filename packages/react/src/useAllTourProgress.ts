@@ -8,7 +8,7 @@
  * Sprint 5 addition.
  */
 import { useContext, useEffect, useState } from 'react';
-import type { TourProgress } from '@uptiq/training-sdk';
+import type { TourProgress } from '@in-app-training/sdk';
 import { TrainerContext } from './context.js';
 
 export function useAllTourProgress(): Map<string, TourProgress> {

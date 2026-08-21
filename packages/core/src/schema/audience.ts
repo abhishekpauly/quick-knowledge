@@ -10,7 +10,7 @@
  *   - Empty audience array or omitted field → tour qualifies for everyone.
  *
  * We keep this simple by design. Complex boolean logic (OR, nested groups) can
- * be added when a real UPTIQ product needs it — likely in v0.5 with segments.
+ * be added when a real host product needs it — likely in v0.5 with segments.
  */
 
 export type UserAttributes = Record<string, string | number | boolean>;

@@ -19,18 +19,18 @@ Rule of thumb: if a tour is longer than 8 steps, split it into two. Users fall o
 ### 1. Copy the template
 
 ```bash
-cp content/_template.tour.json content/ai-platform/<short-tour-id>.tour.json
+cp content/_template.tour.json content/example-app/<short-tour-id>.tour.json
 ```
 
-Naming: kebab-case, `<product>-<intent>`. Examples: `ai-platform-onboarding`, `ai-platform-workflows-create-project`.
+Naming: kebab-case, `<product>-<intent>`. Examples: `example-app-onboarding`, `example-app-workflows-create-project`.
 
 ### 2. Fill the metadata
 
 ```json
 {
   "schemaVersion": "v1",
-  "id": "ai-platform-<what-this-teaches>",
-  "product": "ai-platform",
+  "id": "example-app-<what-this-teaches>",
+  "product": "example-app",
   "title": "Human title the user sees",
   "description": "One line for the checklist widget.",
   "difficulty": "basic",
@@ -138,13 +138,13 @@ Fix any errors before opening a PR. Common ones:
 npm run dev
 ```
 
-Opens the demo at `http://localhost:5173`. Use "Start onboarding tour" in the corner controls to preview. For a new tour, temporarily add its ID to `demo/main.ts` — or wire it up in the AI Platform QA env for the real thing.
+Opens the demo at `http://localhost:5173`. Use "Start onboarding tour" in the corner controls to preview. For a new tour, temporarily add its ID to `demo/main.ts` — or wire it up in the example app QA env for the real thing.
 
 ### 7. Test in QA
 
 Preview in the demo is not enough. Real test:
 
-- Deploy the tour to AI Platform QA.
+- Deploy the tour to the example app QA.
 - Walk through as a real user. Note anything awkward.
 - Ask one other person to walk through. Watch them. Don't help. Note where they hesitate or misread.
 - Rewrite anything that didn't land. Budget on this: expect ~30% of copy to change after the first watch.

@@ -9,13 +9,13 @@
 
 ## Problem
 
-Once a Vue-based UPTIQ product commits to adopting the SDK, we need an idiomatic Vue integration.
+Once a Vue-based host product commits to adopting the SDK, we need an idiomatic Vue integration.
 
 ## Deferral rationale
 
 No Vue product has committed. Building speculatively risks getting the API wrong for the actual Vue product's needs. Wait for a real customer, then build.
 
-**Promotion trigger:** A UPTIQ Vue product's PM commits to adopting the SDK in a specific quarter.
+**Promotion trigger:** A Vue product's PM commits to adopting the SDK in a specific quarter.
 
 ## Sketch (for when it's time)
 

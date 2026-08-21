@@ -28,7 +28,7 @@ Wrap Shepherd.js in a `Trainer` class that exposes our public API. Consumers con
 - Renders a Shepherd.js tour from a hardcoded step array.
 - Supports `top` / `bottom` / `left` / `right` / `center` placement.
 - Emits `tour_started`, `step_viewed`, `tour_completed`, `tour_dismissed` to a console adapter.
-- One tour running against one AI Platform screen in QA.
+- One tour running against one the example app screen in QA.
 
 ## Full scope (Sprint 02+)
 

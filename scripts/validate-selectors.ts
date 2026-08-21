@@ -9,7 +9,7 @@
  * Usage:
  *   tsx scripts/validate-selectors.ts \
  *     --content ./content \
- *     --host ../ai-platform-frontend/src
+ *     --host ../example-app-frontend/src
  *
  * You can pass --host multiple times to check multiple products/paths.
  * Missing --host is a warning (schema check still runs), not an error, so this

@@ -13,18 +13,18 @@ Tooltips must match the host product's brand. Multiple products means multiple t
 
 ## Solution sketch
 
-Define a documented set of CSS variables (`--uptiq-training-*`) that the SDK reads. Ship default values that look neutral. Product wires a theme object (which sets these variables at the provider root) at wire-up.
+Define a documented set of CSS variables (`--in-app-training-*`) that the SDK reads. Ship default values that look neutral. Product wires a theme object (which sets these variables at the provider root) at wire-up.
 
 ## MVP scope
 
 - Variables: primary, background, foreground, border, radius, shadow, font-family, font-size.
 - Default theme (neutral).
-- One AI Platform theme.
+- One the example app theme.
 - Theme applied via provider — no global bleed.
 
 ## Acceptance criteria
 
-- [ ] Tooltip visual matches AI Platform brand without engine changes.
+- [ ] Tooltip visual matches the example app brand without engine changes.
 - [ ] Swapping to the default theme changes the look immediately.
 - [ ] No CSS bleed into host product styles.
 

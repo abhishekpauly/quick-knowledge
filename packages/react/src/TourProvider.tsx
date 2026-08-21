@@ -14,8 +14,8 @@
  *   </TourProvider>
  */
 import { useEffect, type ReactNode } from 'react';
-import type { Trainer, Theme } from '@uptiq/training-sdk';
-import { applyTheme } from '@uptiq/training-sdk';
+import type { Trainer, Theme } from '@in-app-training/sdk';
+import { applyTheme } from '@in-app-training/sdk';
 import { TrainerContext } from './context.js';
 
 export interface TourProviderProps {

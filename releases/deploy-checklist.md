@@ -21,7 +21,7 @@ Run through this for every release. Every item is a checkbox because every item 
 
 ## Host product coordination
 
-- [ ] AI Platform's frontend engineer notified — merge window agreed.
+- [ ] the example app's frontend engineer notified — merge window agreed.
 - [ ] All required `data-tour` attributes are already merged in the host codebase's production branch.
 - [ ] Rollback plan clear on both sides.
 
@@ -53,7 +53,7 @@ Run through this for every release. Every item is a checkbox because every item 
 Roll back immediately if any of these:
 - Onboarding completion rate drops below 20% in first hour.
 - `tour_error` rate exceeds 5% of `tour_started`.
-- Console error rate up 3x from baseline in AI Platform.
+- Console error rate up 3x from baseline in the example app.
 - Any P0 bug reported.
 
 See `releases/rollback-runbook.md`.

@@ -67,9 +67,9 @@ export function TrainingHint({ id, children }: TrainingHintProps): JSX.Element |
           width: 18,
           height: 18,
           borderRadius: '50%',
-          border: '1px solid var(--uptiq-training-border, #cbd5e1)',
-          background: pinned ? 'var(--uptiq-training-primary, #2563eb)' : 'transparent',
-          color: pinned ? '#fff' : 'var(--uptiq-training-foreground, #64748b)',
+          border: '1px solid var(--in-app-training-border, #cbd5e1)',
+          background: pinned ? 'var(--in-app-training-primary, #2563eb)' : 'transparent',
+          color: pinned ? '#fff' : 'var(--in-app-training-foreground, #64748b)',
           fontSize: 11,
           fontWeight: 600,
           lineHeight: 1,
@@ -90,13 +90,13 @@ export function TrainingHint({ id, children }: TrainingHintProps): JSX.Element |
             zIndex: 9998,
             width: 240,
             padding: 12,
-            background: 'var(--uptiq-training-background, #fff)',
-            color: 'var(--uptiq-training-foreground, #111827)',
-            border: '1px solid var(--uptiq-training-border, #e2e8f0)',
-            borderRadius: 'var(--uptiq-training-radius, 8px)',
-            boxShadow: 'var(--uptiq-training-shadow, 0 10px 25px rgba(0,0,0,0.1))',
-            fontFamily: 'var(--uptiq-training-font-family, system-ui, sans-serif)',
-            fontSize: 'var(--uptiq-training-font-size, 13px)',
+            background: 'var(--in-app-training-background, #fff)',
+            color: 'var(--in-app-training-foreground, #111827)',
+            border: '1px solid var(--in-app-training-border, #e2e8f0)',
+            borderRadius: 'var(--in-app-training-radius, 8px)',
+            boxShadow: 'var(--in-app-training-shadow, 0 10px 25px rgba(0,0,0,0.1))',
+            fontFamily: 'var(--in-app-training-font-family, system-ui, sans-serif)',
+            fontSize: 'var(--in-app-training-font-size, 13px)',
             lineHeight: 1.45,
           }}
           data-testid={`training-hint-body-${id}`}
@@ -110,7 +110,7 @@ export function TrainingHint({ id, children }: TrainingHintProps): JSX.Element |
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
-                  color: 'var(--uptiq-training-primary, #2563eb)',
+                  color: 'var(--in-app-training-primary, #2563eb)',
                   fontWeight: 500,
                   fontSize: 12,
                 }}

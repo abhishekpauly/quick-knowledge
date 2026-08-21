@@ -1,6 +1,6 @@
 # Sprint 01 · Days 1–3 · Live prototype in QA
 
-**Goal:** By end of day 3, screen-share a working tour running on one real AI Platform QA screen. Prove the shape of it. Throwaway code is fine.
+**Goal:** By end of day 3, screen-share a working tour running on one real the example app QA screen. Prove the shape of it. Throwaway code is fine.
 
 **Definition of done:** Two tours (onboarding, one basic workflow) mount on real elements in QA, advance correctly, dismiss correctly, and complete correctly. One internal viewer confirms "yes, this is what I imagined."
 
@@ -12,11 +12,11 @@
 
 **Morning**
 - [ ] T-001 · Fork the Shepherd.js "getting started" example into a fresh project. `npm create vite@latest` with vanilla TS is fine.
-- [ ] T-002 · Pick the target screen. Recommend AI Platform's dashboard/landing route — the natural first-run entry point.
-- [ ] Open the AI Platform frontend repo alongside. Identify which components own the target screen.
+- [ ] T-002 · Pick the target screen. Recommend the example app's dashboard/landing route — the natural first-run entry point.
+- [ ] Open the example app frontend repo alongside. Identify which components own the target screen.
 
 **Afternoon**
-- [ ] T-003 (part 1) · Add `data-tour="app-root"` and `data-tour="sidebar-projects-link"` to the first two target elements. Open a small PR to the AI Platform repo. Fast-track review.
+- [ ] T-003 (part 1) · Add `data-tour="app-root"` and `data-tour="sidebar-projects-link"` to the first two target elements. Open a small PR to the example app repo. Fast-track review.
 - [ ] Get one Shepherd step rendering on `[data-tour="sidebar-projects-link"]` in the QA env.
 
 **End of day 1 check:** One tooltip visible on one real element in QA.
@@ -49,7 +49,7 @@
 ## Risks this sprint
 
 - **PR review latency on `data-tour` attribute PRs.** Mitigation: batch into one PR, tag a senior reviewer, mention it's a 1-line-per-file change.
-- **Shepherd.js styling clashes with AI Platform CSS.** Mitigation: leave default Shepherd styling for the prototype; theme comes in Sprint 02.
+- **Shepherd.js styling clashes with the example app CSS.** Mitigation: leave default Shepherd styling for the prototype; theme comes in Sprint 02.
 - **Target element doesn't exist on mount (renders lazily).** Mitigation: for the prototype, pick screens where everything renders on load. Advanced targeting is Sprint 04.
 
 ## Success signals
