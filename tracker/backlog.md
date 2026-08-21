@@ -126,7 +126,7 @@ Priority: `P0` (blocker) · `P1` (must for MVP) · `P2` (nice-to-have) · `P3` (
 | T-093 | v1.0 compliance follow-ups — ADR-0005 (GDPR delete API) + ADR-0006 (consent gating hook) | P2 | DONE | v1.0 prep | ADR-0005 spec: `trainer.forgetUser(userId?)` returning a receipt; analytics is a host-signalled event, not a sink call. ADR-0006 spec: `ConsentAdapter` on `TrainerConfig` + `consentCategory` on tour schema, dual gating (execution + emission). Both design-only; implementation lands in v1.0. |
 | T-094 | Adopter-#2 outreach calls (Workbench PM, Insights PM) | P1 | TODO | v0.5 prep | Priya arranges intros. 30 min each. |
 | T-095 | `product/adopter-scouting.md` capture | P1 | TODO | v0.5 prep | Fit signals, integration blockers, tentative sprint. |
-| T-096 | `product/v0.5-kickoff.md` — Pins + Goals scope | P1 | TODO | v0.5 | The deliverable Sprint 09 picks up cold. |
+| T-096 | `product/v0.5-kickoff.md` — Pins + Goals scope | P1 | DONE | v0.5 | Pins: `*.pins.json` schema + PinsProvider/Pin (React + Vue) + 2 events. Goals: additive tour field + `GoalsSink` on TrainerConfig + 2 events + PostHog/Amplitude recipes. Explicit non-goals; Sprint 9 + 10–11 shapes; success criteria per feature. |
 | T-097 | CHANGELOG + roadmap tick-off | P2 | TODO | — | Sprint 08 additions under `[Unreleased]`. |
 
 ## Deferred (post-MVP)
