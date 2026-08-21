@@ -155,6 +155,24 @@ Priority: `P0` (blocker) · `P1` (must for MVP) · `P2` (nice-to-have) · `P3` (
 | T-121 | User-scoped `pin_shown` dedupe (localStorage-backed session key) | P3 | TODO | v0.5.1 | Nice-to-have; today's module-scoped dedupe is per-tab, not per-user-session across tabs. |
 | T-122 | Session-replay sample on 20 users who saw `create-project-shortcut` | P2 | TODO | v0.5 | Answer whether the zero-support-ticket dent means pins are working or users aren't seeing them. |
 
+
+
+## Sprint 10 (planned) — Goals kickoff + Sprint 09 carry-overs
+
+| ID | Task | Priority | Status | Feature | Notes |
+| --- | --- | --- | --- | --- | --- |
+| T-130 | `GoalSchema` additive on `TourSchema` (Zod) | P1 | TODO | v0.5 | `{ event, windowMinutes?, match? }`. |
+| T-131 | `GoalsSink` interface + `TrainerConfig.goals` field | P1 | TODO | v0.5 | Omit = v0.1 behaviour. |
+| T-132 | Trainer goal-check loop (poll + expiry + dedupe + safe-track) | P1 | TODO | v0.5 | The meaty task. |
+| T-133 | `tour_goal_reached` + `tour_goal_missed` events; dictionary regen | P1 | TODO | v0.5 | Union grows 8 → 10. |
+| T-134 | Wire goal on `content/example-app/onboarding.tour.json` | P1 | TODO | v0.5 | `exampleapp.project_created`, 5-minute window. |
+| T-135 | Tests: schema + trainer loop + emission + dedupe + sink-error safety | P1 | TODO | v0.5 | `vi.useFakeTimers` for the 60s cadence. |
+| T-136 | Verify `docs/wiring-goals.md` matches shipped interface; small edits if needed | P2 | TODO | v0.5 | Doc landed in Sprint 08 warm-up. |
+| T-137 | Close T-120 — `preferredCorners: [...]` prop on Pin (React + Vue) | P2 | TODO | v0.5.1 | Sprint 09 retro carry-over. |
+| T-138 | Close T-121 — user-scoped `pin_shown` dedupe via localStorage | P3 | TODO | v0.5.1 | Sprint 09 retro carry-over. |
+| T-139 | Close T-122 — session-replay writeup on `create-project-shortcut` | P2 | TODO | v0.5 | Sprint 09 retro carry-over. `product/investigations/pin-effectiveness-s10.md`. |
+| T-140 | Simulated staging → production walkthrough + Sprint-10 retro | P2 | TODO | v0.5 | `releases/v0.5.0-goals-preview-launch-log.md`. |
+
 ## Deferred (post-MVP)
 
 | ID | Task | Priority | Status | Feature | Trigger |
