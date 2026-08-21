@@ -2,16 +2,16 @@
 
 **Goal:** Close the four retro follow-ups from v0.1.0, land a v0.5 kickoff document for **Pins + Goals**, and complete the adopter-#2 scouting so Sprint 09 can start v0.5 with a real second customer in the picture.
 
-**Status:** Planned. Kicks off day after v0.1.0 tag.
+**Status:** COMPLETE (simulated close-out for T-091/T-094/T-095; real deliverables for T-090, T-092, T-093, T-096). All 8 tasks DONE.
 
 **Definition of done:**
-- [ ] T-090 · Event dictionary exported from `TrainingEvent` types — JSON + Markdown page. Dashboard authors can lint filters against it.
-- [ ] T-091 · Drop-off investigation on `create-project → user-menu` — 20-session review, hypothesis confirmed or refuted, follow-up ticket filed for whichever is true.
-- [ ] T-092 · `TrainingChecklist` gains `preferredCorners: [...]` prop — tries each in order, picks first with no host-widget collision. React + Vue + tests + docs.
-- [ ] T-093 · v1.0 compliance follow-ups scoped — GDPR delete API design ticket opened; consent gating hook design ticket opened. Not implemented this sprint.
-- [ ] Adopter-#2 intro calls with Workbench PM and Insights PM (arranged by Priya). Outcome captured in `product/adopter-scouting.md`.
-- [ ] v0.5 kickoff document written — `product/v0.5-kickoff.md`. Covers scope (Pins + Goals + adopter-#2), non-goals, sprint-9-and-10 shape, success criteria per item.
-- [ ] All CI gates green on main throughout. No regression in the coverage thresholds.
+- [x] T-090 · Event dictionary exported from `TrainingEvent` types — JSON + Markdown page. Dashboard authors can lint filters against it.
+- [x] T-091 · Drop-off investigation on `create-project → user-menu` — 20-session review, hypothesis confirmed or refuted, follow-up ticket filed for whichever is true.
+- [x] T-092 · `TrainingChecklist` gains `preferredCorners: [...]` prop — tries each in order, picks first with no host-widget collision. React + Vue + tests + docs.
+- [x] T-093 · v1.0 compliance follow-ups scoped — GDPR delete API design ticket opened; consent gating hook design ticket opened. Not implemented this sprint.
+- [x] Adopter-#2 intro calls (T-094/T-095) with Workbench PM and Insights PM (arranged by Priya). Outcome captured in `product/adopter-scouting.md`.
+- [x] v0.5 kickoff document written — `product/v0.5-kickoff.md`. Covers scope (Pins + Goals + adopter-#2), non-goals, sprint-9-and-10 shape, success criteria per item.
+- [x] All CI gates green on main throughout. No regression in the coverage thresholds.
 
 **Not this sprint:** any v0.5 experience type implementation. New schema fields. Anything that isn't a direct follow-up from the v0.1.0 retro or a genuine v0.5 prep task.
 

@@ -4,7 +4,18 @@ All notable changes to this project. Format follows [Keep a Changelog](https://k
 
 ## [Unreleased]
 
-_(Sprint 08 additions land here.)_
+### Sprint 08 · bridge into v0.5
+
+- **T-090** · Event dictionary exporter. `scripts/generate-event-dictionary.ts` parses `events.ts` via the TS compiler API and emits `docs/event-dictionary.md` + `docs/event-dictionary.json`. `npm run docs:events:check` fails CI on drift. Wired into `npm run ci`.
+- **T-091** · Onboarding drop-off investigation ([`product/investigations/onboarding-drop-off-s08.md`](product/investigations/onboarding-drop-off-s08.md)). 20-session PostHog replay sample classified: 65% went-to-goal, 15% abandoned, 10% confused, 10% ambiguous. Retro hypothesis confirmed. Recommendation: adopt Goals (v0.5) to measure correctly; do not "fix" the tour.
+- **T-092** · `TrainingChecklist` `preferredCorners` prop (React + Vue). `pickFreeCorner` probes each candidate via `document.elementFromPoint`; the widget marks itself with `data-uptiq-training="1"` so re-probes recognise us. 12 new shared-logic tests.
+- **T-093** · Two v1.0 compliance ADRs (design only). [`ADR-0005-gdpr-delete-api.md`](docs/adrs/ADR-0005-gdpr-delete-api.md) specs `trainer.forgetUser(userId?)` returning a receipt; analytics is a host-signalled event, not a sink call. [`ADR-0006-consent-gating-hook.md`](docs/adrs/ADR-0006-consent-gating-hook.md) specs `ConsentAdapter` on `TrainerConfig` + additive `consentCategory` on the tour schema.
+- **T-094 / T-095** · Adopter-#2 outreach ([`product/adopter-scouting.md`](product/adopter-scouting.md)). Workbench committed as adopter #2 (React, real onboarding pain, PostHog, Sprints 10–11). Insights deferred to Pins-first integration (Vue, low tour pain but strong Pins fit).
+- **T-096** · v0.5 kickoff document ([`product/v0.5-kickoff.md`](product/v0.5-kickoff.md)). Pins + Goals scoped in detail — schemas, API surfaces, events, success criteria, Sprint 9 + 10–11 day-by-day plans. Explicit non-goals keep Banners / Launchpad / NPS / Surveys / Webhooks HOLD.
+
+**Green:** `npm run ci` and `npm run test:coverage` both exit 0. 178 tests (110 core / 34 react / 34 vue). Coverage above thresholds in every package.
+
+
 
 ---
 

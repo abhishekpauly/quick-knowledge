@@ -83,13 +83,13 @@ Goal: **Make the SDK work for more than one flavor of user.** All items are smal
 - [x] Retro complete; v0.5 verdict: **Pins + Goals go**, rest hold/drop
 - [x] `v0.1.0` tagged
 
-### Sprint 08 — planned · bridge into v0.5
-- [ ] Event dictionary exporter (T-090) — wire CI drift check
-- [ ] `create-project → user-menu` drop-off investigation (T-091)
-- [ ] `TrainingChecklist` `preferredCorners` prop, React + Vue (T-092)
-- [ ] v1.0 compliance ADRs — GDPR delete API + consent hook (T-093)
-- [ ] Adopter-#2 outreach: Workbench + Insights (T-094, T-095)
-- [ ] `product/v0.5-kickoff.md` — Pins + Goals scope (T-096)
+### Sprint 08 — shipped · bridge into v0.5
+- [x] Event dictionary exporter (T-090) — CI drift check wired
+- [x] `create-project → user-menu` drop-off investigated (T-091) — hypothesis confirmed, adopt Goals instead of "fixing" the tour
+- [x] `TrainingChecklist` `preferredCorners` prop, React + Vue (T-092)
+- [x] v1.0 compliance ADRs — ADR-0005 GDPR delete + ADR-0006 consent hook (T-093)
+- [x] Adopter-#2 outreach (T-094, T-095) — **Workbench committed**, Insights deferred to Pins-first
+- [x] `product/v0.5-kickoff.md` — Pins + Goals scope (T-096)
 
 ### Also shipped (Part A · v0.1 launch prep)
 - [x] Vue adapter (un-deferred — AI Platform is 50/50 React/Vue)
