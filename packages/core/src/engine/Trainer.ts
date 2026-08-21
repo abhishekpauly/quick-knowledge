@@ -45,7 +45,7 @@ const DEFAULT_TARGET_TIMEOUT_MS = 3000;
 
 export class Trainer {
   private readonly config: TrainerConfig;
-  private readonly toursById: Map<string, Tour>;
+  private toursById: Map<string, Tour>;
   private readonly listeners: Map<TrainingEventName, Set<EventListener>> = new Map();
   private readonly triggerManager: TriggerManager;
   private readonly currentAdvance = new AdvanceOnHandler();
@@ -354,6 +354,30 @@ export class Trainer {
   /** List all tours registered with this trainer. Useful for checklists. */
   getTours(): readonly Tour[] {
     return Array.from(this.toursById.values());
+  }
+
+  /**
+   * Sprint 18 (T-260). Swap the registered tour set — the counterpart to
+   * `RemoteContentSource`'s `content_bundle_updated` event.
+   *
+   * Semantics per ADR-0008: an active tour keeps running against the tour
+   * object it captured at start time. The swap only affects tour starts
+   * from this call onward. URL / event triggers rebind to the new set;
+   * `first-run` gates are re-evaluated on the next progress read.
+   *
+   * Returns `{ added, removed, kept }` id-lists for observability.
+   */
+  replaceTours(newTours: readonly Tour[]): { added: string[]; removed: string[]; kept: string[] } {
+    const prevIds = new Set(this.toursById.keys());
+    const nextIds = new Set(newTours.map((t) => t.id));
+    const added = [...nextIds].filter((id) => !prevIds.has(id));
+    const removed = [...prevIds].filter((id) => !nextIds.has(id));
+    const kept = [...nextIds].filter((id) => prevIds.has(id));
+
+    this.toursById = new Map(newTours.map((t) => [t.id, t]));
+    this.triggerManager.remount([...newTours]);
+
+    return { added, removed, kept };
   }
 
   getActiveTourId(): string | null {

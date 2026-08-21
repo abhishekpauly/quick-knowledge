@@ -117,15 +117,60 @@ The server validates the body against the shared Zod schema. Validation failures
 
 `POST /users/:userId/forget` **must** be logged with token subject + timestamp on the server side (ADR-0007 T-221). The reference in-memory store does not persist this — adopters wire their own logging middleware. Do not ship the delete endpoint to production without one.
 
-## Next: SDK-side integration
+## SDK-side integration (Sprint 17 · `v1.0.0-api`)
 
-Sprint 17 wires the client into the SDK as `RemoteContentSource`. Once that ships, hosts add:
+`RemoteContentSource` ships in `@in-app-training/sdk`. It boots from the last-known-good bundle in `Persistence`, refreshes in the background via the API client, validates every fresh bundle, atomically swaps, and emits two new events:
+
+- `content_bundle_updated` — `{ product, version, etag, prevEtag, timestamp }`
+- `content_bundle_update_failed` — `{ product, reason, message, timestamp }` where `reason` is one of `network` / `validation` / `schema-version-mismatch` / `timeout`
+
+### Minimum wiring
 
 ```ts
-new Trainer({
-  ...,
-  contentSource: new RemoteContentSource({ client, product: 'example-app' }),
+import { RemoteContentSource, localStoragePersistence } from '@in-app-training/sdk';
+import { createContentClient } from '@in-app-training/api-client';
+import { TourSchema } from '@in-app-training/sdk/schema/v1';
+
+const persistence = localStoragePersistence();
+const client = createContentClient({
+  baseUrl: 'https://api.example.com/training/v1',
+  token: () => yourAuthService.currentAccessToken(),
 });
+
+const source = new RemoteContentSource({
+  product: 'example-app',
+  client,
+  persistence,
+  validate(body) {
+    const parsed = TourSchema.array().safeParse(body);
+    return parsed.success
+      ? { ok: true, value: parsed.data }
+      : { ok: false, reason: 'validation', message: parsed.error.message };
+  },
+});
+
+source.on((event) => {
+  if (event.name === 'content_bundle_update_failed') {
+    yourErrorTracker.notify(event.payload);
+  }
+});
+
+await source.start(); // non-blocking when a cache is present; blocks up to bootTimeoutMs on cold boot
+const bundle = source.snapshot(); // pass to the Trainer wiring
 ```
 
-…and edits to content stop needing a host redeploy.
+### Behaviour, in one paragraph
+
+Boot reads the cache and serves the SDK from it immediately. In the background, `GET /content/:product` runs with `If-None-Match` set to the persisted ETag: a `304` is silent (no swap, no event, no persistence write); a `200` runs the validator, atomically swaps the in-memory bundle, persists body + new ETag, and emits `content_bundle_updated`. Any failure emits `content_bundle_update_failed` and keeps the last-known-good bundle. The recurring refresh runs every `pollMs` (default 5 minutes, floored at 30 s). A schema-version mismatch hard-refuses the swap by design — see ADR-0008.
+
+### Configuration reference
+
+| Option | Default | Notes |
+| --- | --- | --- |
+| `pollMs` | `300_000` | Refresh cadence. Floor is 30 000 ms — smaller values are silently raised. |
+| `bootTimeoutMs` | `3_000` | Cold-boot fetch timeout. On timeout the source proceeds with whatever the cache had (or nothing) and emits `content_bundle_update_failed` with `reason: 'timeout'`. |
+| `bootBlocking` | (auto) | Defaults: block when there is no cache, non-blocking otherwise. Set explicitly to override. |
+
+### Trainer integration
+
+The Sprint 17 landing ships `RemoteContentSource` as a standalone module. Hosts read the current bundle with `source.snapshot()` and pass it to `Trainer` at construction time. Reactive Trainer swap (`Trainer.replaceTours()` + trigger remount on `content_bundle_updated`) is filed as T-260 for Sprint 18.

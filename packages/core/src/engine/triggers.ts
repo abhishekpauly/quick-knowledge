@@ -68,6 +68,17 @@ export class TriggerManager {
     this.mounted = false;
   }
 
+  /**
+   * Sprint 18 (T-260). Tear down existing listeners and rebind against a
+   * new tour set. Used by `Trainer.replaceTours()` on a
+   * `content_bundle_updated` event so URL / event triggers reflect the
+   * fresh bundle without a page reload.
+   */
+  remount(tours: Tour[]): void {
+    this.dispose();
+    this.mount(tours);
+  }
+
   /** For testing. */
   isMounted(): boolean {
     return this.mounted;

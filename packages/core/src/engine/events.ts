@@ -17,7 +17,9 @@ export type TrainingEventName =
   | 'pin_dismissed'
   | 'tour_goal_reached'
   | 'tour_goal_missed'
-  | 'user_forget_requested';
+  | 'user_forget_requested'
+  | 'content_bundle_updated'
+  | 'content_bundle_update_failed';
 
 export interface TourStartedPayload {
   tourId: string;
@@ -119,6 +121,26 @@ export interface UserForgetRequestedPayload {
   scope: 'local' | 'remote' | 'both';
 }
 
+/**
+ * Sprint 17 (ADR-0008). Content bundle refresh lifecycle from
+ * `RemoteContentSource`. Both are `functional` consent category —
+ * no user identifiers, only bundle identity.
+ */
+export interface ContentBundleUpdatedPayload {
+  product: string;
+  version: string;
+  etag: string;
+  prevEtag?: string;
+  timestamp: string;
+}
+
+export interface ContentBundleUpdateFailedPayload {
+  product: string;
+  reason: 'network' | 'validation' | 'schema-version-mismatch' | 'timeout';
+  message: string;
+  timestamp: string;
+}
+
 // Discriminated union keyed by name — one entry per event type.
 export type TrainingEvent =
   | { name: 'tour_started'; payload: TourStartedPayload }
@@ -131,7 +153,9 @@ export type TrainingEvent =
   | { name: 'pin_dismissed'; payload: PinDismissedPayload }
   | { name: 'tour_goal_reached'; payload: TourGoalReachedPayload }
   | { name: 'tour_goal_missed'; payload: TourGoalMissedPayload }
-  | { name: 'user_forget_requested'; payload: UserForgetRequestedPayload };
+  | { name: 'user_forget_requested'; payload: UserForgetRequestedPayload }
+  | { name: 'content_bundle_updated'; payload: ContentBundleUpdatedPayload }
+  | { name: 'content_bundle_update_failed'; payload: ContentBundleUpdateFailedPayload };
 
 export type EventListener<N extends TrainingEventName = TrainingEventName> = (
   event: Extract<TrainingEvent, { name: N }>,

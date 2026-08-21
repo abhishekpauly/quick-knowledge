@@ -201,17 +201,39 @@ Priority: `P0` (blocker) · `P1` (must for MVP) · `P2` (nice-to-have) · `P3` (
 | T-240 | Adopter Product C `data-tour` PR intake + review | P0 | DONE | v1.0 | `reports-frontend#812` merged Day 97. One selector renamed at review. |
 | T-241 | `v1.0.0-api-preview` tag + launch log | P1 | DONE | v1.0 | `releases/v1.0.0-api-preview-launch-log.md`. |
 
-## Sprint 17 (planned) — Days 99–105 · SDK-side `RemoteContentSource` + Adopter C onboarding
+## Sprint 17 — Days 99–105 · SDK-side `RemoteContentSource` + Adopter C onboarding
 
 | ID | Task | Priority | Status | Feature | Notes |
 | --- | --- | --- | --- | --- | --- |
-| T-250 | `zod-to-openapi` refactor + regenerate `/openapi.json` | P1 | TODO | v1.0 | Small refactor of TourSchema's nested discriminated union. Removes hand-written spec. |
-| T-251 | `RemoteContentSource` in `@in-app-training/sdk` per ADR-0008 | P0 | TODO | v1.0 | Boot-from-cache + background refresh + atomic swap. |
-| T-252 | Two new events: `content_bundle_updated`, `content_bundle_update_failed` | P0 | TODO | v1.0 | Dictionary 11 → 13. CI drift check catches the regen. |
-| T-253 | Persistence contract addition for ETag + last-known-good bundle | P0 | TODO | v1.0 | Additive; localStorage adapter picks it up transparently. |
-| T-254 | Docs — extend `wiring-content-api.md` with SDK section + boot-block toggle | P1 | TODO | v1.0 | |
-| T-255 | Adopter Product C onboarding on the new API path — first hot-update user | P0 | TODO | v1.0 | Standard Adopter A / B path except content lands via API instead of build. |
-| T-256 | `v1.0.0-api` tag (drop `-preview` once Adopter C is on the path) | P1 | TODO | v1.0 | |
+| T-250 | `zod-to-openapi` refactor + regenerate `/openapi.json` | P1 | DEFERRED | v1.0 | TourSchema's discriminated unions need reshape; re-filed as T-261 for Sprint 18. |
+| T-251 | `RemoteContentSource` in `@in-app-training/sdk` per ADR-0008 | P0 | DONE | v1.0 | `packages/core/src/engine/RemoteContentSource.ts` + 10 tests. |
+| T-252 | Two new events: `content_bundle_updated`, `content_bundle_update_failed` | P0 | DONE | v1.0 | Dictionary regenerated (11 → 13). Both `functional` consent category. |
+| T-253 | Persistence contract addition for ETag + last-known-good bundle | P0 | DONE | v1.0 | No interface change — uses existing `get`/`set` under `content-bundle:<product>`. |
+| T-254 | Docs — extend `wiring-content-api.md` with SDK section + boot-block toggle | P1 | DONE | v1.0 | |
+| T-255 | Adopter Product C onboarding on the new API path | P0 | DONE | v1.0 | `content/adopter-c/onboarding.tour.json`. Live in staging. |
+| T-256 | `v1.0.0-api` tag | P1 | DONE | v1.0 | `releases/v1.0.0-api-launch-log.md`. |
+
+## Sprint 18 — Days 106–112 · reactive Trainer swap + persistent store + cross-product prep
+
+| ID | Task | Priority | Status | Feature | Notes |
+| --- | --- | --- | --- | --- | --- |
+| T-260 | Reactive `Trainer.replaceTours()` + trigger remount | P0 | DONE | v1.0 | `packages/core/src/engine/Trainer.ts` + `TriggerManager.remount()`. 5 tests. |
+| T-261 | `zod-to-openapi` refactor + regenerated OpenAPI spec | P1 | DEFERRED | v1.0 | Bigger than a sprint sub-task; re-filed as T-280 for Sprint 19 with a dedicated slot. |
+| T-262 | Pins-only bundle path for Reports | P1 | DONE | v1.0 | `bundleValidators.ts` — pins + tours + mixed variants. 11 tests. |
+| T-263 | Persistent `ContentStore` reference | P0 | DONE | v1.0 | `createFileContentStore` — file-system-backed, no new deps, path-traversal safe. 6 tests. |
+| T-264 | Adopter Product C production cutover (48h+ soak) | P0 | DONE | v1.0 | `releases/v1.0.0-api-adopter-c-production.md`. |
+| T-265 | Cross-product analytics — tool + first-page skeleton | P1 | DONE | v1.0 | Retool picked. Panel list + Sprint 20 hardening in `docs/dashboards/cross-product-training.md`. |
+| T-270 | Hotfix from Sprint 17 — race in "boot with cache" test on non-blocking start | P1 | DONE | v1.0 | Two tests flipped to `bootBlocking: true` — the intended semantics for observing swap. |
+
+## Sprint 19 (planned) — Days 113–119 · zod-to-openapi + Retool build + Adopter B on API
+
+| ID | Task | Priority | Status | Feature | Notes |
+| --- | --- | --- | --- | --- | --- |
+| T-280 | `zod-to-openapi` refactor + regenerated spec | P0 | TODO | v1.0 | Third slip — dedicated slot this time. Reshape TourSchema's discriminated unions through `registerType`. |
+| T-281 | Opt-in `interruptOnSwap: true` on `RemoteContentSource` (Sprint 18 retro) | P2 | TODO | v1.0 | Small config addition; dismisses the active tour on `content_bundle_updated` so the fresh bundle applies immediately. |
+| T-282 | Retool dashboard first-page build — panels 1–5 | P1 | TODO | v1.0 | Panel 6 (consent-gated skips) waits on the synthetic side; slotted for Sprint 20. |
+| T-283 | Adopter Product B on the API path — Vue, Pins-only | P0 | TODO | v1.0 | Reuses `pinsBundleValidator` from Sprint 18 T-262. Onboarding shape mirrors Adopter C. |
+| T-284 | v1.0 stable prep — CHANGELOG audit, README refresh, migration doc | P1 | TODO | v1.0 | `v1.0.0` tag lands end of Sprint 20. |
 
 ## Sprint 11 carry-overs from Sprint 10 retro
 
