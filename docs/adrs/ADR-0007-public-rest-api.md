@@ -93,7 +93,7 @@ Every `POST /users/:userId/forget`:
 - The publish endpoint accepts arbitrary content bundles; a compromised `content:write` token could ship a malicious tour targeting a real selector. Mitigation: scope tokens narrowly, log every publish, and ensure the CSP on host products blocks inline script in step bodies (already true — step bodies are text + safe markdown only).
 
 ### Neutral
-- Two new packages will land in Sprint 16: `@in-app-training/api-server` (reference implementation, Fastify) and `@in-app-training/api-client` (typed fetch client). Hosts can adopt either or wire their own.
+- Two new packages will land in Sprint 16: `@in-app-training/api-server` (framework-agnostic reference handlers — Fastify is the intended host, but nothing in the package binds to it) and `@in-app-training/api-client` (typed fetch client). Hosts can adopt either or wire their own.
 - OpenAPI spec will be generated from the same Zod schemas via `zod-to-openapi`; adopters get a `/openapi.json` off the same base path.
 
 ## Revisit triggers

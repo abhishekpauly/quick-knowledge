@@ -4,6 +4,17 @@ All notable changes to this project. Format follows [Keep a Changelog](https://k
 
 ## [Unreleased]
 
+### Sprint 16 — `v1.0.0-api-preview` · first code of the v1.0 tier
+
+- **New package** `@in-app-training/api-server` (T-231, T-232) — framework-agnostic route handlers for the ADR-0007 REST surface. No HTTP framework dependency — adopters wire the handlers into Fastify, Express, native `http`, or a worker runtime via a small `toHandlerRequest` adapter (5 lines, kept in the adopter's repo). In-memory `ContentStore` reference; adopters plug their own DB-backed implementation. `GET /content/:product` returns weak SHA-256 ETag; `If-None-Match` (comma-split, wildcard-aware) yields 304. `POST /content/:product` validates via an injected Zod validator and stamps `publishedBy` from the token subject. All errors are RFC 7807 `application/problem+json`.
+- **New package** `@in-app-training/api-client` (T-233) — typed fetch client. `token` accepts a producer for refresh-on-401 flows. 429 backoff: 2 retries max, 1s → 30s ceiling, ±20 % jitter, `Retry-After` capped at `maxRetryAfterMs`. Injectable `fetch` / `sleep` / `jitter` for deterministic tests.
+- **T-230** · ADR-0008 (Content-served-from-API — SDK integration) accepted. Answers all four T-224 open questions: CDN or API is caller's choice; stale-content policy is "keep last-known-good forever, emit failure event"; schema-version mismatch hard-refuses the swap; mid-tour swap finishes the running tour on the old bundle.
+- **T-234** · OpenAPI 3.1 spec producer (`openapiSpec({ baseUrl })`) — adopters serve it from their own framework's `/openapi.json` route. Hand-written for the preview; `zod-to-openapi` refactor filed as T-250 for Sprint 17.
+- **T-235** · `docs/wiring-content-api.md` — server + client wiring, scope guidance (`content:read` / `content:write` / `users:forget`), audit-log reminder on the delete endpoint.
+- **T-236** · 20 new tests across the two packages, coverage above thresholds.
+- **T-240** · Adopter Product C `data-tour` PR merged (`reports-frontend#812`). One selector renamed at review (`rbuilder-*` → `reports-*`) to match SDK product-slug convention.
+- **T-241** · Tag `v1.0.0-api-preview`. Preview only — no production adopter is on the API path yet; Sprint 17's `RemoteContentSource` builds against this stable surface.
+
 ### Sprint 15 — v1.0 kickoff (design only, no tag)
 
 - **T-220** · ADR-0007 (Public REST API surface) accepted. Bearer-token auth with three scopes (`content:read`, `content:write`, `users:forget`), RFC 7807 error shape, path-versioned at `/training/v1`. Schema stays single-source-of-truth via `@in-app-training/sdk/schema`.
