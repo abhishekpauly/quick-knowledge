@@ -6,8 +6,16 @@
   "description": "A four-minute tour of the essentials. Skippable anytime.",
   "difficulty": "onboarding",
   "estimatedMinutes": 4,
-  "triggers": [{ "type": "first-run" }],
+  "triggers": [
+    {
+      "type": "first-run"
+    }
+  ],
   "prerequisites": [],
+  "goal": {
+    "event": "exampleapp.project_created",
+    "windowMinutes": 5
+  },
   "steps": [
     {
       "id": "welcome",
@@ -31,7 +39,7 @@
       "target": "[data-tour=\"main-workspace\"]",
       "placement": "top",
       "title": "Your workspace",
-      "body": "This is where the work happens — build, run, and iterate. Everything you do lands here.",
+      "body": "This is where the work happens \u2014 build, run, and iterate. Everything you do lands here.",
       "advanceOn": null
     },
     {
@@ -40,7 +48,10 @@
       "placement": "bottom",
       "title": "Create your first project",
       "body": "Click here to spin up a new project. You'll see the flow for adding models and data.",
-      "advanceOn": { "type": "click", "target": "[data-tour=\"create-project-button\"]" },
+      "advanceOn": {
+        "type": "click",
+        "target": "[data-tour=\"create-project-button\"]"
+      },
       "notes": "Advance-on click so the tour follows the user's own action."
     },
     {
@@ -59,7 +70,10 @@
       "body": "That's the tour. Explore anything from the checklist in the bottom-right whenever you want a walkthrough.",
       "advanceOn": null,
       "actions": {
-        "primary": { "label": "Start using it", "action": "complete" }
+        "primary": {
+          "label": "Start using it",
+          "action": "complete"
+        }
       }
     }
   ]

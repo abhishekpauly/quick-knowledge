@@ -12,15 +12,21 @@ interface GoalsSink {
    * Returns true if `event` has been observed for the current user with
    * properties that are a superset of `match`, at or after `sinceIso`.
    *
-   * Called by the trainer at a 60-second cadence after `tour_started`,
-   * plus once at window expiry. Must resolve within ~5s; a slower query
-   * is a signal to cache upstream, not to make the trainer patient.
+   * Called by the trainer every `pollMs` after `tour_started`, plus once
+   * at window expiry. Must resolve within ~5s; a slower query is a signal
+   * to cache upstream, not to make the trainer patient.
    */
   hasEventOccurred(
     event: string,
     match: Record<string, unknown>,
     sinceIso: string,
   ): Promise<boolean>;
+
+  /**
+   * How often the trainer polls this sink. Optional; default 60000ms.
+   * Kept on the sink (not the tour) so one knob covers every goal.
+   */
+  pollMs?: number;
 }
 ```
 
