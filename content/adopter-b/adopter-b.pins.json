@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "v1",
+  "product": "adopter-b",
+  "pins": [
+    {
+      "id": "saved-dashboards",
+      "target": "[data-tour=\"sidebar-saved-dashboards\"]",
+      "title": "Saved dashboards",
+      "body": "New: pin dashboards you use every day. One click from any page.",
+      "preferredCorner": "top-right",
+      "showUntil": "2027-03-31"
+    },
+    {
+      "id": "quick-filter",
+      "target": "[data-tour=\"dashboard-quick-filter\"]",
+      "title": "Quick-filter this view",
+      "body": "Type a value to narrow the current dashboard. Doesn't affect saved views.",
+      "preferredCorner": "top-left"
+    },
+    {
+      "id": "share-view",
+      "target": "[data-tour=\"dashboard-share\"]",
+      "title": "Share a view",
+      "body": "Send a live link that respects the current filters. Great for standups.",
+      "preferredCorner": "top-right"
+    }
+  ]
+}
