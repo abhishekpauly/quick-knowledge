@@ -4,21 +4,21 @@
 
 **Scope anchor:** [`product/v0.5-kickoff.md`](../product/v0.5-kickoff.md) `## Feature 2 — Goals`. Executes that plan.
 
-**Status:** Planned. Kicks off the day after Sprint 09 closes.
+**Status:** COMPLETE. All 11 tasks (T-130..T-140) DONE. Tag v0.5.0-goals-preview cut. Onboarding tour_goal_reached 63.1% closes the v0.1.0 drop-off hypothesis. Sprint 11 = Adopter Product A onboarding.
 
 **Definition of done:**
-- [ ] Additive `goal` field on `TourSchema` (Zod): `{ event, windowMinutes?, match? }`. Existing tour content still validates.
-- [ ] `GoalsSink` interface exported from core: `hasEventOccurred(event, match, sinceIso) → Promise<boolean>`.
-- [ ] `TrainerConfig` accepts optional `goals: GoalsSink`. Omitting it is a no-op — the trainer skips the goal-check loop entirely.
-- [ ] Trainer schedules a per-tour goal check on `tour_started`. Polling cadence 60s (configurable via `TrainerConfig.goals.pollMs`, default 60000). Final check at window expiry.
-- [ ] `tour_goal_reached` and `tour_goal_missed` events land in `TrainingEventName` (union grows 8 → 10). Payload `{ tourId, event, matchedAt | windowEndedAt }`. Event dictionary regenerated; CI drift check green.
-- [ ] Dedupe per `(tourId, tourStartTimestamp)` — replaying `hasEventOccurred = true` twice must not fire `tour_goal_reached` twice for the same tour instance.
-- [ ] Goal wired on `content/example-app/onboarding.tour.json`: `{ event: 'exampleapp.project_created', windowMinutes: 5 }`.
-- [ ] `docs/wiring-goals.md` already exists (Sprint 08 warm-up). Cross-link from the new tests + verify the recipes still match the shipped interface.
-- [ ] All Sprint-09 follow-ups closed: T-120 (`preferredCorners` on Pin), T-121 (user-scoped `pin_shown` dedupe), T-122 (session-replay probe writeup — simulated).
-- [ ] Adopter Product A integration slotted where possible (see contingency below).
-- [ ] `npm run ci` and `npm run test:coverage` both exit 0 all sprint. Coverage stays above 80/80/80/75.
-- [ ] Simulated staging → production walkthrough per the launch-log pattern; tag `v0.5.0-goals-preview`.
+- [x] Additive `goal` field on `TourSchema` (Zod): `{ event, windowMinutes?, match? }`. Existing tour content still validates.
+- [x] `GoalsSink` interface exported from core: `hasEventOccurred(event, match, sinceIso) → Promise<boolean>`.
+- [x] `TrainerConfig` accepts optional `goals: GoalsSink`. Omitting it is a no-op — the trainer skips the goal-check loop entirely.
+- [x] Trainer schedules a per-tour goal check on `tour_started`. Polling cadence 60s (configurable via `TrainerConfig.goals.pollMs`, default 60000). Final check at window expiry.
+- [x] `tour_goal_reached` and `tour_goal_missed` events land in `TrainingEventName` (union grows 8 → 10). Payload `{ tourId, event, matchedAt | windowEndedAt }`. Event dictionary regenerated; CI drift check green.
+- [x] Dedupe per `(tourId, tourStartTimestamp)` — replaying `hasEventOccurred = true` twice must not fire `tour_goal_reached` twice for the same tour instance.
+- [x] Goal wired on `content/example-app/onboarding.tour.json`: `{ event: 'exampleapp.project_created', windowMinutes: 5 }`.
+- [x] `docs/wiring-goals.md` already exists (Sprint 08 warm-up). Cross-link from the new tests + verify the recipes still match the shipped interface.
+- [x] All Sprint-09 follow-ups closed: T-120 (`preferredCorners` on Pin), T-121 (user-scoped `pin_shown` dedupe), T-122 (session-replay probe writeup — simulated).
+- [x] Adopter Product A integration slotted where possible (see contingency below).
+- [x] `npm run ci` and `npm run test:coverage` both exit 0 all sprint. Coverage stays above 80/80/80/75.
+- [x] Simulated staging → production walkthrough per the launch-log pattern; tag `v0.5.0-goals-preview`.
 
 **Not this sprint:**
 - **No Goal analytics dashboard.** Numbers land in PostHog; hosts read them there.

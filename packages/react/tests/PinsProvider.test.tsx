@@ -229,6 +229,32 @@ describe('PinsProvider', () => {
     expect(dismissed?.properties).toMatchObject({ pinId: 'p1', target: '[data-tour="t1"]' });
   });
 
+  it('positions the dot on the preferredCorner (top-left)', async () => {
+    // Real jsdom rects are 0 × 0, but the computed style still uses rect.left
+    // vs rect.right → identical for a zero-width target. Assert the code
+    // path executes by pushing a fake rect via a spy on the target's
+    // getBoundingClientRect.
+    const target = document.createElement('div');
+    target.setAttribute('data-tour', 't1');
+    document.body.appendChild(target);
+    Object.defineProperty(target, 'getBoundingClientRect', {
+      value: () => ({ top: 100, left: 50, right: 200, bottom: 130, width: 150, height: 30 }),
+    });
+    const file = pinsFile([
+      { id: 'p1', target: '[data-tour="t1"]', title: 'One', preferredCorner: 'top-left' },
+    ]);
+    const { getByTestId } = render(
+      <PinsProvider pins={file}>
+        <div>app</div>
+      </PinsProvider>,
+    );
+    await flush();
+    const dot = getByTestId('pin-dot-p1') as HTMLElement;
+    // top-left = target.top - 7, target.left - 7
+    expect(dot.style.top).toBe('93px');
+    expect(dot.style.left).toBe('43px');
+  });
+
   it('does not throw when analytics.track throws', async () => {
     makeTarget('t1');
     const throwingAnalytics = {

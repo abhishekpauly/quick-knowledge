@@ -224,6 +224,13 @@ export const PinSchema = z.object({
     .string()
     .regex(/^\d{4}-\d{2}-\d{2}$/, 'showUntil must be an ISO date (YYYY-MM-DD)')
     .optional(),
+  /**
+   * Sprint 10 (T-137). Which corner of the target the dot anchors to.
+   * Default `top-right`. Set to `top-left` when the target's top-right
+   * carries meaningful UI (avatar edges, close buttons) that the dot would
+   * occlude. Follow-up from the v0.5.0-pin-preview mobile-QA finding.
+   */
+  preferredCorner: z.enum(['top-right', 'top-left', 'bottom-right', 'bottom-left']).optional(),
 });
 
 export const PinsFileSchema = z.object({

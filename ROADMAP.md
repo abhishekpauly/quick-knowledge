@@ -129,14 +129,14 @@ Scope trimmed at the Sprint 07 retro. Full v0.5 line-up in [`releases/v0.1.0-ret
 - [x] Coverage stays above thresholds; core 88.61 / react 97.27 / vue 95.69 lines (T-117)
 - [x] Simulated launch log for `v0.5.0-pin-preview` (T-118)
 
-### Sprint 10 — planned · Goals kickoff + Sprint 09 carry-overs
-- [ ] `GoalSchema` on `TourSchema` + `GoalsSink` on `TrainerConfig` (T-130, T-131)
-- [ ] Trainer goal-check loop (poll + expiry + dedupe) (T-132)
-- [ ] `tour_goal_reached` + `tour_goal_missed` events; dictionary regen (T-133)
-- [ ] Goal wired on the example app onboarding tour (T-134)
-- [ ] Tests + `docs/wiring-goals.md` verification (T-135, T-136)
-- [ ] Close Sprint 09 carry-overs: Pin `preferredCorners` (T-137), user-scoped `pin_shown` dedupe (T-138), `create-project-shortcut` session-replay writeup (T-139)
-- [ ] Simulated launch log for `v0.5.0-goals-preview` (T-140)
+### Sprint 10 — shipped · Goals kickoff (v0.5.0-goals-preview)
+- [x] `GoalSchema` on `TourSchema` + `GoalsSink` on `TrainerConfig` (T-130, T-131)
+- [x] Trainer goal-check loop (poll + expiry + dedupe) (T-132)
+- [x] `tour_goal_reached` + `tour_goal_missed` events; dictionary now at 10 events (T-133)
+- [x] Goal wired on the example app onboarding tour (T-134)
+- [x] Tests + `docs/wiring-goals.md` verification (T-135, T-136)
+- [x] Sprint 09 carry-overs: Pin `preferredCorner` (T-137), user-scoped `pin_shown` dedupe (T-138), `create-project-shortcut` session-replay writeup (T-139)
+- [x] Simulated launch log; onboarding tour_goal_reached 63.1% — closes the v0.1.0 drop-off hypothesis (T-140)
 
 **Trigger to promote a HOLD item:** the specific ask lands from a real product owner.
 

@@ -31,11 +31,39 @@ import {
 import { PinsKey, type PinsContextValue } from './inject-keys.js';
 
 const DISMISS_PREFIX = 'in-app-training:pins:dismissed:';
+/** Sprint 10 (T-138). Per-user `pin_shown` dedupe via localStorage. */
+const SHOWN_PREFIX = 'in-app-training:pins:shown:';
 
-/** Per-session dedupe for `pin_shown`. Reset in tests via `_resetPinShownDedupe`. */
-const shownThisSession = new Set<string>();
+function hasShown(pinId: string): boolean {
+  if (typeof window === 'undefined') return false;
+  try {
+    return window.localStorage.getItem(`${SHOWN_PREFIX}${pinId}`) !== null;
+  } catch {
+    return false;
+  }
+}
+
+function markShown(pinId: string): void {
+  if (typeof window === 'undefined') return;
+  try {
+    window.localStorage.setItem(`${SHOWN_PREFIX}${pinId}`, '1');
+  } catch {
+    /* best effort */
+  }
+}
+
 export function _resetPinShownDedupe(): void {
-  shownThisSession.clear();
+  if (typeof window === 'undefined') return;
+  try {
+    const keys: string[] = [];
+    for (let i = 0; i < window.localStorage.length; i++) {
+      const k = window.localStorage.key(i);
+      if (k && k.startsWith(SHOWN_PREFIX)) keys.push(k);
+    }
+    for (const k of keys) window.localStorage.removeItem(k);
+  } catch {
+    /* ignore */
+  }
 }
 
 function safeTrack(
@@ -202,8 +230,8 @@ const PinDot = defineComponent({
       anchor = new PinAnchor({
         selector: props.pin.target,
         onRect: (r) => {
-          if (!rect.value && !shownThisSession.has(props.pin.id)) {
-            shownThisSession.add(props.pin.id);
+          if (!rect.value && !hasShown(props.pin.id)) {
+            markShown(props.pin.id);
             safeTrack(props.analytics, 'pin_shown', {
               pinId: props.pin.id,
               target: props.pin.target,
@@ -227,10 +255,26 @@ const PinDot = defineComponent({
       const dismissible = props.pin.dismissible !== false;
 
       const dotSize = 14;
+      const corner = props.pin.preferredCorner ?? 'top-right';
+      const cornerOffset = (() => {
+        switch (corner) {
+          case 'top-right':
+            return { top: rect.value!.top - dotSize / 2, left: rect.value!.right - dotSize / 2 };
+          case 'top-left':
+            return { top: rect.value!.top - dotSize / 2, left: rect.value!.left - dotSize / 2 };
+          case 'bottom-right':
+            return {
+              top: rect.value!.bottom - dotSize / 2,
+              left: rect.value!.right - dotSize / 2,
+            };
+          case 'bottom-left':
+            return { top: rect.value!.bottom - dotSize / 2, left: rect.value!.left - dotSize / 2 };
+        }
+      })();
       const dotStyle = {
         position: 'fixed' as const,
-        top: `${rect.value.top - dotSize / 2}px`,
-        left: `${rect.value.right - dotSize / 2}px`,
+        top: `${cornerOffset.top}px`,
+        left: `${cornerOffset.left}px`,
         width: `${dotSize}px`,
         height: `${dotSize}px`,
         borderRadius: '50%',

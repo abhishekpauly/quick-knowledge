@@ -28,11 +28,47 @@ import {
 } from '@in-app-training/sdk';
 
 const DISMISS_PREFIX = 'in-app-training:pins:dismissed:';
+/**
+ * Sprint 10 (T-138). Per-user `pin_shown` dedupe.
+ *
+ * localStorage-backed so multiple PinsProvider mounts in the same page (rare,
+ * but possible in host apps with multiple app shells) share dedupe state and a
+ * page reload does not re-emit. Reset in tests via `_resetPinShownDedupe`.
+ * (Sprint 09's module-scoped Set only covered one tab / one mount.)
+ */
+const SHOWN_PREFIX = 'in-app-training:pins:shown:';
 
-/** Per-session dedupe for `pin_shown`. Reset in tests via `_resetPinShownDedupe`. */
-const shownThisSession = new Set<string>();
+function hasShown(pinId: string): boolean {
+  if (typeof window === 'undefined') return false;
+  try {
+    return window.localStorage.getItem(`${SHOWN_PREFIX}${pinId}`) !== null;
+  } catch {
+    return false;
+  }
+}
+
+function markShown(pinId: string): void {
+  if (typeof window === 'undefined') return;
+  try {
+    window.localStorage.setItem(`${SHOWN_PREFIX}${pinId}`, '1');
+  } catch {
+    // localStorage inaccessible — best effort. Analytics may double-emit
+    // in that session; acceptable trade-off.
+  }
+}
+
 export function _resetPinShownDedupe(): void {
-  shownThisSession.clear();
+  if (typeof window === 'undefined') return;
+  try {
+    const keys: string[] = [];
+    for (let i = 0; i < window.localStorage.length; i++) {
+      const k = window.localStorage.key(i);
+      if (k && k.startsWith(SHOWN_PREFIX)) keys.push(k);
+    }
+    for (const k of keys) window.localStorage.removeItem(k);
+  } catch {
+    /* ignore */
+  }
 }
 
 function safeTrack(
@@ -197,8 +233,8 @@ function PinDot({ pin, locale, analytics, onDismiss }: PinDotProps): JSX.Element
       selector: pin.target,
       onRect: (r) => {
         setRect((prev) => {
-          if (!prev && !shownThisSession.has(pin.id)) {
-            shownThisSession.add(pin.id);
+          if (!prev && !hasShown(pin.id)) {
+            markShown(pin.id);
             safeTrack(analytics, 'pin_shown', {
               pinId: pin.id,
               target: pin.target,
@@ -220,13 +256,25 @@ function PinDot({ pin, locale, analytics, onDismiss }: PinDotProps): JSX.Element
   const body = pin.body ? resolveLocale(pin.body, locale) : null;
   const dismissible = pin.dismissible !== false;
 
-  // Position the dot at the top-right corner of the target, offset a few px so
-  // it hugs the corner without occluding it.
+  // Position the dot on the requested corner of the target (default top-right),
+  // offset by half its size so it hugs the corner without occluding it.
   const dotSize = 14;
+  const corner = pin.preferredCorner ?? 'top-right';
+  const cornerOffset = (() => {
+    switch (corner) {
+      case 'top-right':
+        return { top: rect.top - dotSize / 2, left: rect.right - dotSize / 2 };
+      case 'top-left':
+        return { top: rect.top - dotSize / 2, left: rect.left - dotSize / 2 };
+      case 'bottom-right':
+        return { top: rect.bottom - dotSize / 2, left: rect.right - dotSize / 2 };
+      case 'bottom-left':
+        return { top: rect.bottom - dotSize / 2, left: rect.left - dotSize / 2 };
+    }
+  })();
   const dotStyle: React.CSSProperties = {
     position: 'fixed',
-    top: rect.top - dotSize / 2,
-    left: rect.right - dotSize / 2,
+    ...cornerOffset,
     width: dotSize,
     height: dotSize,
     borderRadius: '50%',

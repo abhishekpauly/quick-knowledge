@@ -74,6 +74,18 @@ describe('PinSchema', () => {
     const p = { ...validPin, title: { en: 'Share', 'en-US': 'Share' } };
     expect(PinSchema.safeParse(p).success).toBe(true);
   });
+
+  it('accepts every preferredCorner value', () => {
+    for (const c of ['top-right', 'top-left', 'bottom-right', 'bottom-left'] as const) {
+      const p = { ...validPin, preferredCorner: c };
+      expect(PinSchema.safeParse(p).success).toBe(true);
+    }
+  });
+
+  it('rejects a bogus preferredCorner', () => {
+    const p = { ...validPin, preferredCorner: 'centre' };
+    expect(PinSchema.safeParse(p).success).toBe(false);
+  });
 });
 
 describe('PinsFileSchema', () => {

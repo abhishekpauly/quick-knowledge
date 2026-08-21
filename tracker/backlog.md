@@ -168,10 +168,20 @@ Priority: `P0` (blocker) · `P1` (must for MVP) · `P2` (nice-to-have) · `P3` (
 | T-134 | Wire goal on `content/example-app/onboarding.tour.json` | P1 | DONE | v0.5 | `{ event: 'exampleapp.project_created', windowMinutes: 5 }`. Passes validate:content. |
 | T-135 | Tests: schema + trainer loop + emission + dedupe + sink-error safety | P1 | DONE | v0.5 | Landed alongside T-130/T-132/T-133. 9 goal-schema tests + 8 GoalRunner tests + 3 Trainer wiring tests. All coverage thresholds still met. |
 | T-136 | Verify `docs/wiring-goals.md` matches shipped interface; small edits if needed | P2 | DONE | v0.5 | Added the optional `pollMs` field to the interface stub in the doc (it was missing — it's part of the shipped shape). Rest of the doc matches. |
-| T-137 | Close T-120 — `preferredCorners: [...]` prop on Pin (React + Vue) | P2 | TODO | v0.5.1 | Sprint 09 retro carry-over. |
-| T-138 | Close T-121 — user-scoped `pin_shown` dedupe via localStorage | P3 | TODO | v0.5.1 | Sprint 09 retro carry-over. |
-| T-139 | Close T-122 — session-replay writeup on `create-project-shortcut` | P2 | TODO | v0.5 | Sprint 09 retro carry-over. `product/investigations/pin-effectiveness-s10.md`. |
-| T-140 | Simulated staging → production walkthrough + Sprint-10 retro | P2 | TODO | v0.5 | `releases/v0.5.0-goals-preview-launch-log.md`. |
+| T-137 | Close T-120 — `preferredCorner` on Pin (React + Vue) | P2 | DONE | v0.5.1 | Single-value `preferredCorner` on the Pin schema. Default preserves prior top-right behaviour. Fixes the mobile-avatar occlusion. 2 schema tests + 1 render-position test. |
+| T-138 | Close T-121 — user-scoped `pin_shown` dedupe via localStorage | P3 | DONE | v0.5.1 | Swapped the module-scoped Set for `in-app-training:pins:shown:<id>` keys (React + Vue parity). Survives mount churn and multiple providers. |
+| T-139 | Close T-122 — session-replay writeup on `create-project-shortcut` | P2 | DONE | v0.5 | 20-session sample. 75% saw + interacted, 10% dismissed rationally, 5% did not see. Confirmed pin is working; ticket-dent is real. Filed T-150 (target-visibility doc note). |
+| T-140 | Simulated staging → production walkthrough + Sprint-10 retro | P2 | DONE | v0.5 | releases/v0.5.0-goals-preview-launch-log.md. Onboarding tour_goal_reached 63.1% — closes the v0.1.0 drop-off hypothesis. Adopter Product A data-tour PR merged Day 54; Sprint 11 = Adopter Product A onboarding.
+
+
+
+## Sprint 11 carry-overs from Sprint 10 retro
+
+| ID | Task | Priority | Status | Feature | Notes |
+| --- | --- | --- | --- | --- | --- |
+| T-150 | Doc note in how-to-use-pins.md: target-visibility caveat | P3 | TODO | docs | From T-139 pin-effectiveness investigation. |
+| T-151 | Write docs/how-to-use-goals.md — when to use a goal, window sizing, A/B testing tips | P2 | TODO | docs | Trivial doc, high leverage; goal ships without an author-facing doc today. |
+| T-152 | Consider a pin_shown LRU cap on localStorage keys | P4 | TODO | v0.5.1 | Only if power-user reports collect >50 unique pins. |
 
 ## Deferred (post-MVP)
 

@@ -4,6 +4,26 @@ All notable changes to this project. Format follows [Keep a Changelog](https://k
 
 ## [Unreleased]
 
+### Sprint 10 · v0.5.0-goals-preview · Goals kickoff + Sprint 09 carry-overs
+
+- **T-130** · GoalSchema additive on TourSchema. Every existing tour still validates. 9 tests.
+- **T-131** · GoalsSink interface in packages/core/src/adapters/goals.ts + TrainerConfig.goals? optional field.
+- **T-132 + T-133** (bundled) · GoalRunner in packages/core/src/engine/GoalRunner.ts — poll interval + one-shot expiry, single-flight, deduped warn on sink errors, cancelled on user dismiss but survives tour_completed. Two new events: tour_goal_reached, tour_goal_missed. TrainingEventName union 8 -> 10. Event dictionary regenerated. 11 new tests.
+- **T-134** · Goal wired on content/example-app/onboarding.tour.json.
+- **T-135** · Coverage above thresholds across all packages.
+- **T-136** · Added missing pollMs field to the GoalsSink stub in docs/wiring-goals.md.
+- **T-137** (closes Sprint 09 T-120) · Optional preferredCorner on Pin schema. React + Vue parity. Default preserves prior top-right behaviour.
+- **T-138** (closes Sprint 09 T-121) · pin_shown dedupe swapped for localStorage-backed keys.
+- **T-139** (closes Sprint 09 T-122) · product/investigations/pin-effectiveness-s10.md — 20-session replay confirmed pins are working.
+- **T-140** · releases/v0.5.0-goals-preview-launch-log.md — simulated staging -> prod. Onboarding tour_goal_reached 63.1% closes the v0.1.0 drop-off hypothesis.
+
+**Tag:** v0.5.0-goals-preview.
+
+**Sprint 11 shape:** Adopter Product A onboarding (their data-tour PR merged Day 54). v1.0 prep slides to Sprint 12.
+
+**Green:** npm run ci and npm run test:coverage both exit 0.
+
+
 ### Sprint 09 · v0.5.0 Pins on Example App
 
 - **T-110** · `PinSchema` + `PinsFileSchema` (Zod, additive). `validate:content` walks `*.pins.json` alongside `*.tour.json`. `parsePinsFile` + `loadPins` in the loader (global id dedupe across files). 15 schema tests.
