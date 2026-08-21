@@ -133,6 +133,24 @@ const AudienceAtomSchema = z
   .string()
   .regex(/^!?[a-zA-Z0-9_.-]+:.+$/, 'Audience atom must be `key:value` or `!key:value`');
 
+/**
+ * Sprint 10 (T-130) · Goal schema. Additive on TourSchema.
+ *
+ * `event` is the name of an event the *host* product emits to its analytics
+ * sink — not one of our TrainingEvent names. `windowMinutes` bounds how long
+ * after `tour_started` the goal event still counts. `match` narrows the set
+ * of qualifying events by property values (subset semantics).
+ */
+export const GoalSchema = z.object({
+  event: z.string().min(1, 'Goal event name is required'),
+  windowMinutes: z
+    .number()
+    .positive()
+    .max(60 * 24 * 7, 'Window ≤ 7 days')
+    .optional(),
+  match: z.record(z.string(), z.unknown()).optional(),
+});
+
 export const TourSchema = z.object({
   schemaVersion: z.literal('v1'),
   id: z
@@ -154,6 +172,22 @@ export const TourSchema = z.object({
   frequency: FrequencySchema.optional(),
   /** Sprint 6: higher wins when multiple auto-triggers fire concurrently. Default 0. */
   priority: z.number().int().optional(),
+  /**
+   * Sprint 10 (T-130) · Optional goal declaration.
+   *
+   * Declares "this tour was worthwhile if the host analytics observes `event`
+   * for this user within `windowMinutes` after `tour_started`, with properties
+   * that are a superset of `match`."
+   *
+   * The trainer polls `TrainerConfig.goals.hasEventOccurred(...)` at a 60s
+   * cadence (`pollMs` on the sink, default 60000) and emits either
+   * `tour_goal_reached` on first affirmative or `tour_goal_missed` at
+   * window expiry. Dedupe is per `(tourId, tour-start-timestamp)`.
+   *
+   * If `TrainerConfig.goals` is not wired, the goal is silently ignored — a
+   * host can author goals ahead of the sink implementation.
+   */
+  goal: GoalSchema.optional(),
   steps: z.array(StepSchema).min(1, 'A tour must have at least one step'),
 });
 
@@ -212,5 +246,6 @@ export type Step = z.infer<typeof StepSchema>;
 export type Tour = z.infer<typeof TourSchema>;
 export type Pin = z.infer<typeof PinSchema>;
 export type PinsFile = z.infer<typeof PinsFileSchema>;
+export type Goal = z.infer<typeof GoalSchema>;
 
 export const SCHEMA_VERSION = 'v1' as const;

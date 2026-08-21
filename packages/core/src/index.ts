@@ -84,6 +84,9 @@ export { loadContent, parseTour, loadPins, parsePinsFile } from './schema/loader
 // Sprint 09 (T-110) — Pin content schema.
 export { PinSchema, PinsFileSchema, type Pin, type PinsFile } from './schema/v1.js';
 
+// Sprint 10 (T-130) — Goal schema.
+export { GoalSchema, type Goal } from './schema/v1.js';
+
 // Sprint 09 (T-111) — Pin anchoring primitive.
 export { PinAnchor, type PinAnchorOptions } from './engine/PinAnchor.js';
 
