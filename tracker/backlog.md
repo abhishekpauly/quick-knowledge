@@ -136,7 +136,7 @@ Priority: `P0` (blocker) · `P1` (must for MVP) · `P2` (nice-to-have) · `P3` (
 | ID | Task | Priority | Status | Feature | Notes |
 | --- | --- | --- | --- | --- | --- |
 | T-110 | `PinSchema` + `PinsFileSchema` (Zod) + `*.pins.json` loader | P1 | DONE | v0.5 | Additive: `PinSchema` (id + `data-tour` target + LocalizedString title/body + optional learnMoreUrl/audience/dismissible/showUntil) and `PinsFileSchema` envelope. `parsePinsFile` + `loadPins` in loader (dedupes ids across files). `validate:content` now walks `*.pins.json` too. 15 new schema tests. |
-| T-111 | Core `PinAnchor` — `waitForElement` + `MutationObserver` + resize handler | P1 | TODO | v0.5 | Framework-agnostic. |
+| T-111 | Core `PinAnchor` — `waitForElement` + `MutationObserver` + resize handler | P1 | DONE | v0.5 | Framework-agnostic. Emits rect on mount + mutation + resize + capture-phase scroll. Reports onLost when target leaves DOM. onError for timeout; silent on AbortError. detach() idempotent. 10 tests. |
 | T-112 | React `PinsProvider` + `Pin` (portal, dismissal, localStorage) | P1 | TODO | v0.5 | |
 | T-113 | Vue parity port of `PinsProvider` + `Pin` | P1 | TODO | v0.5 | |
 | T-114 | Events: `pin_shown` + `pin_dismissed`; event dictionary regen | P1 | TODO | v0.5 | Default `consentCategory: 'functional'`. |
