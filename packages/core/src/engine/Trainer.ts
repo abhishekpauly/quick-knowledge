@@ -365,19 +365,39 @@ export class Trainer {
    * from this call onward. URL / event triggers rebind to the new set;
    * `first-run` gates are re-evaluated on the next progress read.
    *
-   * Returns `{ added, removed, kept }` id-lists for observability.
+   * Sprint 19 (T-281): pass `{ dismissActive: true }` to opt into
+   * interrupt-on-swap — the active tour is dismissed as `superseded`
+   * before the swap so the incoming bundle takes effect immediately.
+   * Default is to preserve the running tour.
+   *
+   * The returned `interruptedTourId` is the id of the tour that was
+   * dismissed, or `null`.
    */
-  replaceTours(newTours: readonly Tour[]): { added: string[]; removed: string[]; kept: string[] } {
+  replaceTours(
+    newTours: readonly Tour[],
+    opts: { dismissActive?: boolean } = {},
+  ): {
+    added: string[];
+    removed: string[];
+    kept: string[];
+    interruptedTourId: string | null;
+  } {
     const prevIds = new Set(this.toursById.keys());
     const nextIds = new Set(newTours.map((t) => t.id));
     const added = [...nextIds].filter((id) => !prevIds.has(id));
     const removed = [...prevIds].filter((id) => !nextIds.has(id));
     const kept = [...nextIds].filter((id) => prevIds.has(id));
 
+    let interruptedTourId: string | null = null;
+    if (opts.dismissActive && this.activeTour) {
+      interruptedTourId = this.activeTour.tour.id;
+      this.dismiss('superseded');
+    }
+
     this.toursById = new Map(newTours.map((t) => [t.id, t]));
     this.triggerManager.remount([...newTours]);
 
-    return { added, removed, kept };
+    return { added, removed, kept, interruptedTourId };
   }
 
   getActiveTourId(): string | null {

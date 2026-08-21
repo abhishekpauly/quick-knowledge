@@ -225,15 +225,25 @@ Priority: `P0` (blocker) · `P1` (must for MVP) · `P2` (nice-to-have) · `P3` (
 | T-265 | Cross-product analytics — tool + first-page skeleton | P1 | DONE | v1.0 | Retool picked. Panel list + Sprint 20 hardening in `docs/dashboards/cross-product-training.md`. |
 | T-270 | Hotfix from Sprint 17 — race in "boot with cache" test on non-blocking start | P1 | DONE | v1.0 | Two tests flipped to `bootBlocking: true` — the intended semantics for observing swap. |
 
-## Sprint 19 (planned) — Days 113–119 · zod-to-openapi + Retool build + Adopter B on API
+## Sprint 19 — Days 113–119 · zod-to-openapi + Retool build + Adopter B on API + v1.0 prep
 
 | ID | Task | Priority | Status | Feature | Notes |
 | --- | --- | --- | --- | --- | --- |
-| T-280 | `zod-to-openapi` refactor + regenerated spec | P0 | TODO | v1.0 | Third slip — dedicated slot this time. Reshape TourSchema's discriminated unions through `registerType`. |
-| T-281 | Opt-in `interruptOnSwap: true` on `RemoteContentSource` (Sprint 18 retro) | P2 | TODO | v1.0 | Small config addition; dismisses the active tour on `content_bundle_updated` so the fresh bundle applies immediately. |
-| T-282 | Retool dashboard first-page build — panels 1–5 | P1 | TODO | v1.0 | Panel 6 (consent-gated skips) waits on the synthetic side; slotted for Sprint 20. |
-| T-283 | Adopter Product B on the API path — Vue, Pins-only | P0 | TODO | v1.0 | Reuses `pinsBundleValidator` from Sprint 18 T-262. Onboarding shape mirrors Adopter C. |
-| T-284 | v1.0 stable prep — CHANGELOG audit, README refresh, migration doc | P1 | TODO | v1.0 | `v1.0.0` tag lands end of Sprint 20. |
+| T-280 | `zod-to-openapi` refactor + regenerated spec | P0 | DEFERRED | v1.0 | Third slip. Rescoped to T-290 (Sprint 20) — descriptions-only, no full generator. Rationale in Sprint 19 retro. |
+| T-281 | `Trainer.replaceTours({ dismissActive })` opt-in | P2 | DONE | v1.0 | 15-line engine addition + `interruptedTourId` in return shape. 3 new tests. |
+| T-282 | Retool dashboard first-page — panels 1–5 built | P1 | DONE | v1.0 | SQL sketches in `docs/dashboards/cross-product-training.md`. Panel 6 slides to Sprint 20 T-291. |
+| T-283 | Adopter Product B on API path — Vue, Pins-only | P0 | DONE | v1.0 | Launch log at `releases/v1.0.0-api-adopter-b-production.md`. `bootBlocking: false` (contrast to Adopter C). |
+| T-284 | v1.0 stable prep — CHANGELOG audit, README refresh, migration doc | P1 | DONE | v1.0 | `docs/migration-v1.md` + README status block. |
+
+## Sprint 20 (planned) — Days 120–126 · v1.0.0 stable tag
+
+| ID | Task | Priority | Status | Feature | Notes |
+| --- | --- | --- | --- | --- | --- |
+| T-290 | OpenAPI `ContentBundle` descriptions-only shape from `TourSchema.shape` | P1 | TODO | v1.0 | Rescoped from T-280. ~30-line change, no `TourSchema` refactor. |
+| T-291 | Retool panel 6 (consent-gated tour skips) + Slack alert on `content_bundle_update_failed > 10/hour` | P1 | TODO | v1.0 | Depends on the synthetic side for panel 6. |
+| T-292 | PM-facing publishing-from-your-browser walkthrough | P2 | TODO | v1.0 | Filed by Sprint 19 retro after Adopter B PM shipped a pin change directly. |
+| T-293 | CHANGELOG collapse — four `-api*` preview headers → one `v1.0.0` header | P0 | TODO | v1.0 | |
+| T-294 | Tag `v1.0.0`; drop `-preview` suffix from every doc | P0 | TODO | v1.0 | |
 
 ## Sprint 11 carry-overs from Sprint 10 retro
 

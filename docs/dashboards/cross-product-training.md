@@ -19,7 +19,7 @@ The v1.0 roadmap deferred a lightweight cross-product training dashboard to Spri
 - **A hand-rolled Next.js page.** More work, brittler, no query builder. Reopen only if Retool becomes unusable.
 - **A component inside the SDK's own dashboard.** No such thing exists and there's no reason to build one — this is a cross-product view for the SDK team, not per-adopter analytics.
 
-## First page — panels (Sprint 19 build)
+## First page — panels 1–5 built (Sprint 19 T-282), panel 6 pending (Sprint 20 T-291)
 
 Each panel is one SQL query against the events warehouse. The event names are the exact strings from `docs/event-dictionary.json`.
 
@@ -41,6 +41,101 @@ Each panel is one SQL query against the events warehouse. The event names are th
 - **Not per-adopter.** Each adopter already ships their own PostHog/Amplitude view of tour metrics. This one aggregates across adopters for the SDK team.
 - **Not a Funnel/Cohort builder.** The events land in the warehouse; every host is free to build funnels there. Rebuilding those tools inside the SDK's dashboard is the "Never" case.
 - **Not a real-time monitor.** Refresh cadence is hourly. Real-time alerting belongs in the host's ops stack.
+
+## Panel SQL sketches (as-built for Sprint 19)
+
+These are the queries the Retool page runs against the analytics warehouse (`analytics.events`, one row per emitted training event, `name` matches the dictionary, `properties` is a JSONB column mirroring the payload interface). Copy verbatim into a new Retool query; the panel type is noted alongside each.
+
+### Panel 1 — Onboarding completion rate (line chart, per product, 7-day rolling)
+
+```sql
+with starts as (
+  select date_trunc('day', ts) as d, product, count(*) as n
+  from analytics.events
+  where name = 'tour_started'
+    and properties->>'triggerSource' = 'first-run'
+  group by 1, 2
+),
+completes as (
+  select date_trunc('day', ts) as d, product, count(*) as n
+  from analytics.events
+  where name = 'tour_completed'
+  group by 1, 2
+)
+select s.d as day, s.product,
+       (coalesce(c.n, 0)::float / nullif(s.n, 0)) as completion_rate
+from starts s left join completes c using (d, product)
+where s.d >= current_date - interval '30 days'
+order by 1, 2;
+```
+
+### Panel 2 — Goal-reach rate (bar chart, per tour, 7-day rolling)
+
+```sql
+with starts as (
+  select properties->>'tourId' as tour_id, count(*) as n
+  from analytics.events
+  where name = 'tour_started'
+    and ts >= now() - interval '7 days'
+  group by 1
+),
+reached as (
+  select properties->>'tourId' as tour_id, count(*) as n
+  from analytics.events
+  where name = 'tour_goal_reached'
+    and ts >= now() - interval '7 days'
+  group by 1
+)
+select s.tour_id,
+       s.n as starts,
+       coalesce(r.n, 0) as reached,
+       (coalesce(r.n, 0)::float / nullif(s.n, 0)) as reach_rate
+from starts s left join reached r using (tour_id)
+order by reach_rate asc;
+```
+
+### Panel 3 — Pin engagement (table, per pin, per product)
+
+```sql
+select product,
+       properties->>'pinId' as pin_id,
+       count(*) filter (where name = 'pin_shown') as shown,
+       count(*) filter (where name = 'pin_dismissed') as dismissed,
+       (count(*) filter (where name = 'pin_dismissed')::float
+         / nullif(count(*) filter (where name = 'pin_shown'), 0)) as dismiss_rate
+from analytics.events
+where name in ('pin_shown', 'pin_dismissed')
+  and ts >= now() - interval '7 days'
+group by 1, 2
+order by shown desc;
+```
+
+### Panel 4 — Content bundle freshness (stat tile, per adopter)
+
+```sql
+select product,
+       max(ts) as last_update,
+       (now() - max(ts)) as age
+from analytics.events
+where name = 'content_bundle_updated'
+group by 1
+order by age desc;
+```
+
+Retool alert rule: any row where `age > interval '24 hours'` → yellow badge on the tile.
+
+### Panel 5 — Content bundle errors (bar chart, per adopter, per reason)
+
+```sql
+select product,
+       properties->>'reason' as reason,
+       count(*) as errors
+from analytics.events
+where name = 'content_bundle_update_failed'
+  and ts >= now() - interval '24 hours'
+group by 1, 2
+order by 3 desc;
+```
 
 ## Sprint 20 hardening list (previewed here)
 
