@@ -1,0 +1,27 @@
+{
+  "name": "@in-app-training/api-client",
+  "version": "0.0.1",
+  "description": "Typed fetch client for @in-app-training/api-server (ADR-0007). Works in browser + node 20+.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "README.md", "CHANGELOG.md"],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "^1.4.0",
+    "vitest": "^1.4.0"
+  }
+}

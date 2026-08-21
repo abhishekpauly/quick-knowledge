@@ -156,13 +156,24 @@ Kickoff pinned in [`product/v1.0-kickoff.md`](product/v1.0-kickoff.md). Sprint 1
 - [x] Content-served-from-API problem statement — feeds ADR-0008 (T-224)
 - [x] Backlog + ROADMAP tidy (T-225, T-226)
 
-### Sprint 16 — planned · REST API first endpoints + ADR-0008
-- [ ] ADR-0008 · Content-served-from-API (T-230)
-- [ ] `@in-app-training/api-server` skeleton + `GET /content/:product` with ETag (T-231, T-232)
-- [ ] `@in-app-training/api-client` typed fetch client (T-233)
-- [ ] OpenAPI spec generation (T-234)
-- [ ] Adopter Product C `data-tour` PR intake (T-240)
-- [ ] Tag: `v1.0.0-api-preview` (T-241)
+### Sprint 16 — shipped · REST API first endpoints + ADR-0008 (`v1.0.0-api-preview`)
+- [x] ADR-0008 · Content-served-from-API — 4 open questions from T-224 all answered (T-230)
+- [x] `@in-app-training/api-server` — framework-agnostic handlers, adopters wire their own HTTP framework (T-231, T-232)
+- [x] `@in-app-training/api-client` — typed fetch client, 429 backoff, token producer (T-233)
+- [x] OpenAPI 3.1 spec at `/openapi.json` — hand-written; `zod-to-openapi` refactor filed T-250 for Sprint 17 (T-234)
+- [x] `docs/wiring-content-api.md` — server (20 lines) + client (5 lines) + scope guidance (T-235)
+- [x] 20 tests across both new packages, coverage above thresholds (T-236)
+- [x] Adopter Product C `data-tour` PR merged (reports-frontend#812) (T-240)
+- [x] Tag: `v1.0.0-api-preview` (T-241)
+
+### Sprint 17 — planned · SDK-side `RemoteContentSource` + Adopter C onboarding
+- [ ] `zod-to-openapi` refactor + regenerated spec (T-250)
+- [ ] `RemoteContentSource` in `@in-app-training/sdk` per ADR-0008 (T-251)
+- [ ] 2 new events → dictionary 11 → 13 (T-252)
+- [ ] Persistence contract addition for ETag + last-known-good bundle (T-253)
+- [ ] `wiring-content-api.md` SDK section (T-254)
+- [ ] Adopter Product C onboarded on the new API path — first hot-update user (T-255)
+- [ ] Tag: `v1.0.0-api` (drop `-preview`) (T-256)
 
 ### v1.0 line-up (Sprints 15–20)
 
@@ -210,6 +221,7 @@ The four explicit non-goals from `product/vs-appcues.md`. Do NOT reopen without 
 
 ## Revision log
 
+- 2026-08-21 · Sprint 16 shipped `v1.0.0-api-preview`. Two new packages (`api-server`, `api-client`) + ADR-0008 (Content-served-from-API) accepted. Adopter Product C `data-tour` PR merged.
 - 2026-08-21 · Sprint 15 opens v1.0. ADR-0007 (Public REST API) accepted. Third adopter (Reports, React) targeted for Sprint 17. v0.2 tier heading corrected from "Now" to "Shipped"; v0.5 tier scope bullets flipped to `[x]`.
 - 2026-08-20 · Roadmap restructured after Appcues comparison. Explicit non-goals codified per direction. Sprints 1–4 marked done; v0.2 / v0.5 / v1.0 tiers added per `product/roadmap-to-parity.md`.
 - 2026-08-20 · Initial roadmap created.

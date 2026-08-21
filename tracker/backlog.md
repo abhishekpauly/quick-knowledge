@@ -187,19 +187,31 @@ Priority: `P0` (blocker) · `P1` (must for MVP) · `P2` (nice-to-have) · `P3` (
 | T-225 | Backlog refresh — S15/S16 rows + trim closed open-questions | P1 | DONE | — | This block + Sprint 16 block below. |
 | T-226 | ROADMAP tidy — stale "Now — v0.2" heading + v0.5 scope bullets | P2 | DONE | — | See ROADMAP revision log 2026-08-21. |
 
-## Sprint 16 (planned) — Days 92–98 · REST API first endpoints + ADR-0008
+## Sprint 16 — Days 92–98 · REST API first endpoints + ADR-0008
 
 | ID | Task | Priority | Status | Feature | Notes |
 | --- | --- | --- | --- | --- | --- |
-| T-230 | ADR-0008 · Content-served-from-API — SDK integration + cache policy | P0 | TODO | v1.0 | Answers the 4 open questions from Sprint 15 T-224. |
-| T-231 | `@in-app-training/api-server` Fastify reference impl skeleton | P0 | TODO | v1.0 | Package scaffold + `GET /content/:product` only. |
-| T-232 | `GET /content/:product` with ETag + `If-None-Match` handling | P0 | TODO | v1.0 | Serves from an in-memory store for the preview. |
-| T-233 | `@in-app-training/api-client` typed fetch client | P0 | TODO | v1.0 | Generated types from Zod via `zod-to-openapi`. |
-| T-234 | OpenAPI spec generation + `/openapi.json` route | P1 | TODO | v1.0 | Same Zod schemas as the SDK; no duplication. |
-| T-235 | Docs — `docs/wiring-content-api.md` first cut | P1 | TODO | v1.0 | Adopter onboarding steps. |
-| T-236 | Test suite — server route tests + client contract tests | P0 | TODO | v1.0 | Both packages, matching existing coverage thresholds. |
-| T-240 | Adopter Product C `data-tour` PR intake + review | P0 | TODO | v1.0 | Committed in Sprint 15 T-223; targets Sprint 17 onboarding. |
-| T-241 | `v1.0.0-api-preview` tag + launch log | P1 | TODO | v1.0 | First code tag of the v1.0 tier. |
+| T-230 | ADR-0008 · Content-served-from-API — SDK integration + cache policy | P0 | DONE | v1.0 | `docs/adrs/ADR-0008-content-served-from-api.md`. Answers all 4 open questions from T-224. |
+| T-231 | `@in-app-training/api-server` scaffold + handlers + in-memory store | P0 | DONE | v1.0 | `packages/api-server/`. Framework-agnostic handlers + optional Fastify plugin. |
+| T-232 | `GET /content/:product` with ETag + `If-None-Match` handling | P0 | DONE | v1.0 | Weak SHA-256 truncated etag + wildcard-aware If-None-Match. |
+| T-233 | `@in-app-training/api-client` typed fetch client + 429 backoff | P0 | DONE | v1.0 | `packages/api-client/`. Token producer, injectable fetch/sleep/jitter for tests. |
+| T-234 | OpenAPI 3.1 spec + `/openapi.json` route | P1 | DONE | v1.0 | Hand-written for the preview. `zod-to-openapi` refactor filed as T-250 for Sprint 17. |
+| T-235 | Docs — `docs/wiring-content-api.md` first cut | P1 | DONE | v1.0 | Server (20 lines) + client (5 lines) + scope guidance + audit-log reminder. |
+| T-236 | Test suite — server + client | P0 | DONE | v1.0 | 20 new tests total; coverage above thresholds on both packages. |
+| T-240 | Adopter Product C `data-tour` PR intake + review | P0 | DONE | v1.0 | `reports-frontend#812` merged Day 97. One selector renamed at review. |
+| T-241 | `v1.0.0-api-preview` tag + launch log | P1 | DONE | v1.0 | `releases/v1.0.0-api-preview-launch-log.md`. |
+
+## Sprint 17 (planned) — Days 99–105 · SDK-side `RemoteContentSource` + Adopter C onboarding
+
+| ID | Task | Priority | Status | Feature | Notes |
+| --- | --- | --- | --- | --- | --- |
+| T-250 | `zod-to-openapi` refactor + regenerate `/openapi.json` | P1 | TODO | v1.0 | Small refactor of TourSchema's nested discriminated union. Removes hand-written spec. |
+| T-251 | `RemoteContentSource` in `@in-app-training/sdk` per ADR-0008 | P0 | TODO | v1.0 | Boot-from-cache + background refresh + atomic swap. |
+| T-252 | Two new events: `content_bundle_updated`, `content_bundle_update_failed` | P0 | TODO | v1.0 | Dictionary 11 → 13. CI drift check catches the regen. |
+| T-253 | Persistence contract addition for ETag + last-known-good bundle | P0 | TODO | v1.0 | Additive; localStorage adapter picks it up transparently. |
+| T-254 | Docs — extend `wiring-content-api.md` with SDK section + boot-block toggle | P1 | TODO | v1.0 | |
+| T-255 | Adopter Product C onboarding on the new API path — first hot-update user | P0 | TODO | v1.0 | Standard Adopter A / B path except content lands via API instead of build. |
+| T-256 | `v1.0.0-api` tag (drop `-preview` once Adopter C is on the path) | P1 | TODO | v1.0 | |
 
 ## Sprint 11 carry-overs from Sprint 10 retro
 

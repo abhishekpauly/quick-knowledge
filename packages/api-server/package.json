@@ -1,0 +1,31 @@
+{
+  "name": "@in-app-training/api-server",
+  "version": "0.0.1",
+  "description": "Reference REST API server for @in-app-training/sdk (ADR-0007). Framework-agnostic handlers — bring your own HTTP framework.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "README.md", "CHANGELOG.md"],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "peerDependencies": {
+    "@in-app-training/sdk": "*"
+  },
+  "devDependencies": {
+    "@in-app-training/sdk": "*",
+    "@vitest/coverage-v8": "^1.4.0",
+    "vitest": "^1.4.0"
+  }
+}
