@@ -127,3 +127,26 @@ Payload interface: `UserForgetRequestedPayload`
 | `userId` | `string` | — |
 | `timestamp` | `string` | ✓ |
 | `scope` | `'local' | 'remote' | 'both'` | ✓ |
+
+## `content_bundle_updated`
+
+Payload interface: `ContentBundleUpdatedPayload`
+
+| Property | Type | Required |
+| --- | --- | --- |
+| `product` | `string` | ✓ |
+| `version` | `string` | ✓ |
+| `etag` | `string` | ✓ |
+| `prevEtag` | `string` | — |
+| `timestamp` | `string` | ✓ |
+
+## `content_bundle_update_failed`
+
+Payload interface: `ContentBundleUpdateFailedPayload`
+
+| Property | Type | Required |
+| --- | --- | --- |
+| `product` | `string` | ✓ |
+| `reason` | `'network' | 'validation' | 'schema-version-mismatch' | 'timeout'` | ✓ |
+| `message` | `string` | ✓ |
+| `timestamp` | `string` | ✓ |

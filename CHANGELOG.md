@@ -4,6 +4,17 @@ All notable changes to this project. Format follows [Keep a Changelog](https://k
 
 ## [Unreleased]
 
+### Sprint 17 — `v1.0.0-api` · SDK integration + first hot-update adopter
+
+- **T-251** · `RemoteContentSource` in `@in-app-training/sdk` (`packages/core/src/engine/RemoteContentSource.ts`). Boot-from-cache-and-serve-immediately + background ETag refresh + atomic swap. Single-flight `refreshNow()`; persistence write failure never aborts the in-memory swap; listener errors cannot break the refresh loop.
+- **T-252** · Event dictionary regenerated 11 → 13: `content_bundle_updated` (`{ product, version, etag, prevEtag?, timestamp }`) and `content_bundle_update_failed` (`{ product, reason: 'network' | 'validation' | 'schema-version-mismatch' | 'timeout', message, timestamp }`). Both `functional` consent category — no user identifiers.
+- **T-253** · No `Persistence` interface change. Bundles cached under `content-bundle:<product>` keys — the existing localStorage + memory adapters carry them transparently.
+- **T-254** · `docs/wiring-content-api.md` gains the SDK section, boot-block toggle, and configuration reference.
+- **T-255** · Adopter Product C onboarding tour authored at `content/adopter-c/onboarding.tour.json` (5 steps, `adopterc.report_published` goal, 10-minute window). Live in staging via the API path.
+- **T-256** · Tag `v1.0.0-api`. Drops the `-preview` suffix. Preview-tier packages unchanged.
+- **T-250 → T-261** · `zod-to-openapi` refactor deferred to Sprint 18. `TourSchema`'s discriminated unions need reshape through the tool's registration API; no adopter blocked.
+- 10 new tests on `RemoteContentSource`: cached-boot 304 silence, 200 swap+emit with prevEtag, cold-boot fetch, network / validation / schema-version / timeout failure paths, single-flight, listener-error containment, pollMs floor, unsubscribe.
+
 ### Sprint 16 — `v1.0.0-api-preview` · first code of the v1.0 tier
 
 - **New package** `@in-app-training/api-server` (T-231, T-232) — framework-agnostic route handlers for the ADR-0007 REST surface. No HTTP framework dependency — adopters wire the handlers into Fastify, Express, native `http`, or a worker runtime via a small `toHandlerRequest` adapter (5 lines, kept in the adopter's repo). In-memory `ContentStore` reference; adopters plug their own DB-backed implementation. `GET /content/:product` returns weak SHA-256 ETag; `If-None-Match` (comma-split, wildcard-aware) yields 304. `POST /content/:product` validates via an injected Zod validator and stamps `publishedBy` from the token subject. All errors are RFC 7807 `application/problem+json`.

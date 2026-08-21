@@ -26,6 +26,8 @@ export type {
   TourGoalReachedPayload,
   TourGoalMissedPayload,
   UserForgetRequestedPayload,
+  ContentBundleUpdatedPayload,
+  ContentBundleUpdateFailedPayload,
 } from './engine/events.js';
 
 // Sprint 12 (ADR-0005 + ADR-0006)
@@ -112,3 +114,14 @@ export {
 
 // Targeting utility (exposed for custom integrations, e.g. Vue adapter)
 export { waitForElement, TargetTimeoutError } from './engine/targeting.js';
+
+// Sprint 17 (ADR-0008) — remote content source.
+export { RemoteContentSource } from './engine/RemoteContentSource.js';
+export type {
+  RemoteContentClient,
+  RemoteContentSourceOptions,
+  BundleValidator,
+  ValidatorResult,
+  ValidatorFailure,
+  ContentBundle,
+} from './engine/RemoteContentSource.js';
