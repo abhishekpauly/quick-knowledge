@@ -16,7 +16,8 @@ export type TrainingEventName =
   | 'pin_shown'
   | 'pin_dismissed'
   | 'tour_goal_reached'
-  | 'tour_goal_missed';
+  | 'tour_goal_missed'
+  | 'user_forget_requested';
 
 export interface TourStartedPayload {
   tourId: string;
@@ -108,6 +109,16 @@ export interface TourGoalMissedPayload {
   windowEndedAt: string;
 }
 
+/**
+ * Sprint 12 (ADR-0005). Right-to-erasure signal — the SDK fires this so the
+ * host can propagate deletion to their analytics sink.
+ */
+export interface UserForgetRequestedPayload {
+  userId?: string;
+  timestamp: string;
+  scope: 'local' | 'remote' | 'both';
+}
+
 // Discriminated union keyed by name — one entry per event type.
 export type TrainingEvent =
   | { name: 'tour_started'; payload: TourStartedPayload }
@@ -119,7 +130,8 @@ export type TrainingEvent =
   | { name: 'pin_shown'; payload: PinShownPayload }
   | { name: 'pin_dismissed'; payload: PinDismissedPayload }
   | { name: 'tour_goal_reached'; payload: TourGoalReachedPayload }
-  | { name: 'tour_goal_missed'; payload: TourGoalMissedPayload };
+  | { name: 'tour_goal_missed'; payload: TourGoalMissedPayload }
+  | { name: 'user_forget_requested'; payload: UserForgetRequestedPayload };
 
 export type EventListener<N extends TrainingEventName = TrainingEventName> = (
   event: Extract<TrainingEvent, { name: N }>,

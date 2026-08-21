@@ -29,6 +29,16 @@ import { personalize } from '../schema/personalize.js';
 import { isAllowedByFrequency, markSeenThisSession } from '../schema/frequency.js';
 import { readPermalinkTourId } from '../schema/permalink.js';
 import { GoalRunner } from './GoalRunner.js';
+import { isCategoryAllowed } from '../adapters/consent.js';
+
+/** Sprint 12 (ADR-0005). Receipt returned by trainer.forgetUser(). */
+export interface ForgetUserReceipt {
+  clearedLocal: boolean;
+  clearedRemote: boolean;
+  emittedAnalyticsSignal: boolean;
+  timestamp: string;
+  errors: string[];
+}
 
 const PROGRESS_KEY = 'progress';
 const DEFAULT_TARGET_TIMEOUT_MS = 3000;
@@ -132,6 +142,10 @@ export class Trainer {
 
     if (!this.arePrerequisitesMet(tour)) return;
     if (!matchesAudience(tour.audience, this.config.userAttributes)) return;
+    // Sprint 12 (ADR-0006): consent gate — silently skip tours whose
+    // consentCategory is not currently granted.
+    if (this.config.consent && !isCategoryAllowed(tour.consentCategory, this.config.consent.read()))
+      return;
     // Sprint 6: frequency gate. Manual starts skip the check (user asked for it).
     if (
       triggerSource !== 'manual' &&
@@ -257,6 +271,61 @@ export class Trainer {
 
   stop(): void {
     if (this.activeTour) this.dismiss('manual');
+  }
+
+  /**
+   * Sprint 12 (ADR-0005) · Right-to-erasure entry point. Idempotent.
+   * Clears every namespaced persistence key and emits `user_forget_requested`
+   * so the host can propagate deletion to the analytics sink.
+   *
+   * Never throws. Failures are captured in the receipt.
+   */
+  async forgetUser(userId?: string): Promise<ForgetUserReceipt> {
+    const receipt: ForgetUserReceipt = {
+      clearedLocal: false,
+      clearedRemote: false,
+      emittedAnalyticsSignal: false,
+      timestamp: this.iso(),
+      errors: [],
+    };
+    // Cancel any active tour first — its state is about to disappear.
+    try {
+      if (this.activeTour) this.dismiss('manual');
+    } catch (err) {
+      receipt.errors.push(`dismiss failed: ${String(err)}`);
+    }
+    // Cancel every outstanding goal runner regardless of tour.
+    for (const [, set] of this.goalRunners) for (const r of set) r.cancel();
+    this.goalRunners.clear();
+    // Clear persistence.
+    try {
+      if (typeof this.config.persistence.clearAll === 'function') {
+        await this.config.persistence.clearAll();
+      } else {
+        // Fallback: at least drop the progress key we know about.
+        await this.config.persistence.remove(this.progressKey());
+      }
+      this.progressCache = undefined;
+      receipt.clearedLocal = true;
+    } catch (err) {
+      receipt.errors.push(`persistence clear failed: ${String(err)}`);
+    }
+    // Emit the signal. Host analytics sink is expected to propagate to their
+    // vendor (PostHog $delete_user, Amplitude POST /2/deletions, etc.).
+    try {
+      this.emit({
+        name: 'user_forget_requested',
+        payload: {
+          userId,
+          timestamp: receipt.timestamp,
+          scope: userId ? 'both' : 'local',
+        },
+      });
+      receipt.emittedAnalyticsSignal = true;
+    } catch (err) {
+      receipt.errors.push(`emit failed: ${String(err)}`);
+    }
+    return receipt;
   }
 
   next(): void {
@@ -680,12 +749,31 @@ export class Trainer {
   }
 
   private emit(event: TrainingEvent): void {
+    // Sprint 12 (ADR-0006): analytics-emission gate. Look up the tour by id
+    // on tour-lifecycle events and skip the sink call if its category isn't
+    // granted. user_forget_requested is exempt — the host wants that signal.
+    if (this.config.consent && event.name !== 'user_forget_requested') {
+      const payload = event.payload as { tourId?: string };
+      if (payload.tourId) {
+        const tour = this.toursById.get(payload.tourId);
+        if (tour && !isCategoryAllowed(tour.consentCategory, this.config.consent.read())) {
+          // Silently drop analytics; still notify local listeners for
+          // in-process reactivity (checklist, dev tools).
+          this.notifyLocalListeners(event);
+          return;
+        }
+      }
+    }
     try {
       this.config.analytics.track(event.name, event.payload as unknown as Record<string, unknown>);
     } catch (err) {
       // eslint-disable-next-line no-console
       console.warn('[in-app-training] analytics adapter threw:', err);
     }
+    this.notifyLocalListeners(event);
+  }
+
+  private notifyLocalListeners(event: TrainingEvent): void {
     const set = this.listeners.get(event.name);
     if (!set) return;
     for (const listener of set) {

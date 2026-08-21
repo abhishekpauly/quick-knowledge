@@ -25,7 +25,13 @@ export type {
   PinDismissedPayload,
   TourGoalReachedPayload,
   TourGoalMissedPayload,
+  UserForgetRequestedPayload,
 } from './engine/events.js';
+
+// Sprint 12 (ADR-0005 + ADR-0006)
+export type { ForgetUserReceipt } from './engine/Trainer.js';
+export type { ConsentAdapter, ConsentDecision, ConsentCategory } from './adapters/consent.js';
+export { isCategoryAllowed } from './adapters/consent.js';
 
 // Adapters
 export {

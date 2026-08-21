@@ -117,3 +117,13 @@ Payload interface: `TourGoalMissedPayload`
 | `event` | `string` | ✓ |
 | `tourStartedAt` | `string` | ✓ |
 | `windowEndedAt` | `string` | ✓ |
+
+## `user_forget_requested`
+
+Payload interface: `UserForgetRequestedPayload`
+
+| Property | Type | Required |
+| --- | --- | --- |
+| `userId` | `string` | — |
+| `timestamp` | `string` | ✓ |
+| `scope` | `'local' | 'remote' | 'both'` | ✓ |

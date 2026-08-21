@@ -265,6 +265,27 @@
           "optional": false
         }
       ]
+    },
+    {
+      "name": "user_forget_requested",
+      "payload": "UserForgetRequestedPayload",
+      "fields": [
+        {
+          "name": "userId",
+          "type": "string",
+          "optional": true
+        },
+        {
+          "name": "timestamp",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "scope",
+          "type": "'local' | 'remote' | 'both'",
+          "optional": false
+        }
+      ]
     }
   ]
 }

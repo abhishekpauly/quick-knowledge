@@ -11,6 +11,11 @@ export interface Persistence {
   get(key: string): Promise<unknown | undefined>;
   set(key: string, value: unknown): Promise<void>;
   remove(key: string): Promise<void>;
+  /**
+   * Sprint 12 (ADR-0005). Clear every key in the SDK's namespace. Optional
+   * for backwards compat; `Trainer.forgetUser` uses this when present.
+   */
+  clearAll?(): Promise<void>;
 }
 
 const KEY_PREFIX = 'in-app-training';
@@ -47,6 +52,14 @@ export function localStoragePersistence(): Persistence {
     async remove(key) {
       window.localStorage.removeItem(fullKey(key));
     },
+    async clearAll() {
+      const keys: string[] = [];
+      for (let i = 0; i < window.localStorage.length; i++) {
+        const k = window.localStorage.key(i);
+        if (k && k.startsWith(`${KEY_PREFIX}:`)) keys.push(k);
+      }
+      for (const k of keys) window.localStorage.removeItem(k);
+    },
   };
 }
 
@@ -65,6 +78,9 @@ export function memoryPersistence(): Persistence {
     },
     async remove(key) {
       store.delete(key);
+    },
+    async clearAll() {
+      store.clear();
     },
   };
 }

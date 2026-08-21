@@ -173,6 +173,13 @@ export const TourSchema = z.object({
   /** Sprint 6: higher wins when multiple auto-triggers fire concurrently. Default 0. */
   priority: z.number().int().optional(),
   /**
+   * Sprint 12 (ADR-0006) · Consent category for gating.
+   * Default 'functional' — safe under all common consent regimes.
+   */
+  consentCategory: z
+    .enum(['strictly-necessary', 'functional', 'analytics', 'marketing'])
+    .optional(),
+  /**
    * Sprint 10 (T-130) · Optional goal declaration.
    *
    * Declares "this tour was worthwhile if the host analytics observes `event`

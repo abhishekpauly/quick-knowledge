@@ -8,6 +8,7 @@ import type { Tour } from '../schema/v1.js';
 import type { Analytics } from '../adapters/analytics.js';
 import type { Persistence } from '../adapters/persistence.js';
 import type { GoalsSink } from '../adapters/goals.js';
+import type { ConsentAdapter } from '../adapters/consent.js';
 import type { Theme } from '../theme/default.js';
 import type { UserAttributes } from '../schema/audience.js';
 
@@ -55,6 +56,13 @@ export interface TrainerConfig {
    * the check loop. Full contract in `adapters/goals.ts`.
    */
   goals?: GoalsSink;
+
+  /**
+   * Sprint 12 (ADR-0006) · Optional consent hook. When wired, gates tour
+   * execution and analytics emission by `tour.consentCategory`. Omit and
+   * every tour runs (v0.1 behaviour).
+   */
+  consent?: ConsentAdapter;
 }
 
 export interface TourProgress {
