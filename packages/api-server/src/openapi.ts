@@ -1,81 +1,27 @@
 /**
  * OpenAPI 3.1 spec for the reference API.
  *
- * Hand-written envelope + `describeBundleFromTourSchema()` for the
- * `ContentBundle` block. Sprint 20 (T-290): descriptions-only shape
- * derived from `TourSchema.shape` so the spec references the SDK's
- * actual field set instead of an opaque `type: object` placeholder.
- * Does NOT recurse into discriminated unions (Trigger, AdvanceOn,
- * Step) — a full generator was rescoped out; no adopter has asked
- * for it. If one does, plan `zod-to-openapi` as its own work.
+ * Sprint 20 (T-290): the `ContentBundle` block accepts an
+ * `contentBundleSchema` from the caller. Adopters typically pass
+ * `describeBundleFromTourSchema()` from `@in-app-training/sdk` — this
+ * package intentionally does NOT import the SDK so build order stays
+ * independent (api-server compiles before sdk in npm workspaces).
+ *
+ * Without the option, `ContentBundle` renders as the historic opaque
+ * `type: object` placeholder — same behaviour as pre-Sprint 20.
  */
-import { TourSchema } from '@in-app-training/sdk/schema/v1';
-import type { z } from 'zod';
 
 export interface OpenApiOptions {
   /** e.g. "https://api.example.com/training/v1" */
   baseUrl: string;
   /** Human title for the spec's info block. */
   title?: string;
-}
-
-/**
- * Map a top-level `TourSchema` field to a coarse OpenAPI type marker. Kept
- * intentionally shallow — the goal is "consumers see the field names and
- * roughly what they are", not full validation. Zod stays the source of truth
- * at runtime.
- */
-function coarseType(field: z.ZodTypeAny): string {
-  const name = field._def?.typeName ?? 'unknown';
-  switch (name) {
-    case 'ZodString':
-    case 'ZodEnum':
-    case 'ZodLiteral':
-      return 'string';
-    case 'ZodNumber':
-      return 'number';
-    case 'ZodBoolean':
-      return 'boolean';
-    case 'ZodArray':
-      return 'array';
-    case 'ZodObject':
-    case 'ZodRecord':
-    case 'ZodDiscriminatedUnion':
-      return 'object';
-    case 'ZodOptional':
-    case 'ZodNullable':
-    case 'ZodDefault':
-      // Unwrap once to describe the inner type.
-      return coarseType((field._def as { innerType: z.ZodTypeAny }).innerType);
-    case 'ZodUnion':
-      return 'string';
-    default:
-      return 'object';
-  }
-}
-
-/**
- * Produce a descriptions-only OpenAPI schema block for a Tour bundle from
- * `TourSchema.shape`. Field presence is honest (required vs. optional);
- * types are coarse. Discriminated unions render as `type: object` — see
- * the module comment for the rationale.
- */
-export function describeBundleFromTourSchema(): Record<string, unknown> {
-  const shape = TourSchema.shape as Record<string, z.ZodTypeAny>;
-  const properties: Record<string, { type: string; description?: string }> = {};
-  const required: string[] = [];
-  for (const [key, field] of Object.entries(shape)) {
-    const isOptional =
-      field._def?.typeName === 'ZodOptional' || field._def?.typeName === 'ZodDefault';
-    properties[key] = { type: coarseType(field) };
-    if (!isOptional) required.push(key);
-  }
-  return {
-    description: 'Content bundle shape derived from @in-app-training/sdk TourSchema (v1).',
-    type: 'object',
-    properties,
-    required,
-  };
+  /**
+   * Sprint 20 (T-290) · Optional schema block for `components.schemas.ContentBundle`.
+   * Typically `describeBundleFromTourSchema()` from `@in-app-training/sdk`.
+   * Omit for the opaque `type: object` placeholder.
+   */
+  contentBundleSchema?: Record<string, unknown>;
 }
 
 export function openapiSpec(opts: OpenApiOptions): Record<string, unknown> {
@@ -83,7 +29,7 @@ export function openapiSpec(opts: OpenApiOptions): Record<string, unknown> {
     openapi: '3.1.0',
     info: {
       title: opts.title ?? '@in-app-training/api-server',
-      version: '1.0.0-api-preview',
+      version: '1.0.0',
       description:
         'Reference implementation of the ADR-0007 REST API. Framework-agnostic handlers — adopters wire their own HTTP framework. All error responses are application/problem+json (RFC 7807).',
     },
@@ -124,10 +70,7 @@ export function openapiSpec(opts: OpenApiOptions): Record<string, unknown> {
           },
           required: ['version', 'publishedAt', 'publishedBy'],
         },
-        // Sprint 20 (T-290): descriptions-only shape from TourSchema.shape.
-        // Coarse types on the top-level fields; discriminated unions render
-        // as `type: object`. Zod stays the source of truth at runtime.
-        ContentBundle: describeBundleFromTourSchema(),
+        ContentBundle: opts.contentBundleSchema ?? { type: 'object' },
       },
     },
     security: [{ bearerAuth: [] }],

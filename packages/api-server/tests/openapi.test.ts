@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { openapiSpec, describeBundleFromTourSchema } from '../src/openapi.js';
+import { openapiSpec } from '../src/openapi.js';
 
 describe('openapiSpec', () => {
   it('produces a 3.1 spec pinned to the given base URL and exposes every route', () => {
@@ -31,58 +31,24 @@ describe('openapiSpec', () => {
     };
     expect(spec.info.title).toBe('Custom');
   });
-});
 
-describe('describeBundleFromTourSchema', () => {
-  it('renders the TourSchema top-level fields as descriptions-only OpenAPI properties', () => {
-    const block = describeBundleFromTourSchema() as {
-      type: string;
-      description: string;
-      properties: Record<string, { type: string }>;
-      required: string[];
+  it('defaults ContentBundle to the opaque placeholder when no schema is passed', () => {
+    const spec = openapiSpec({ baseUrl: 'x' }) as {
+      components: { schemas: { ContentBundle: Record<string, unknown> } };
     };
-    expect(block.type).toBe('object');
-    expect(block.description).toMatch(/TourSchema/);
-    // Every top-level Tour field the SDK ships shows up.
-    for (const key of [
-      'schemaVersion',
-      'id',
-      'product',
-      'title',
-      'difficulty',
-      'triggers',
-      'steps',
-    ]) {
-      expect(block.properties[key]).toBeDefined();
-    }
-    // Required fields are declared as such.
-    expect(block.required).toEqual(
-      expect.arrayContaining([
-        'schemaVersion',
-        'id',
-        'product',
-        'title',
-        'difficulty',
-        'triggers',
-        'steps',
-      ]),
-    );
-    // Optional fields (e.g. `goal`) are present but NOT required.
-    expect(block.properties.goal).toBeDefined();
-    expect(block.required).not.toContain('goal');
-    // Coarse types map correctly.
-    expect(block.properties.triggers?.type).toBe('array');
-    expect(block.properties.steps?.type).toBe('array');
-    expect(block.properties.schemaVersion?.type).toBe('string');
+    expect(spec.components.schemas.ContentBundle).toEqual({ type: 'object' });
   });
 
-  it('is embedded under components.schemas.ContentBundle', () => {
-    const spec = openapiSpec({ baseUrl: 'x' }) as {
-      components: {
-        schemas: { ContentBundle: { type: string; properties: Record<string, unknown> } };
-      };
+  it('substitutes the caller-supplied ContentBundle schema when provided (Sprint 20 T-290)', () => {
+    const caller = {
+      type: 'object',
+      description: 'from-caller',
+      properties: { id: { type: 'string' } },
+      required: ['id'],
     };
-    expect(spec.components.schemas.ContentBundle.type).toBe('object');
-    expect(Object.keys(spec.components.schemas.ContentBundle.properties).length).toBeGreaterThan(0);
+    const spec = openapiSpec({ baseUrl: 'x', contentBundleSchema: caller }) as {
+      components: { schemas: { ContentBundle: Record<string, unknown> } };
+    };
+    expect(spec.components.schemas.ContentBundle).toBe(caller);
   });
 });
