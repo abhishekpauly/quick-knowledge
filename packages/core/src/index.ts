@@ -125,3 +125,10 @@ export type {
   ValidatorFailure,
   ContentBundle,
 } from './engine/RemoteContentSource.js';
+
+// Sprint 18 (T-262) — paved-path validators for remote bundles.
+export {
+  toursBundleValidator,
+  pinsBundleValidator,
+  mixedBundleValidator,
+} from './engine/bundleValidators.js';

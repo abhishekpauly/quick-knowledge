@@ -4,6 +4,19 @@ All notable changes to this project. Format follows [Keep a Changelog](https://k
 
 ## [Unreleased]
 
+### Sprint 18 — `v1.0.0-api.1` · reactive Trainer swap + persistent store + Adopter C in prod
+
+- **T-260** · `Trainer.replaceTours(newTours)` in `@in-app-training/sdk`. Reactive counterpart to `RemoteContentSource`'s `content_bundle_updated` event. Active tour keeps its captured `Tour` reference (per ADR-0008); triggers rebind via `TriggerManager.remount()`; returns `{ added, removed, kept }` id-lists for observability. 5 new tests.
+- **T-262** · `toursBundleValidator()` / `pinsBundleValidator()` / `mixedBundleValidator()` in `@in-app-training/sdk`. Paved-path validators for `RemoteContentSource` — hosts drop them in unchanged instead of hand-wiring Zod. Reports (Adopter C) uses `pinsBundleValidator()` in production. 11 new tests.
+- **T-263** · `createFileContentStore({ root })` in `@in-app-training/api-server`. File-system-backed persistent `ContentStore` reference — layout: `<root>/<product>/{current.json, history/<publishedAt>.json}`. No new dependency (Node `fs/promises`). Publish writes history first then flips `current.json` so a crash mid-write leaves the previous bundle readable. Path-traversal safe — invalid product slugs throw before I/O. 6 new tests.
+- **T-264** · Adopter Product C production cutover — 48h staging soak, then canary rollout. First host running content-from-API in production. 24h post-cutover: 0 error events, 3 authored pin edits shipped without a Reports redeploy. Launch log at `releases/v1.0.0-api-adopter-c-production.md`.
+- **T-265** · Cross-product analytics tool + first-page skeleton. Retool picked over Metabase / a hand-rolled Next.js page. Six panels queued for Sprint 19–20 build; each reads from the shipped event dictionary. `docs/dashboards/cross-product-training.md`.
+- **T-270** · Sprint 17 hotfix. Two `RemoteContentSource` tests observed events off a fire-and-forget refresh; flipped to `bootBlocking: true` — the intended semantics for the tests' assertions. No production code change.
+- **T-261 → T-280** · `zod-to-openapi` refactor deferred again. Getting its own Sprint 19 slot so it stops being an end-of-sprint carry-over.
+- Public API additions (all backward-compatible): `Trainer.replaceTours()`; `toursBundleValidator` / `pinsBundleValidator` / `mixedBundleValidator`; `createFileContentStore` / `FileContentStoreOptions`.
+
+
+
 ### Sprint 17 — `v1.0.0-api` · SDK integration + first hot-update adopter
 
 - **T-251** · `RemoteContentSource` in `@in-app-training/sdk` (`packages/core/src/engine/RemoteContentSource.ts`). Boot-from-cache-and-serve-immediately + background ETag refresh + atomic swap. Single-flight `refreshNow()`; persistence write failure never aborts the in-memory swap; listener errors cannot break the refresh loop.

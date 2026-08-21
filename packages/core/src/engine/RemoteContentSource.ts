@@ -172,7 +172,8 @@ export class RemoteContentSource {
       timer = set(() => resolve('timeout'), timeoutMs);
     });
     const outcome = await Promise.race([this.refreshNow().then(() => 'done' as const), timeout]);
-    const clear = this.opts.scheduler?.clear ?? ((h) => clearTimeout(h as ReturnType<typeof setTimeout>));
+    const clear =
+      this.opts.scheduler?.clear ?? ((h) => clearTimeout(h as ReturnType<typeof setTimeout>));
     clear(timer);
     if (outcome === 'timeout') {
       this.emitFailure('timeout', `Boot fetch exceeded ${timeoutMs}ms`);
@@ -239,7 +240,8 @@ export class RemoteContentSource {
 
   private cancelScheduled(): void {
     if (this.refreshHandle == null) return;
-    const clear = this.opts.scheduler?.clear ?? ((h) => clearTimeout(h as ReturnType<typeof setTimeout>));
+    const clear =
+      this.opts.scheduler?.clear ?? ((h) => clearTimeout(h as ReturnType<typeof setTimeout>));
     clear(this.refreshHandle);
     this.refreshHandle = null;
   }

@@ -1,9 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { RemoteContentSource } from '../src/engine/RemoteContentSource.js';
-import type {
-  RemoteContentClient,
-  BundleValidator,
-} from '../src/engine/RemoteContentSource.js';
+import type { RemoteContentClient, BundleValidator } from '../src/engine/RemoteContentSource.js';
 import { memoryPersistence } from '../src/adapters/persistence.js';
 import type { TrainingEvent } from '../src/engine/events.js';
 
@@ -75,6 +72,7 @@ describe('RemoteContentSource', () => {
       client,
       persistence,
       validate: accept,
+      bootBlocking: true,
       scheduler: noopScheduler,
     });
     const { events, listener } = collector();
@@ -100,6 +98,7 @@ describe('RemoteContentSource', () => {
       client,
       persistence,
       validate: accept,
+      bootBlocking: true,
       scheduler: noopScheduler,
       now: () => new Date('2026-08-21T00:00:00Z'),
     });
@@ -122,9 +121,7 @@ describe('RemoteContentSource', () => {
 
   it('cold boot with no cache: blocks on first fetch and emits when it lands', async () => {
     const persistence = memoryPersistence();
-    const { client } = scriptedClient([
-      { status: 200, etag: 'W/"first"', body: { first: true } },
-    ]);
+    const { client } = scriptedClient([{ status: 200, etag: 'W/"first"', body: { first: true } }]);
     const src = new RemoteContentSource({
       product: 'p',
       client,
@@ -165,9 +162,7 @@ describe('RemoteContentSource', () => {
   it('emits validation failure and does NOT swap', async () => {
     const persistence = memoryPersistence();
     await persistence.set('content-bundle:p', { body: { keep: true }, etag: 'W/"keep"' });
-    const { client } = scriptedClient([
-      { status: 200, etag: 'W/"bad"', body: { bad: true } },
-    ]);
+    const { client } = scriptedClient([{ status: 200, etag: 'W/"bad"', body: { bad: true } }]);
     const src = new RemoteContentSource({
       product: 'p',
       client,

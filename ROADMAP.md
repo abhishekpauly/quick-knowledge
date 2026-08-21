@@ -175,13 +175,21 @@ Kickoff pinned in [`product/v1.0-kickoff.md`](product/v1.0-kickoff.md). Sprint 1
 - [x] Adopter Product C onboarded on the new API path — first hot-update user (T-255)
 - [x] Tag: `v1.0.0-api` (drop `-preview`) (T-256)
 
-### Sprint 18 — planned · reactive Trainer swap + persistent store + cross-product prep
-- [ ] Reactive `Trainer.replaceTours()` on `content_bundle_updated` (T-260)
-- [ ] `zod-to-openapi` refactor (T-261, re-filed from T-250)
-- [ ] Pins-only bundle path for Reports (T-262)
-- [ ] Persistent `ContentStore` selection (T-263)
-- [ ] Adopter Product C production cutover (T-264)
-- [ ] Cross-product analytics — Retool/Metabase choice + first page skeleton (T-265)
+### Sprint 18 — shipped · reactive Trainer swap + persistent store + cross-product prep (`v1.0.0-api.1`)
+- [x] Reactive `Trainer.replaceTours()` + trigger remount (T-260)
+- [-] `zod-to-openapi` refactor — DEFERRED again, re-filed as T-280 for Sprint 19 with a dedicated slot (T-261)
+- [x] Pins-only bundle path — plus tours-only and mixed variants (T-262)
+- [x] Persistent `ContentStore` reference: `createFileContentStore` (T-263)
+- [x] Adopter Product C production cutover — 48h staging soak + canary rollout (T-264)
+- [x] Cross-product analytics tool + first-page skeleton — Retool picked (T-265)
+- [x] Sprint 17 hotfix: test race on non-blocking start (T-270)
+
+### Sprint 19 — planned · zod-to-openapi + Retool build + Adopter B on API
+- [ ] `zod-to-openapi` refactor (T-280)
+- [ ] `RemoteContentSource.interruptOnSwap` opt-in (T-281)
+- [ ] Retool dashboard first-page — panels 1–5 (T-282)
+- [ ] Adopter Product B on API path — Vue, Pins-only (T-283)
+- [ ] v1.0 stable prep — CHANGELOG audit, README refresh, migration doc (T-284)
 
 ### v1.0 line-up (Sprints 15–20)
 
@@ -229,6 +237,7 @@ The four explicit non-goals from `product/vs-appcues.md`. Do NOT reopen without 
 
 ## Revision log
 
+- 2026-08-21 · Sprint 18 shipped `v1.0.0-api.1`. `Trainer.replaceTours()` closes ADR-0008; `createFileContentStore` is the persistent reference store; Adopter Product C in production on the API path (first hot-update user in prod). Retool picked for the cross-product dashboard. `zod-to-openapi` deferred a third time — dedicated Sprint 19 slot (T-280).
 - 2026-08-21 · Sprint 17 shipped `v1.0.0-api`. `RemoteContentSource` in the SDK per ADR-0008, event dictionary 11 → 13, Adopter Product C onboarded on the API path (first hot-update user). `zod-to-openapi` deferred to Sprint 18.
 - 2026-08-21 · Sprint 16 shipped `v1.0.0-api-preview`. Two new packages (`api-server`, `api-client`) + ADR-0008 (Content-served-from-API) accepted. Adopter Product C `data-tour` PR merged.
 - 2026-08-21 · Sprint 15 opens v1.0. ADR-0007 (Public REST API) accepted. Third adopter (Reports, React) targeted for Sprint 17. v0.2 tier heading corrected from "Now" to "Shipped"; v0.5 tier scope bullets flipped to `[x]`.

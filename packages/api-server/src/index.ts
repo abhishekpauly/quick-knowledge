@@ -9,6 +9,10 @@
 export type { ContentBundle, ContentStore } from './store.js';
 export { createInMemoryContentStore } from './store.js';
 
+// Sprint 18 (T-263) — persistent reference store.
+export { createFileContentStore } from './fileStore.js';
+export type { FileContentStoreOptions } from './fileStore.js';
+
 export type { Scope, TokenClaims, TokenVerifier } from './auth.js';
 export { extractBearer, hasScope } from './auth.js';
 
