@@ -80,4 +80,52 @@ describe('Trainer.replaceTours', () => {
     expect(t.getTours()).toEqual([]);
     t.dispose();
   });
+
+  it('interruptedTourId is null when nothing is active', () => {
+    const t = trainer([makeTour('a')]);
+    const diff = t.replaceTours([makeTour('a')]);
+    expect(diff.interruptedTourId).toBeNull();
+  });
+
+  it('dismissActive: false is the default — active tour survives', () => {
+    // We cannot start a Shepherd tour under jsdom without wiring the DOM
+    // target, so simulate an active tour by direct field assignment. This
+    // test asserts the guard: without dismissActive, the active field
+    // stays populated across a swap.
+    const t = trainer([makeTour('a')]) as unknown as {
+      activeTour: { tour: { id: string } } | null;
+    };
+    t.activeTour = { tour: { id: 'a' } } as unknown as typeof t.activeTour;
+    const diff = (
+      t as unknown as {
+        replaceTours: (
+          nt: Tour[],
+          o?: { dismissActive?: boolean },
+        ) => {
+          interruptedTourId: string | null;
+        };
+      }
+    ).replaceTours([makeTour('a')]);
+    expect(diff.interruptedTourId).toBeNull();
+    expect(t.activeTour).not.toBeNull();
+  });
+
+  it('dismissActive: true reports the interrupted tour id', () => {
+    const t = trainer([makeTour('a')]) as unknown as {
+      activeTour: { tour: { id: string } } | null;
+      dismiss?: (reason: string) => void;
+      replaceTours: (
+        nt: Tour[],
+        o?: { dismissActive?: boolean },
+      ) => { interruptedTourId: string | null };
+    };
+    // Stub dismiss so the (jsdom-friendly) swap path completes cleanly.
+    t.activeTour = { tour: { id: 'a' } } as unknown as typeof t.activeTour;
+    t.dismiss = () => {
+      t.activeTour = null;
+    };
+    const diff = t.replaceTours([makeTour('b')], { dismissActive: true });
+    expect(diff.interruptedTourId).toBe('a');
+    expect(t.activeTour).toBeNull();
+  });
 });

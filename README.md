@@ -5,7 +5,7 @@
 An in-house in-app product training system. First customer: **the example app**. Designed as a reusable SDK so other host products can adopt it without a rewrite.
 
 **Owner:** Technical Curriculum Developer + Claude AI Engineer
-**Status:** Sprint 07 in progress — launch + hardening. Engineering complete for v0.1 and most of v0.2; production deploy pending compliance sign-off, frontend `data-tour` PR merge, and analytics sink confirmation. See [`product/launch-status.md`](product/launch-status.md).
+**Status:** Sprint 19 shipped — `v1.0.0-api.2`. Three production adopters (example-app, Adopter A, Reports = Adopter C on the API path; Adopter B on the API path this sprint). `v1.0.0` stable tag lands end of Sprint 20. See [`ROADMAP.md`](ROADMAP.md) and [`docs/migration-v1.md`](docs/migration-v1.md) for the upgrade path from v0.5.
 **Repository layout:** monorepo with npm workspaces.
 
 ---
@@ -17,6 +17,8 @@ An in-house in-app product training system. First customer: **the example app**.
 | `@in-app-training/sdk` | `packages/core/` | Framework-agnostic engine, content schema, adapters, theme. |
 | `@in-app-training/react` | `packages/react/` | React adapter — `<TourProvider>`, `useTour`, `useTourProgress`, `<FirstRunTour>`. |
 | `@in-app-training/vue` | `packages/vue/` | Vue 3 adapter — API-parity with React. Un-deferred once the example app's 50/50 React/Vue mix was confirmed. |
+| `@in-app-training/api-server` | `packages/api-server/` | Framework-agnostic reference REST server for the v1.0 API (ADR-0007). In-memory + file-backed `ContentStore` implementations. Adopters wire their own HTTP framework. |
+| `@in-app-training/api-client` | `packages/api-client/` | Typed fetch client for the same surface. 429 backoff, injectable `fetch`/`sleep` for tests. |
 
 ## Repo layout
 

@@ -4,6 +4,17 @@ All notable changes to this project. Format follows [Keep a Changelog](https://k
 
 ## [Unreleased]
 
+### Sprint 19 — `v1.0.0-api.2` · Adopter B on API + v1.0 stable prep
+
+- **T-281** · `Trainer.replaceTours(newTours, { dismissActive?: boolean })` — opt-in interrupt-on-swap. When `true` and an active tour exists, the trainer dismisses it as `superseded` before the swap so the incoming bundle applies immediately. Return shape gains `interruptedTourId: string | null`. Default behaviour (preserve active tour per ADR-0008) unchanged. 3 new tests.
+- **T-282** · Retool dashboard first-page live. Panels 1–5 built: onboarding completion rate, goal-reach rate, pin engagement, content bundle freshness, content bundle errors. SQL sketches for each panel checked in at `docs/dashboards/cross-product-training.md` so re-creating the page from scratch is a copy-paste job. Panel 6 (consent-gated tour skips) slides to Sprint 20 T-291 pending the synthetic side.
+- **T-283** · Adopter Product B production cutover — second production adopter on content-from-API. Vue, pins-only. `bootBlocking: false` per the emerging pattern (pins-heavy hosts with a warm cache) documented in the Sprint 19 retro. 24h post-cutover clean; Adopter B PM shipped a pin change directly, unblocked from a redeploy. Launch log at `releases/v1.0.0-api-adopter-b-production.md`.
+- **T-284** · v1.0 stable prep: `README.md` status block refreshed; new `docs/migration-v1.md` (four upgrade recipes, compatibility matrix, Sprint 20 to-do list before `v1.0.0`).
+- **T-280 → T-290** · `zod-to-openapi` refactor deferred a third time and **rescoped** for Sprint 20 — descriptions-only, no full schema generator. Full-generator rationale in Sprint 19 retro: no adopter has asked for it, and the required `TourSchema` refactor isn't earned until one does.
+- Public API additions (backward-compatible): `Trainer.replaceTours` accepts a second `{ dismissActive?: boolean }` argument; return shape gains `interruptedTourId`.
+
+
+
 ### Sprint 18 — `v1.0.0-api.1` · reactive Trainer swap + persistent store + Adopter C in prod
 
 - **T-260** · `Trainer.replaceTours(newTours)` in `@in-app-training/sdk`. Reactive counterpart to `RemoteContentSource`'s `content_bundle_updated` event. Active tour keeps its captured `Tour` reference (per ADR-0008); triggers rebind via `TriggerManager.remount()`; returns `{ added, removed, kept }` id-lists for observability. 5 new tests.
