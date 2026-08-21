@@ -1,17 +1,81 @@
 /**
  * OpenAPI 3.1 spec for the reference API.
  *
- * Hand-written for now; when the Zod schema stabilises further we swap to
- * `zod-to-openapi` so the `#/components/schemas/ContentBundle` block is
- * generated from the SDK's own TourSchema and can never drift. Sprint 16
- * ships the hand-written shape so adopters can wire clients today.
+ * Hand-written envelope + `describeBundleFromTourSchema()` for the
+ * `ContentBundle` block. Sprint 20 (T-290): descriptions-only shape
+ * derived from `TourSchema.shape` so the spec references the SDK's
+ * actual field set instead of an opaque `type: object` placeholder.
+ * Does NOT recurse into discriminated unions (Trigger, AdvanceOn,
+ * Step) — a full generator was rescoped out; no adopter has asked
+ * for it. If one does, plan `zod-to-openapi` as its own work.
  */
+import { TourSchema } from '@in-app-training/sdk/schema/v1';
+import type { z } from 'zod';
 
 export interface OpenApiOptions {
   /** e.g. "https://api.example.com/training/v1" */
   baseUrl: string;
   /** Human title for the spec's info block. */
   title?: string;
+}
+
+/**
+ * Map a top-level `TourSchema` field to a coarse OpenAPI type marker. Kept
+ * intentionally shallow — the goal is "consumers see the field names and
+ * roughly what they are", not full validation. Zod stays the source of truth
+ * at runtime.
+ */
+function coarseType(field: z.ZodTypeAny): string {
+  const name = field._def?.typeName ?? 'unknown';
+  switch (name) {
+    case 'ZodString':
+    case 'ZodEnum':
+    case 'ZodLiteral':
+      return 'string';
+    case 'ZodNumber':
+      return 'number';
+    case 'ZodBoolean':
+      return 'boolean';
+    case 'ZodArray':
+      return 'array';
+    case 'ZodObject':
+    case 'ZodRecord':
+    case 'ZodDiscriminatedUnion':
+      return 'object';
+    case 'ZodOptional':
+    case 'ZodNullable':
+    case 'ZodDefault':
+      // Unwrap once to describe the inner type.
+      return coarseType((field._def as { innerType: z.ZodTypeAny }).innerType);
+    case 'ZodUnion':
+      return 'string';
+    default:
+      return 'object';
+  }
+}
+
+/**
+ * Produce a descriptions-only OpenAPI schema block for a Tour bundle from
+ * `TourSchema.shape`. Field presence is honest (required vs. optional);
+ * types are coarse. Discriminated unions render as `type: object` — see
+ * the module comment for the rationale.
+ */
+export function describeBundleFromTourSchema(): Record<string, unknown> {
+  const shape = TourSchema.shape as Record<string, z.ZodTypeAny>;
+  const properties: Record<string, { type: string; description?: string }> = {};
+  const required: string[] = [];
+  for (const [key, field] of Object.entries(shape)) {
+    const isOptional =
+      field._def?.typeName === 'ZodOptional' || field._def?.typeName === 'ZodDefault';
+    properties[key] = { type: coarseType(field) };
+    if (!isOptional) required.push(key);
+  }
+  return {
+    description: 'Content bundle shape derived from @in-app-training/sdk TourSchema (v1).',
+    type: 'object',
+    properties,
+    required,
+  };
 }
 
 export function openapiSpec(opts: OpenApiOptions): Record<string, unknown> {
@@ -60,9 +124,10 @@ export function openapiSpec(opts: OpenApiOptions): Record<string, unknown> {
           },
           required: ['version', 'publishedAt', 'publishedBy'],
         },
-        // ContentBundle is an opaque `object` here — the SDK's Zod TourSchema
-        // is the enforcement mechanism, not this placeholder.
-        ContentBundle: { type: 'object' },
+        // Sprint 20 (T-290): descriptions-only shape from TourSchema.shape.
+        // Coarse types on the top-level fields; discriminated unions render
+        // as `type: object`. Zod stays the source of truth at runtime.
+        ContentBundle: describeBundleFromTourSchema(),
       },
     },
     security: [{ bearerAuth: [] }],

@@ -5,7 +5,7 @@
 An in-house in-app product training system. First customer: **the example app**. Designed as a reusable SDK so other host products can adopt it without a rewrite.
 
 **Owner:** Technical Curriculum Developer + Claude AI Engineer
-**Status:** Sprint 19 shipped — `v1.0.0-api.2`. Three production adopters (example-app, Adopter A, Reports = Adopter C on the API path; Adopter B on the API path this sprint). `v1.0.0` stable tag lands end of Sprint 20. See [`ROADMAP.md`](ROADMAP.md) and [`docs/migration-v1.md`](docs/migration-v1.md) for the upgrade path from v0.5.
+**Status:** `v1.0.0` stable — tagged at the end of Sprint 20. Four production adopters (example-app, Adopter A, Adopter B on API path, Adopter C = Reports on API path). Cross-product Retool dashboard live. See [`ROADMAP.md`](ROADMAP.md) and [`docs/migration-v1.md`](docs/migration-v1.md) for the upgrade path from v0.5.
 **Repository layout:** monorepo with npm workspaces.
 
 ---

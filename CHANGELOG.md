@@ -4,6 +4,32 @@ All notable changes to this project. Format follows [Keep a Changelog](https://k
 
 ## [Unreleased]
 
+## [v1.0.0] — 2026-08-21
+
+### v1.0.0 (stable) — v1.0 tier close-out (Sprints 15–20)
+
+Consolidated summary of the v1.0 tier. The four `-api*` preview tags (`v1.0.0-api-preview`, `v1.0.0-api`, `v1.0.0-api.1`, `v1.0.0-api.2`) collapse into this release; the per-sprint blocks below retain the full trail for anyone auditing.
+
+- **Public REST API** (ADR-0007) — versioned surface under `/training/v1`, three bearer scopes (`content:read`, `content:write`, `users:forget`), RFC 7807 problem+json errors. Two shipping packages: `@in-app-training/api-server` (framework-agnostic handlers + in-memory + file-backed reference `ContentStore`) and `@in-app-training/api-client` (typed fetch client with 429 backoff).
+- **Content served from API** (ADR-0008) — `RemoteContentSource` in the SDK: boot-from-cache-and-serve-immediately, background ETag refresh, atomic swap, single-flight fetches. `Trainer.replaceTours(newTours, { dismissActive? })` reactive counterpart on the engine.
+- **GDPR delete + consent gating** (ADR-0005, ADR-0006) — `Trainer.forgetUser(userId?)` + `ConsentAdapter` on `TrainerConfig`. Pulled forward from v0.5 (Sprint 12) since both ADRs were design-locked and the code was small.
+- **Two new production adopters on the API path** — Adopter Product C (Reports, React) in Sprint 18, Adopter Product B (Vue, pins-only) in Sprint 19. Both shipping content edits without redeploys.
+- **Event dictionary grew** 11 → 13: `content_bundle_updated` + `content_bundle_update_failed`. Both `functional` consent category.
+- **Cross-product analytics dashboard** (Retool) — six panels live: onboarding completion, goal-reach rate, pin engagement, content bundle freshness, content bundle errors, consent-gated tour skips. `content_bundle_update_failed > 10/hour` Slack alert wired.
+- **PM-facing publishing walkthrough** — `docs/publishing-from-your-browser.md`.
+- **Migration guide from v0.5** — `docs/migration-v1.md`. All v0.5 code paths still work; every v1.0 feature is opt-in.
+- **OpenAPI 3.1 spec** — `ContentBundle` block descriptions-only from `TourSchema.shape` (Sprint 20 T-290). Full `zod-to-openapi` generator explicitly deferred; no adopter has asked for it.
+
+Public API additions across the tier (all backward-compatible): `RemoteContentSource`, `RemoteContentClient`, `BundleValidator`, `ContentBundle`, `toursBundleValidator` / `pinsBundleValidator` / `mixedBundleValidator`; `Trainer.replaceTours({ dismissActive? })` → `{ added, removed, kept, interruptedTourId }`; `createInMemoryContentStore`, `createFileContentStore` / `FileContentStoreOptions`; `openapiSpec`, `describeBundleFromTourSchema`; two new event names on `TrainingEvent`.
+
+### Sprint 20 — `v1.0.0` stable tag
+
+- **T-290** · OpenAPI `ContentBundle` block is now a descriptions-only shape derived from `TourSchema.shape` (via `describeBundleFromTourSchema()`). Coarse types on the top-level fields; discriminated unions render as `type: object`. Zod stays the source of truth at runtime. 3 new tests.
+- **T-291** · Retool panel 6 (consent-gated tour skips) built — depends on host-emitted `training_qualified` events (opt-in helper in `docs/wiring-analytics-sink.md`). Slack alert wired on `content_bundle_update_failed > 10/hour` to `#sdk-alerts`.
+- **T-292** · `docs/publishing-from-your-browser.md` — PM-facing walkthrough. Written after Adopter B's PM shipped a pin change directly in Sprint 19.
+- **T-293** · CHANGELOG audit — four `-api*` preview headers collapsed into one `v1.0.0` header (this block); per-sprint blocks preserved below for auditability.
+- **T-294** · `v1.0.0` tag cut. `-preview` suffix dropped from every ROADMAP + README reference.
+
 ### Sprint 19 — `v1.0.0-api.2` · Adopter B on API + v1.0 stable prep
 
 - **T-281** · `Trainer.replaceTours(newTours, { dismissActive?: boolean })` — opt-in interrupt-on-swap. When `true` and an active tour exists, the trainer dismisses it as `superseded` before the swap so the incoming bundle applies immediately. Return shape gains `interruptedTourId: string | null`. Default behaviour (preserve active tour per ADR-0008) unchanged. 3 new tests.

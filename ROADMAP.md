@@ -142,7 +142,7 @@ Scope trimmed at the Sprint 07 retro. Full v0.5 line-up in [`releases/v0.1.0-ret
 
 ---
 
-## Now — v1.0 · Enterprise readiness (Sprints 15–20, ~6 weeks)
+## Shipped — v1.0 · Enterprise readiness (Sprints 15–20) — tag `v1.0.0`
 
 Goal: **Mature, boring, safe. Ready for any host product to adopt.**
 
@@ -191,12 +191,12 @@ Kickoff pinned in [`product/v1.0-kickoff.md`](product/v1.0-kickoff.md). Sprint 1
 - [x] Adopter Product B on API path — Vue, Pins-only, `bootBlocking: false` (T-283)
 - [x] v1.0 stable prep — README + `docs/migration-v1.md` (T-284)
 
-### Sprint 20 — planned · `v1.0.0` stable tag
-- [ ] OpenAPI `ContentBundle` descriptions-only shape (T-290, rescoped from T-280)
-- [ ] Retool panel 6 + `content_bundle_update_failed > 10/hour` Slack alert (T-291)
-- [ ] PM-facing publishing walkthrough (T-292)
-- [ ] CHANGELOG collapse — four `-api*` preview headers → one `v1.0.0` header (T-293)
-- [ ] Tag `v1.0.0` (T-294)
+### Sprint 20 — shipped · `v1.0.0` stable tag
+- [x] OpenAPI `ContentBundle` descriptions-only shape from `TourSchema.shape` (T-290, rescoped from T-280)
+- [x] Retool panel 6 (consent-gated tour skips) + `content_bundle_update_failed > 10/hour` Slack alert (T-291)
+- [x] `docs/publishing-from-your-browser.md` — PM walkthrough (T-292)
+- [x] CHANGELOG collapse — four `-api*` preview headers → one `v1.0.0` header (T-293)
+- [x] Tag `v1.0.0`; `-preview` dropped from README + ROADMAP status blocks (T-294)
 
 ### v1.0 line-up (Sprints 15–20)
 
@@ -212,24 +212,19 @@ Kickoff pinned in [`product/v1.0-kickoff.md`](product/v1.0-kickoff.md). Sprint 1
 
 ---
 
-## Sprint 18–20 · Lightweight cross-product analytics
+## Shipped — Lightweight cross-product analytics (Sprints 18–20)
 
-Explicitly deferred until here per direction. NOT a full Analytics Studio.
+Retool dashboard live. NOT a full Analytics Studio.
 
-- [ ] Small dashboard aggregating training metrics across all host products
-- [ ] Reads from a single analytics warehouse (whatever uses)
-- [ ] Shows: per-product completion rates, per-tour drop-off, cross-product adoption curves
-- [ ] Built on Retool / Metabase / a simple Next.js page — NOT a rebuilt Amplitude
+- [x] Small dashboard aggregating training metrics across all host products (six panels, per-product breakdown)
+- [x] Reads from the analytics warehouse (per-adopter PostHog stream, joined into Snowflake)
+- [x] Shows: per-product completion rates, per-tour goal reach, pin engagement, bundle freshness + errors, consent-gated skips
+- [x] Built on Retool — internal default. Metabase and hand-rolled Next.js rejected in Sprint 18 T-265.
+- [x] Slack alert on `content_bundle_update_failed > 10/hour` in `#sdk-alerts` (Sprint 20 T-291)
 
-**Trigger to build:** 2+ products in production and someone needs "how is training performing across products?"
+## Shipped — Vue adapter
 
----
-
-## Vue adapter — on demand
-
-- [ ] Vue adapter (`@in-app-training/vue`)
-
-**Trigger to build:** A Vue product commits to adoption. ~3–5 days of work once triggered.
+- [x] `@in-app-training/vue` — shipped alongside the React adapter once the example app's 50/50 mix was confirmed (Sprint 08). Two production adopters on it (example app Vue slice, Adopter Product B).
 
 ---
 
@@ -244,6 +239,7 @@ The four explicit non-goals from `product/vs-appcues.md`. Do NOT reopen without 
 
 ## Revision log
 
+- 2026-08-21 · Sprint 20 shipped `v1.0.0` stable. v1.0 tier close-out: OpenAPI `ContentBundle` block now descriptions-only from `TourSchema.shape` (T-290); Retool panel 6 + Slack alert (T-291); PM-facing publishing walkthrough (T-292); CHANGELOG collapse (T-293). `-preview` suffix dropped from status blocks. Four production adopters; SDK ready for any host to adopt.
 - 2026-08-21 · Sprint 19 shipped `v1.0.0-api.2`. Second production adopter on the API path (Adopter B — Vue, pins-only). Retool dashboard live for panels 1–5. `docs/migration-v1.md` + README refreshed for the v1.0 stable window. `zod-to-openapi` deferred a third time and rescoped for Sprint 20 (T-290, descriptions-only).
 - 2026-08-21 · Sprint 18 shipped `v1.0.0-api.1`. `Trainer.replaceTours()` closes ADR-0008; `createFileContentStore` is the persistent reference store; Adopter Product C in production on the API path (first hot-update user in prod). Retool picked for the cross-product dashboard. `zod-to-openapi` deferred a third time — dedicated Sprint 19 slot (T-280).
 - 2026-08-21 · Sprint 17 shipped `v1.0.0-api`. `RemoteContentSource` in the SDK per ADR-0008, event dictionary 11 → 13, Adopter Product C onboarded on the API path (first hot-update user). `zod-to-openapi` deferred to Sprint 18.
