@@ -2,22 +2,22 @@
 
 **Goal:** Ship Pins end-to-end. Schema, engine anchoring, React + Vue components, 3 real Pins live on the example app, analytics + coverage green, and the v0.5 kickoff plan honoured. First experience-type addition since v0.1.
 
-**Status:** Planned. Kicks off the day after Sprint 08 closes.
+**Status:** COMPLETE. All 9 tasks (T-110..T-118) DONE. Tag `v0.5.0-pin-preview` cut per `releases/v0.5.0-pin-preview-launch-log.md`. 3 follow-ups filed for Sprint 10 (T-120, T-121, T-122). Sprint 10 = Goals kickoff (default shape wins).
 
 **Scope anchor:** [`product/v0.5-kickoff.md`](../product/v0.5-kickoff.md) `## Feature 1 — Pins`. This sprint executes that plan. Any scope creep (Goals, second-product integration) is explicitly out.
 
 **Definition of done:**
-- [ ] `PinSchema` + `PinsFileSchema` (Zod) added additively to `packages/core/src/schema/v1.ts`. Schema tests for accept + reject cases.
-- [ ] `validate:content` picks up `*.pins.json` alongside `*.tour.json` and validates them.
-- [ ] Core `PinAnchor` class in `packages/core/src/engine/PinAnchor.ts`. Wraps `waitForElement`, owns positioning + a `MutationObserver` for target churn.
-- [ ] `@in-app-training/react` ships `<PinsProvider>` + `<Pin>`. Portal-mounted. Dismissal persists via `in-app-training:pins:dismissed:<id>` in localStorage.
-- [ ] `@in-app-training/vue` ships full API parity — `<PinsProvider :pins />` + `<Pin id />`.
-- [ ] Analytics: `pin_shown` and `pin_dismissed` events land in `TrainingEventName`, payload types defined, event dictionary regenerated (`npm run docs:events`), CI drift check green.
-- [ ] 3 real Pins authored for the example app from the v0.1.0 retro's rewrite themes; live in `content/example-app/example-app.pins.json`.
-- [ ] `docs/how-to-use-pins.md` written (mirror `how-to-author-a-tour.md`).
-- [ ] All existing tests still pass. New test coverage keeps every package ≥ 80/80/80/75.
-- [ ] `npm run ci` and `npm run test:coverage` both exit 0 all sprint. No regression in the CI-required gates.
-- [ ] Simulated staging → production walkthrough (per the launch-log pattern): dry-run tag `v0.5.0-pin-preview`; the real launch log lands with T-113.
+- [x] `PinSchema` + `PinsFileSchema` (Zod) added additively to `packages/core/src/schema/v1.ts`. Schema tests for accept + reject cases.
+- [x] `validate:content` picks up `*.pins.json` alongside `*.tour.json` and validates them.
+- [x] Core `PinAnchor` class in `packages/core/src/engine/PinAnchor.ts`. Wraps `waitForElement`, owns positioning + a `MutationObserver` for target churn.
+- [x] `@in-app-training/react` ships `<PinsProvider>` + `<Pin>`. Portal-mounted. Dismissal persists via `in-app-training:pins:dismissed:<id>` in localStorage.
+- [x] `@in-app-training/vue` ships full API parity — `<PinsProvider :pins />` + `<Pin id />`.
+- [x] Analytics: `pin_shown` and `pin_dismissed` events land in `TrainingEventName`, payload types defined, event dictionary regenerated (`npm run docs:events`), CI drift check green.
+- [x] 3 real Pins authored for the example app from the v0.1.0 retro's rewrite themes; live in `content/example-app/example-app.pins.json`.
+- [x] `docs/how-to-use-pins.md` written (mirror `how-to-author-a-tour.md`).
+- [x] All existing tests still pass. New test coverage keeps every package ≥ 80/80/80/75.
+- [x] `npm run ci` and `npm run test:coverage` both exit 0 all sprint. No regression in the CI-required gates.
+- [x] Simulated staging → production walkthrough (per the launch-log pattern): dry-run tag `v0.5.0-pin-preview`; the real launch log lands with T-113.
 
 **Not this sprint:**
 - **No Goals code.** That's Sprint 10–11 per `v0.5-kickoff.md`. The events dictionary gets Pin events only.

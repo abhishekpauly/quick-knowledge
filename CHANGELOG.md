@@ -4,6 +4,23 @@ All notable changes to this project. Format follows [Keep a Changelog](https://k
 
 ## [Unreleased]
 
+### Sprint 09 · v0.5.0 Pins on Example App
+
+- **T-110** · `PinSchema` + `PinsFileSchema` (Zod, additive). `validate:content` walks `*.pins.json` alongside `*.tour.json`. `parsePinsFile` + `loadPins` in the loader (global id dedupe across files). 15 schema tests.
+- **T-111** · [`packages/core/src/engine/PinAnchor.ts`](packages/core/src/engine/PinAnchor.ts) — framework-agnostic anchoring. `waitForElement` + target `MutationObserver` (subtree + attr) + window `resize` + capture-phase `scroll` + body-level removal observer. 10 tests.
+- **T-112** · React `<PinsProvider>` + `<Pin>` in [`packages/react/src/PinsProvider.tsx`](packages/react/src/PinsProvider.tsx). Portal to `document.body`, `in-app-training:pins:dismissed:<id>` localStorage persistence, `data-in-app-training="1"` marker for T-092 collision detection. 9 tests.
+- **T-113** · Vue parity port [`packages/vue/src/PinsProvider.ts`](packages/vue/src/PinsProvider.ts) using `Teleport` + `provide/inject` via new `PinsKey`. 9 tests.
+- **T-114** · Two new events (`pin_shown`, `pin_dismissed`) in `TrainingEventName` — union grew 6 → 8. Payloads `{ pinId, target, timestamp }`. Optional `analytics` prop on `PinsProvider`. `pin_shown` deduped per session; `pin_dismissed` on Dismiss click. Event dictionary regenerated (drift check happy). 6 new tests.
+- **T-115** · [`content/example-app/example-app.pins.json`](content/example-app/example-app.pins.json) — 3 pins (share-workflow, user-menu-settings, create-project-shortcut) from the v0.1.0 retro rewrite themes.
+- **T-116** · [`docs/how-to-use-pins.md`](docs/how-to-use-pins.md) — authoring + integration recipe, Pin-vs-Tour-vs-Hint decision box, anchoring caveats, consent posture, success criteria.
+- **T-117** · Coverage stays above thresholds in every package (core 84.48% funcs, react 82.22%, vue 85.45% — all ≥ 80).
+- **T-118** · [`releases/v0.5.0-pin-preview-launch-log.md`](releases/v0.5.0-pin-preview-launch-log.md) — simulated staging→prod walkthrough. All success criteria hit; 3 follow-ups filed (T-120, T-121, T-122). Sprint 10 = Goals kickoff.
+
+**Tag:** `v0.5.0-pin-preview`.
+
+**Green:** `npm run ci` and `npm run test:coverage` both exit 0 across the sprint. 210+ tests passing.
+
+
 ### Sprint 08 · bridge into v0.5
 
 - **T-090** · Event dictionary exporter. `scripts/generate-event-dictionary.ts` parses `events.ts` via the TS compiler API and emits `docs/event-dictionary.md` + `docs/event-dictionary.json`. `npm run docs:events:check` fails CI on drift. Wired into `npm run ci`.

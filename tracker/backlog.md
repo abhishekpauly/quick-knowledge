@@ -140,10 +140,20 @@ Priority: `P0` (blocker) · `P1` (must for MVP) · `P2` (nice-to-have) · `P3` (
 | T-112 | React `PinsProvider` + `Pin` (portal, dismissal, localStorage) | P1 | DONE | v0.5 | Auto-mounts every visible pin via createPortal to document.body; filters by audience + showUntil + dismissed state. `data-in-app-training="1"` marker stays consistent with T-092 collision-detection. `Pin id` is an escape hatch. 9 tests. |
 | T-113 | Vue parity port of `PinsProvider` + `Pin` | P1 | DONE | v0.5 | defineComponent + Teleport + provide/inject via PinsKey. Same behaviour and testids as React. 9 tests. |
 | T-114 | Events: `pin_shown` + `pin_dismissed`; event dictionary regen | P1 | DONE | v0.5 | Two new events in TrainingEventName (union grows from 6 -> 8). Payloads `{ pinId, target, timestamp }`. Optional `analytics` prop on PinsProvider (React + Vue). pin_shown deduped per browser session; pin_dismissed fires on Dismiss click. safeTrack wrapper honours the never-crash-the-widget contract. Event dictionary regenerated. 6 new tests (3 per package). |
-| T-115 | Content: 3 Pins on the example app | P1 | TODO | v0.5 | From retro rewrite themes. |
-| T-116 | `docs/how-to-use-pins.md` — authoring + integration recipe | P2 | TODO | v0.5 | |
-| T-117 | Tests: schema + PinAnchor + provider (React + Vue) + dismissal | P1 | TODO | v0.5 | Keep coverage above thresholds. |
-| T-118 | Simulated staging→prod walkthrough + Sprint-09 retro | P2 | TODO | v0.5 | `releases/v0.5.0-pin-preview-launch-log.md`. |
+| T-115 | Content: 3 Pins on the example app | P1 | DONE | v0.5 | `content/example-app/example-app.pins.json` — share-workflow, user-menu-settings, create-project-shortcut. Passes `validate:content`. |
+| T-116 | `docs/how-to-use-pins.md` — authoring + integration recipe | P2 | DONE | v0.5 | Decision box for Pin vs Tour vs Hint, full field reference, React + Vue integration, escape hatch, anchoring caveats, consent + privacy, success criteria. |
+| T-117 | Tests: schema + PinAnchor + provider (React + Vue) + dismissal | P1 | DONE | v0.5 | Coverage across all packages after Sprint 09: core 88.61/78.28/84.48/88.61, react 97.27/83.93/82.22/97.27, vue 95.69/83.17/85.45/95.69. All above the 80/80/80/75 thresholds. No top-up needed. |
+| T-118 | Simulated staging→prod walkthrough + Sprint-09 retro | P2 | DONE | v0.5 | `releases/v0.5.0-pin-preview-launch-log.md`. Every success criterion hit. 3 follow-ups filed (T-120 preferredCorners for Pins, T-121 user-scoped pin_shown dedupe, T-122 pin-effectiveness session-replay probe). Sprint 10 = Goals kickoff (default shape wins per retro).
+
+
+
+## Sprint 10 carry-overs from Sprint 09 retro
+
+| ID | Task | Priority | Status | Feature | Notes |
+| --- | --- | --- | --- | --- | --- |
+| T-120 | `preferredCorners: [...]` prop on Pin (mirror T-092 for the checklist) | P2 | TODO | v0.5.1 | Fixes the cosmetic mobile-avatar occlusion caught in the pin-preview QA. Trivial lift; reuses pickFreeCorner. |
+| T-121 | User-scoped `pin_shown` dedupe (localStorage-backed session key) | P3 | TODO | v0.5.1 | Nice-to-have; today's module-scoped dedupe is per-tab, not per-user-session across tabs. |
+| T-122 | Session-replay sample on 20 users who saw `create-project-shortcut` | P2 | TODO | v0.5 | Answer whether the zero-support-ticket dent means pins are working or users aren't seeing them. |
 
 ## Deferred (post-MVP)
 

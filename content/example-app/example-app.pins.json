@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "v1",
+  "product": "example-app",
+  "pins": [
+    {
+      "id": "share-workflow",
+      "target": "[data-tour=\"workflows-canvas-share-button\"]",
+      "title": "Share this workflow",
+      "body": "Click the paper-plane icon to hand a workflow to a teammate. They get a link; you keep the original.",
+      "learnMoreUrl": null,
+      "dismissible": true
+    },
+    {
+      "id": "user-menu-settings",
+      "target": "[data-tour=\"header-user-menu-trigger\"]",
+      "title": "Account settings live here",
+      "body": "Workspace preferences, API keys, and billing are all one click behind your avatar.",
+      "learnMoreUrl": null,
+      "dismissible": true
+    },
+    {
+      "id": "create-project-shortcut",
+      "target": "[data-tour=\"create-project-button\"]",
+      "title": "New project",
+      "body": "New to the example app? Start here. Every workload — models, data, workflows — hangs off a project.",
+      "learnMoreUrl": null,
+      "dismissible": true
+    }
+  ]
+}
