@@ -121,6 +121,10 @@ For now (v0.5): pins render unless dismissed. If you need marketing-category pin
 
 Same story as tours: add the attribute to the host product's element, batch it into a single `data-tour` PR against the host frontend (template in `releases/adopter-data-tour-pr.md`). CI catches missing selectors via `validate:selectors`.
 
+## Target visibility (from Sprint 10 T-139 pin-effectiveness investigation)
+
+Pins render at their target's rect via `PinAnchor`. If the target is scrolled off-screen, so is the pin — which is usually correct but can make a pin invisible to users on a long-scroll page. Before shipping a pin, check that the target is above the fold on the typical viewport for your product.
+
 ## Anchoring caveats
 
 - **Elements inside `overflow: hidden` scroll containers** track correctly; the capture-phase `scroll` listener catches any ancestor scroll.

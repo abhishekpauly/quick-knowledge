@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "v1",
+  "id": "adopter-a-onboarding",
+  "product": "adopter-a",
+  "title": "Welcome to Adopter Product A",
+  "description": "A three-minute tour of the essentials. Skippable anytime.",
+  "difficulty": "onboarding",
+  "estimatedMinutes": 3,
+  "triggers": [{ "type": "first-run" }],
+  "prerequisites": [],
+  "goal": {
+    "event": "adoptera.data_source_added",
+    "windowMinutes": 5
+  },
+  "steps": [
+    {
+      "id": "welcome",
+      "target": "[data-tour=\"app-root\"]",
+      "placement": "center",
+      "title": "Welcome",
+      "body": "Adopter Product A helps you connect data and build notebooks. Three minutes to see the essentials."
+    },
+    {
+      "id": "sidebar-data",
+      "target": "[data-tour=\"sidebar-data-link\"]",
+      "placement": "right",
+      "title": "Your data lives here",
+      "body": "Connect a data source once; every notebook you build can read from it."
+    },
+    {
+      "id": "add-data-source",
+      "target": "[data-tour=\"add-data-source-button\"]",
+      "placement": "bottom",
+      "title": "Add your first data source",
+      "body": "Click here to connect a database or upload a file. Most first-time users start with a CSV.",
+      "advanceOn": { "type": "click", "target": "[data-tour=\"add-data-source-button\"]" }
+    },
+    {
+      "id": "picker-modal",
+      "target": "[data-tour=\"data-source-picker\"]",
+      "placement": "left",
+      "title": "Pick a source type",
+      "body": "CSV, Postgres, BigQuery, or a REST endpoint. You can add more later."
+    },
+    {
+      "id": "ready",
+      "target": "[data-tour=\"app-root\"]",
+      "placement": "center",
+      "title": "You are ready",
+      "body": "That is the essentials. Explore the checklist any time to walk the rest.",
+      "actions": {
+        "primary": { "label": "Start building", "action": "complete" }
+      }
+    }
+  ]
+}

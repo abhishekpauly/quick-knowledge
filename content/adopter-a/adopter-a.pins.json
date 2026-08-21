@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "v1",
+  "product": "adopter-a",
+  "pins": [
+    {
+      "id": "run-notebook",
+      "target": "[data-tour=\"notebook-run-button\"]",
+      "title": "Run this notebook",
+      "body": "Click Run to execute every cell top-to-bottom. Cell-by-cell shortcuts live under Cell → Run cell.",
+      "preferredCorner": "top-right"
+    },
+    {
+      "id": "share-notebook",
+      "target": "[data-tour=\"notebook-share-button\"]",
+      "title": "Share this notebook",
+      "body": "Hand a notebook to a teammate. They get a live link; you keep the original.",
+      "preferredCorner": "top-left"
+    }
+  ]
+}
