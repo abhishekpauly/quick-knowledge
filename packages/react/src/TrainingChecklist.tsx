@@ -12,15 +12,29 @@
  * dedicated persistence key; deferred until v0.2 when we know how sticky
  * users want the dismissal to be.
  */
-import { useMemo, useState, useContext } from 'react';
+import { useMemo, useState, useContext, useEffect } from 'react';
 import type { Tour, Difficulty, TourProgress } from '@uptiq/training-sdk';
 import { TrainerContext } from './context.js';
 import { useTour } from './useTour.js';
 import { useAllTourProgress } from './useAllTourProgress.js';
+import { pickFreeCorner, type Corner } from './pickFreeCorner.js';
 
 export interface TrainingChecklistProps {
-  /** Corner to anchor the widget. Default 'bottom-right'. */
-  position?: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left';
+  /**
+   * Single corner to anchor the widget. Default 'bottom-right'.
+   * Ignored if `preferredCorners` is provided.
+   */
+  position?: Corner;
+  /**
+   * Ordered list of corners to try. The widget picks the first corner whose
+   * probe point is unoccupied by another fixed-position widget in the host
+   * page (e.g. a help-chat launcher). Falls back to the last corner if every
+   * candidate is occupied.
+   *
+   * Added in Sprint 08 (T-092) after the v0.1.0 5-user test caught a
+   * collision with AI Platform's help launcher for 1/5 users.
+   */
+  preferredCorners?: Corner[];
   /** Widget label when collapsed. Default 'Getting started'. */
   label?: string;
   /** Optional filter — only show tours whose id is in this array. */
@@ -51,6 +65,7 @@ const DIFFICULTY_LABEL: Record<Difficulty, string> = {
 
 export function TrainingChecklist({
   position = 'bottom-right',
+  preferredCorners,
   label = 'Getting started',
   tourIds,
   hideDuringActiveTour = true,
@@ -64,6 +79,18 @@ export function TrainingChecklist({
 
   const [expanded, setExpanded] = useState(false);
   const [dismissed, setDismissed] = useState(false);
+  const [pickedCorner, setPickedCorner] = useState<Corner>(() => preferredCorners?.[0] ?? position);
+
+  useEffect(() => {
+    if (!preferredCorners || preferredCorners.length === 0) return;
+    // Probe on mount and on window resize. `pickFreeCorner` treats our own
+    // widget element as free, so an already-mounted widget at candidate C
+    // does not disqualify C.
+    const pick = (): void => setPickedCorner(pickFreeCorner(preferredCorners));
+    pick();
+    window.addEventListener('resize', pick);
+    return () => window.removeEventListener('resize', pick);
+  }, [preferredCorners]);
 
   const { isActive } = useTour();
   const allProgress = useAllTourProgress();
@@ -88,13 +115,14 @@ export function TrainingChecklist({
     <div
       style={{
         position: 'fixed',
-        ...positionStyles(position),
+        ...positionStyles(pickedCorner),
         zIndex: 9999,
         fontFamily: 'var(--uptiq-training-font-family, system-ui, sans-serif)',
         fontSize: 'var(--uptiq-training-font-size, 14px)',
         color: 'var(--uptiq-training-foreground, #111827)',
       }}
       data-testid="training-checklist"
+      data-uptiq-training="1"
     >
       {expanded ? (
         <ExpandedPanel
@@ -347,14 +375,14 @@ function IconButton({
 
 // Helpers -----------------------------------------------------------------
 
-function positionStyles(pos: TrainingChecklistProps['position']): React.CSSProperties {
+function positionStyles(pos: Corner): React.CSSProperties {
   const map = {
     'bottom-right': { bottom: 24, right: 24 },
     'bottom-left': { bottom: 24, left: 24 },
     'top-right': { top: 24, right: 24 },
     'top-left': { top: 24, left: 24 },
   } as const;
-  return map[pos ?? 'bottom-right'];
+  return map[pos];
 }
 
 function groupByDifficulty(tours: readonly Tour[]): Array<[Difficulty, Tour[]]> {

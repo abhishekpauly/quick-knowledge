@@ -122,7 +122,7 @@ Priority: `P0` (blocker) · `P1` (must for MVP) · `P2` (nice-to-have) · `P3` (
 | --- | --- | --- | --- | --- | --- |
 | T-090 | Event dictionary exporter (`docs/event-dictionary.md` + JSON) | P1 | DONE | v0.2 tail | `scripts/generate-event-dictionary.ts` parses `events.ts` via TS compiler API. `npm run docs:events` regenerates; `npm run docs:events:check` fails CI on drift. 6 events emitted. |
 | T-091 | Investigate `create-project → user-menu` drop-off (12 pts) | P1 | TODO | v0.2 tail | 20 non-completer sessions from PostHog replay. |
-| T-092 | `TrainingChecklist` `preferredCorners` prop (React + Vue) | P1 | TODO | v0.2 | Retro finding — checklist collided with host help launcher for 1/5 users. |
+| T-092 | `TrainingChecklist` `preferredCorners` prop (React + Vue) | P1 | DONE | v0.2 | Shared `pickFreeCorner` via `elementFromPoint` per package. Widget marks itself with `data-uptiq-training="1"` so re-probes on resize do not disqualify our own corner. React + Vue parity. 12 new tests (6 shared logic × 2 packages). |
 | T-093 | v1.0 compliance follow-ups — ADR-0005 (GDPR delete API) + ADR-0006 (consent gating hook) | P2 | TODO | v1.0 prep | Design docs only. Implementation later. |
 | T-094 | Adopter-#2 outreach calls (Workbench PM, Insights PM) | P1 | TODO | v0.5 prep | Priya arranges intros. 30 min each. |
 | T-095 | `product/adopter-scouting.md` capture | P1 | TODO | v0.5 prep | Fit signals, integration blockers, tentative sprint. |

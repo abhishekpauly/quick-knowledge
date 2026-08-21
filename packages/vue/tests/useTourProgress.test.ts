@@ -137,9 +137,7 @@ describe('useTourProgress (Vue)', () => {
     const unsubs = onMock.mock.results.map((r) => r.value as () => void);
     // 4 subscriptions: tour_started, step_viewed, tour_completed, tour_dismissed.
     expect(unsubs.length).toBeGreaterThanOrEqual(4);
-    const spies = unsubs.map((u) => vi.fn(u));
-    // Replace with spies by re-mocking is overkill; just unmount and assume
-    // the closures ran (covered by the coverage report).
+    // Just unmount; the unsub closures are exercised by the coverage report.
     wrapper.unmount();
   });
 });

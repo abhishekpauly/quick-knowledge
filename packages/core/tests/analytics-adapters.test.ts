@@ -18,8 +18,11 @@ describe('analytics adapters', () => {
   let warnSpy: ReturnType<typeof vi.spyOn>;
 
   beforeEach(() => {
-    logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
-    warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    // `console.log` and `console.warn` have overloaded signatures the vitest
+    // 1.x SpyInstance generic can't infer; cast the return to keep the
+    // storage type simple without losing the mock's runtime behavior.
+    logSpy = vi.spyOn(console, 'log').mockImplementation(() => {}) as ReturnType<typeof vi.spyOn>;
+    warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {}) as ReturnType<typeof vi.spyOn>;
   });
   afterEach(() => {
     logSpy.mockRestore();

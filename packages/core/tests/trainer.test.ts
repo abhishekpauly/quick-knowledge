@@ -130,18 +130,18 @@ describe('Trainer', () => {
     expect(trainer.getActiveTourId()).toBeNull();
   });
 
-  it('dismiss with no active tour is a safe no-op', () => {
+  it('stop() with no active tour is a safe no-op', () => {
     const trainer = new Trainer({
       product: 'test-product',
       tours: [tour()],
       analytics: memoryAnalytics(),
       persistence: memoryPersistence(),
     });
-    expect(() => trainer.dismiss('user-skip')).not.toThrow();
+    expect(() => trainer.stop()).not.toThrow();
     expect(trainer.getActiveTourId()).toBeNull();
   });
 
-  it('dismiss ends the active tour and clears activeTourId', async () => {
+  it('stop() ends the active tour and clears activeTourId', async () => {
     const analytics = memoryAnalytics();
     const trainer = new Trainer({
       product: 'test-product',
@@ -151,7 +151,7 @@ describe('Trainer', () => {
     });
     await trainer.start('unit-tour');
     expect(trainer.getActiveTourId()).toBe('unit-tour');
-    trainer.dismiss('user-skip');
+    trainer.stop();
     expect(trainer.getActiveTourId()).toBeNull();
     expect(analytics.events.some((e) => e.name === 'tour_dismissed')).toBe(true);
   });

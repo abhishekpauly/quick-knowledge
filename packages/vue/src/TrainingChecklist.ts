@@ -4,11 +4,21 @@
  * per-difficulty grouping, prerequisite locking, reactive completion count,
  * auto-suppress under active tour.
  */
-import { defineComponent, ref, computed, inject, h, type PropType } from 'vue';
+import {
+  defineComponent,
+  ref,
+  computed,
+  inject,
+  onMounted,
+  onBeforeUnmount,
+  h,
+  type PropType,
+} from 'vue';
 import type { Tour, Difficulty, TourProgress } from '@uptiq/training-sdk';
 import { TrainerKey } from './inject-keys.js';
 import { useTour } from './useTour.js';
 import { useAllTourProgress } from './useAllTourProgress.js';
+import { pickFreeCorner, type Corner } from './pickFreeCorner.js';
 
 const DIFFICULTY_ORDER: Difficulty[] = [
   'onboarding',
@@ -29,8 +39,18 @@ export const TrainingChecklist = defineComponent({
   name: 'TrainingChecklist',
   props: {
     position: {
-      type: String as PropType<'bottom-right' | 'bottom-left' | 'top-right' | 'top-left'>,
+      type: String as PropType<Corner>,
       default: 'bottom-right',
+    },
+    /**
+     * Ordered list of corners to try. Picks the first with a free probe
+     * point; falls back to the last if all are occupied. Added in Sprint 08
+     * (T-092) after the v0.1.0 5-user test caught a collision with AI
+     * Platform's help launcher for 1/5 users. If unset, `position` is used.
+     */
+    preferredCorners: {
+      type: Array as PropType<Corner[]>,
+      required: false,
     },
     label: { type: String, default: 'Getting started' },
     tourIds: { type: Array as PropType<string[]>, required: false },
@@ -44,6 +64,22 @@ export const TrainingChecklist = defineComponent({
 
     const expanded = ref(false);
     const dismissed = ref(false);
+    const pickedCorner = ref<Corner>(props.preferredCorners?.[0] ?? props.position);
+
+    let onResize: (() => void) | null = null;
+    onMounted(() => {
+      const list = props.preferredCorners;
+      if (!list || list.length === 0) return;
+      const pick = (): void => {
+        pickedCorner.value = pickFreeCorner(list);
+      };
+      pick();
+      onResize = pick;
+      window.addEventListener('resize', onResize);
+    });
+    onBeforeUnmount(() => {
+      if (onResize) window.removeEventListener('resize', onResize);
+    });
     const { isActive, start } = useTour();
     const allProgress = useAllTourProgress();
 
@@ -65,7 +101,7 @@ export const TrainingChecklist = defineComponent({
 
       const style = {
         position: 'fixed' as const,
-        ...positionStyles(props.position),
+        ...positionStyles(pickedCorner.value),
         zIndex: '9999',
         fontFamily: 'var(--uptiq-training-font-family, system-ui, sans-serif)',
         fontSize: 'var(--uptiq-training-font-size, 14px)',
@@ -74,7 +110,7 @@ export const TrainingChecklist = defineComponent({
 
       return h(
         'div',
-        { style, 'data-testid': 'training-checklist' },
+        { style, 'data-testid': 'training-checklist', 'data-uptiq-training': '1' },
         expanded.value
           ? renderPanel(
               grouped.value,
@@ -309,9 +345,7 @@ function iconBtn(label: string, glyph: string, onClick: () => void) {
   );
 }
 
-function positionStyles(
-  pos: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left',
-): Record<string, string> {
+function positionStyles(pos: Corner): Record<string, string> {
   const map = {
     'bottom-right': { bottom: '24px', right: '24px' },
     'bottom-left': { bottom: '24px', left: '24px' },

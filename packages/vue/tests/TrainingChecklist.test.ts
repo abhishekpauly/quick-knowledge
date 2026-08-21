@@ -3,7 +3,7 @@
  */
 import { describe, it, expect, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
-import { defineComponent, h } from 'vue';
+import { h } from 'vue';
 import { TourProvider } from '../src/TourProvider.js';
 import { TrainingChecklist } from '../src/TrainingChecklist.js';
 import type { Trainer, Tour, TourProgress } from '@uptiq/training-sdk';
