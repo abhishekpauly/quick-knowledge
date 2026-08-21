@@ -129,6 +129,22 @@ Priority: `P0` (blocker) · `P1` (must for MVP) · `P2` (nice-to-have) · `P3` (
 | T-096 | `product/v0.5-kickoff.md` — Pins + Goals scope | P1 | DONE | v0.5 | Pins: `*.pins.json` schema + PinsProvider/Pin (React + Vue) + 2 events. Goals: additive tour field + `GoalsSink` on TrainerConfig + 2 events + PostHog/Amplitude recipes. Explicit non-goals; Sprint 9 + 10–11 shapes; success criteria per feature. |
 | T-097 | CHANGELOG + roadmap tick-off | P2 | DONE | — | Sprint 08 additions logged. ROADMAP Sprint 08 line flipped to shipped. |
 
+
+
+## Sprint 09 (planned) — v0.5 Pins on Example App
+
+| ID | Task | Priority | Status | Feature | Notes |
+| --- | --- | --- | --- | --- | --- |
+| T-110 | `PinSchema` + `PinsFileSchema` (Zod) + `*.pins.json` loader | P1 | TODO | v0.5 | Additive to schema v1. |
+| T-111 | Core `PinAnchor` — `waitForElement` + `MutationObserver` + resize handler | P1 | TODO | v0.5 | Framework-agnostic. |
+| T-112 | React `PinsProvider` + `Pin` (portal, dismissal, localStorage) | P1 | TODO | v0.5 | |
+| T-113 | Vue parity port of `PinsProvider` + `Pin` | P1 | TODO | v0.5 | |
+| T-114 | Events: `pin_shown` + `pin_dismissed`; event dictionary regen | P1 | TODO | v0.5 | Default `consentCategory: 'functional'`. |
+| T-115 | Content: 3 Pins on the example app | P1 | TODO | v0.5 | From retro rewrite themes. |
+| T-116 | `docs/how-to-use-pins.md` — authoring + integration recipe | P2 | TODO | v0.5 | |
+| T-117 | Tests: schema + PinAnchor + provider (React + Vue) + dismissal | P1 | TODO | v0.5 | Keep coverage above thresholds. |
+| T-118 | Simulated staging→prod walkthrough + Sprint-09 retro | P2 | TODO | v0.5 | `releases/v0.5.0-pin-preview-launch-log.md`. |
+
 ## Deferred (post-MVP)
 
 | ID | Task | Priority | Status | Feature | Trigger |

@@ -118,6 +118,17 @@ Scope trimmed at the Sprint 07 retro. Full v0.5 line-up in [`releases/v0.1.0-ret
 - [-] Basic surveys / forms — HOLD. Same reason.
 - [-] Webhooks — HOLD. No integration ask.
 
+### Sprint 09 — planned · Pins on Example App
+- [ ] Pin schema + `*.pins.json` loader (T-110)
+- [ ] Core `PinAnchor` primitive (T-111)
+- [ ] React `PinsProvider` + `Pin` (T-112)
+- [ ] Vue parity port (T-113)
+- [ ] `pin_shown` + `pin_dismissed` events + dictionary regen (T-114)
+- [ ] 3 Pins live on the example app (T-115)
+- [ ] `docs/how-to-use-pins.md` (T-116)
+- [ ] Coverage stays above thresholds; new tests land (T-117)
+- [ ] Simulated launch log for `v0.5.0-pin-preview` (T-118)
+
 **Trigger to promote a HOLD item:** the specific ask lands from a real product owner.
 
 ---
