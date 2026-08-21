@@ -12,4 +12,7 @@ export { FirstRunTour } from './FirstRunTour.js';
 export { TrainingChecklist } from './TrainingChecklist.js';
 export { HintsProvider } from './HintsProvider.js';
 export { TrainingHint } from './TrainingHint.js';
-export { TrainerKey, HintsKey } from './inject-keys.js';
+export { TrainerKey, HintsKey, PinsKey, type PinsContextValue } from './inject-keys.js';
+
+// Sprint 09 (T-113) — Pins.
+export { PinsProvider, Pin } from './PinsProvider.js';
